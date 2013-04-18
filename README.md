@@ -2,7 +2,6 @@ Timetable
 ==============
 
 interfejs wejsciowy : Shockah
-
 interfejs wyjsciowy : 
 algorytm genetyczny : Raf0
 rozproszenie        : daneos
