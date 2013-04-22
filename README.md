@@ -2,7 +2,7 @@ Timetable
 ==============
 
 - interfejs wejsciowy : *Shockah*
-- interfejs wyjsciowy : 
+- interfejs wyjsciowy : *magorion*
 - algorytm genetyczny : *Raf0*
 - rozproszenie        : *daneos*
 - scalanie            : *rdstein*
