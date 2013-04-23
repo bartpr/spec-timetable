@@ -1,10 +1,10 @@
 Timetable
 ==============
 
-- interfejs wejsciowy : *Shockah*
-- interfejs wyjsciowy : *magorion*
-- algorytm genetyczny : *Raf0*
-- rozproszenie        : *daneos*
-- scalanie            : *rdstein*
-- funkcja oceniajaca  : *michallk*, *bartpr*
-- rozwoj              : *michal19*, *PErSJa*
+- interfejs wejsciowy : *Shockah* (Michał D.)
+- interfejs wyjsciowy : *magorion* (Mateusz B.)
+- algorytm genetyczny : *Raf0* (Rafał D.)
+- rozproszenie        : *daneos* (Grzegorz K.)
+- scalanie            : *rdstein* (Damian G.)
+- funkcja oceniajaca  : *michallk* (Michał K.), *bartpr* (Bartosz P.)
+- rozwoj              : *michal19* (Michał B.), *PErSJa* (Ernest J.)
