@@ -1,5 +1,5 @@
 /* distributor.h -- timetable distribution, class header
- * Copyright (C) 2013 daneos.com
+ * Copyright (C) 2013 daneos
  * See LICENSE for legal information
  */
 
@@ -7,19 +7,21 @@
 #	define __DISTRIBUTOR_H__
 //-----------------------------------------------------------------------------
 #include "include/tsocket.h"
+#include "clientqueue.h"
 //-----------------------------------------------------------------------------
-#define MAX_CLIENTS		2048
 
 class Distributor
 {
 protected:
-	tselector *clients;
-	tsocket *listener;
+	tselector *s;
+	tsocket *listener; // do I need this ?
+	Queue *q;
 
 public:
 	Distributor(int maxclients, const char *port);
 	~Distributor();
-
+	int addClient(const char *ip, const char *port);
+	void removeClient(int id);
 };
 
 #endif /*__DISTRIBUTOR_H__ */
