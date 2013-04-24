@@ -1,5 +1,5 @@
 /* distributor.cpp -- timetable distribution, class source
- * Copyright (C) 2013 daneos.com
+ * Copyright (C) 2013 daneos
  * See LICENSE for legal information
  */
 
@@ -8,6 +8,9 @@
 
 Distributor::Distributor(int maxclients, const char *port)
 {
+#if defined(_WIN32)
+	init_winsock(2,0);
+#endif
 	clients = new tselector(maxclients);
 	listener = new tsocket(SOCK_STREAM, "terve://socket/0");
 	if(listener->taddress(NULL, port) == -1) perror("tADDRESS");
@@ -22,5 +25,8 @@ Distributor::~Distributor()
 {
 	delete clients;
 	delete listener;
+#if defined(_WIN32)
+	close_winsock();
+#endif
 }
 //-----------------------------------------------------------------------------
