@@ -15,13 +15,15 @@ typedef void ( * functionThread )(LPVOID);
 struct ThreadArguments
 {
   functionThread func;
-  LPVOID data;
+  string data;
 };
 
 class Thread
 {
 HANDLE hThread;
+//funkcja wywo³ywana w w¹tku
 functionThread wskThreadFunc;
+LPVOID data;
 
 //metoda wykonuj¹ca ¿¹dania
 static DWORD WINAPI process(LPVOID p);
@@ -29,7 +31,7 @@ static DWORD WINAPI process(LPVOID p);
 public:
    Thread();
    void setThreadFunction(functionThread func);
-
+   void setData(LPVOID data);
    void run();
 
 };
@@ -38,6 +40,8 @@ public:
 void czytajCos(LPVOID p)
 {
  cout << *((string*)p) << endl;
+
+
 }
 
 #pragma argsused
@@ -64,22 +68,24 @@ Thread::Thread()
 
 void Thread::run()
 {
-  ThreadArguments *args = new ThreadArguments();
-  string str = "xdd";
-  args->func = this->wskThreadFunc;
-  args->data = (LPVOID*)&str;
-  hThread = CreateThread(NULL, 0, process, (LPVOID)args, 0, NULL);
+  hThread = CreateThread(NULL, 0, process, (LPVOID)&data, 0, NULL);
 }
 
 DWORD WINAPI Thread::process(LPVOID p)
 {
      ThreadArguments *args = (ThreadArguments*)p;
      functionThread c = args->func;
-     string str = *((string*)args->data);
-     c( args->data);
+     string str = args->data;
+     c( (LPVOID)&args->data);
 }
 
 void Thread::setThreadFunction(functionThread func)
 {
   this->wskThreadFunc = func;
 }
+
+void Thread::setData(LPVOID data)
+{
+  this->data = data;
+}
+

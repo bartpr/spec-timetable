@@ -12,34 +12,47 @@ using namespace std;
 
 typedef void ( * functionThread )(LPVOID);
 
+struct daneWyslane
+{
+	int a;
+	int b;
+};
+
 struct ThreadArguments
 {
-  functionThread func;
-  string data;
+	functionThread func;
+	LPVOID data;
 };
 
 class Thread
 {
-HANDLE hThread;
-//funkcja wywo³ywana w w¹tku
-functionThread wskThreadFunc;
-LPVOID data;
+	//odnoœnik w¹tku
+	HANDLE hThread;
+	//funkcja wywo³ywana w w¹tku
+	functionThread wskThreadFunc;
+	LPVOID data;
 
-//metoda wykonuj¹ca ¿¹dania
-static DWORD WINAPI process(LPVOID p);
+	//metoda wykonuj¹ca ¿¹dania
+	static DWORD WINAPI process(LPVOID p);
 
-public:
-   Thread();
-   void setThreadFunction(functionThread func);
-   void setData(LPVOID data);
-   void run();
+	public:
+	
+	//Inicjalizacja
+	Thread();
+	
+	//Funkcje dla argumentów
+	void setThreadFunction(functionThread func);
+	void setData(LPVOID data);
+	
+	//Dzia³anie
+	void run();
 
 };
 
 
 void czytajCos(LPVOID p)
 {
- cout << *((string*)p) << endl;
+cout << (*((daneWyslane*)p)).a << endl;
 
 
 }
@@ -47,13 +60,23 @@ void czytajCos(LPVOID p)
 #pragma argsused
 int main(int argc, char* argv[])
 {
-   Thread *t = new Thread();
-   functionThread fr = czytajCos;
-   t->setThreadFunction(czytajCos);
-   t->run();
-   delete t;
-   getchar();
-   return 0;
+	//Utworzenie obiektu w¹tku
+	Thread *t = new Thread();
+	
+	//Przypisanie funkcji wywo³ywanej w w¹tku
+	t->setThreadFunction(czytajCos);
+	
+	//Dodanie struktury z argumentami
+	daneWyslane p;
+	p.a = 3;
+	p.b = 6;
+	
+	//Ustawienie i utworzenie w¹tku
+	t->setData((LPVOID)&p);
+	t->run();
+	delete t;
+	getchar();
+	return 0;
 }
 //---------------------------------------------------------------------------
 
@@ -62,30 +85,33 @@ int main(int argc, char* argv[])
 
 Thread::Thread()
 {
-   hThread = NULL;
+hThread = NULL;
 }
 
 
 void Thread::run()
 {
-  hThread = CreateThread(NULL, 0, process, (LPVOID)&data, 0, NULL);
+ThreadArguments *args = new ThreadArguments;
+args->func = this->wskThreadFunc;
+args->data = this->data;
+hThread = CreateThread(NULL, 0, process, (LPVOID)args, 0, NULL);
+
 }
 
 DWORD WINAPI Thread::process(LPVOID p)
 {
-     ThreadArguments *args = (ThreadArguments*)p;
-     functionThread c = args->func;
-     string str = args->data;
-     c( (LPVOID)&args->data);
+ThreadArguments *args = (ThreadArguments*)p;
+functionThread c = args->func;
+c(args->data);
 }
 
 void Thread::setThreadFunction(functionThread func)
 {
-  this->wskThreadFunc = func;
+this->wskThreadFunc = func;
 }
 
 void Thread::setData(LPVOID data)
 {
-  this->data = data;
+this->data = data;
 }
 
