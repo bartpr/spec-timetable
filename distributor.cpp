@@ -33,12 +33,12 @@ Distributor::~Distributor()
 
 int Distributor::addClient(const char *ip, const char *port)
 {
-
+	q->addClient(ip, port);
 }
 //-----------------------------------------------------------------------------
 
 void Distributor::removeClient(int id)
 {
-
+	q->removeClient(ip, port);
 }
 //-----------------------------------------------------------------------------

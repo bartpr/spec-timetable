@@ -13,22 +13,28 @@ class Client
 {
 protected:
 	int id;
-	tsocket sock;
+	tsocket *sock;
 
 public:
-	Client();
+	Client(const char *ip, const char *port);
 	~Client();
+	tsocket *getSocket();
+	int getID(void);
 };
 //-----------------------------------------------------------------------------
 
 class Queue
 {
 protected:
-	Client *list;
+	int index;
+	Client **list;
 
 public:
 	Queue();
 	~Queue();
+	int addClient(const char *ip, const char *port);
+	void removeClient(int id);
+	Client **getList(void);
 };
 
 #endif /*__CLIENTQUEUE_H__ */
