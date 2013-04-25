@@ -19,9 +19,15 @@ Client::~Client()
 }
 //-----------------------------------------------------------------------------
 
-Client::getID(void)
+int Client::getID(void)
 {
 	return this->id;
+}
+//-----------------------------------------------------------------------------
+
+tsocket *Client::getSocket(void)
+{
+	return this->sock;
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -42,11 +48,24 @@ int addClient(const char *ip, const char *port)
 {
 	this->list[this->index++] = (Client*)malloc(sizeof(Client*));
 	this->list[this->index] = new Client(ip, port);
+	return this->list[this->index]->getID();
 }
 //-----------------------------------------------------------------------------
 
 void removeClient(int id)
 {
-	for(int i=0; i <= this->index; i++)	if(this->list[i]->getID() == id) delete this->list[i];
+	delete this->getClient(id);
+}
+//-----------------------------------------------------------------------------
+
+Client **getList(void)
+{
+	return this->list;
+}
+//-----------------------------------------------------------------------------
+
+Client *getClient(int id)
+{
+	for(int i=0; i <= this->index; i++) if(this->list[i]->getID() == id) return this->list[i];
 }
 //-----------------------------------------------------------------------------

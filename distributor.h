@@ -14,7 +14,6 @@ class Distributor
 {
 protected:
 	tselector *s;
-	tsocket *listener; // do I need this ?
 	Queue *q;
 
 public:

@@ -35,6 +35,7 @@ public:
 	int addClient(const char *ip, const char *port);
 	void removeClient(int id);
 	Client **getList(void);
+	Client *getClient(int id);
 };
 
 #endif /*__CLIENTQUEUE_H__ */

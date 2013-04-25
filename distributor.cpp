@@ -11,20 +11,15 @@ Distributor::Distributor(int maxclients, const char *port)
 #if defined(_WIN32)
 	init_winsock(2,0);
 #endif
-	clients = new tselector(maxclients);
-	listener = new tsocket(SOCK_STREAM, "terve://socket/0");
-	if(listener->taddress(NULL, port) == -1) perror("tADDRESS");
-	if(listener->topen() == -1) perror("tOPEN");
-	if(listener->tbind() == -1) perror("tBIND");
-	if(listener->tlisten(1) == -1) perror("tLISTEN");
-	clients->taddSocket(listener, TS_MODE_R);
+	s = new tselector(maxclients);
+	q = new Queue();
 }
 //-----------------------------------------------------------------------------
 
 Distributor::~Distributor()
 {
-	delete clients;
-	delete listener;
+	delete s;
+	delete q;
 #if defined(_WIN32)
 	close_winsock();
 #endif
@@ -33,12 +28,13 @@ Distributor::~Distributor()
 
 int Distributor::addClient(const char *ip, const char *port)
 {
-	q->addClient(ip, port);
+	int id = q->addClient(ip, port);
+	s->taddSocket(q->getClient(id)->getSocket(), TS_MODE_RW);
 }
 //-----------------------------------------------------------------------------
 
 void Distributor::removeClient(int id)
 {
-	q->removeClient(ip, port);
+	q->removeClient(id);
 }
 //-----------------------------------------------------------------------------
