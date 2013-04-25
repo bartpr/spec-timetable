@@ -1,4 +1,3 @@
-
 #ifndef geneH
 #define geneH
 class Gene
