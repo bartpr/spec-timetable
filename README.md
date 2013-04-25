@@ -1,7 +1,7 @@
 Timetable
 ==============
 
-- interfejs wejsciowy : *Shockah* (Dolaś M.)
+- interfejs wejsciowy : *Shockah* (Michał D.)
 - interfejs wyjsciowy : *magorion* (Mateusz B.)
 - algorytm genetyczny : *Raf0* (Rafał D.)
 - rozproszenie        : *daneos* (Grzegorz K.)
