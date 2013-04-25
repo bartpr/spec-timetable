@@ -9,13 +9,15 @@
 Client::Client(const char *ip, const char *port)
 {
 	this->id = rand(); //randomize client id
-	this->sock = new tsocket(SOCK_STREAM, "CHANGE_ME"); // here goes randomized id as a string
+	char instance_name[32];
+	sprintf(instance_name, "terve://socket/%x", this->id);
+	this->sock = new tsocket(SOCK_STREAM, instance_name);
 }
 //-----------------------------------------------------------------------------
 
 Client::~Client()
 {
-
+	delete this->sock;
 }
 //-----------------------------------------------------------------------------
 
