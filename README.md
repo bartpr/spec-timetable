@@ -8,3 +8,7 @@ Timetable
 - scalanie            : *rdstein* (Damian G.)
 - funkcja oceniajaca  : *michallk* (Michał K.), *bartpr* (Bartosz P.)
 - rozwoj              : *michal19* (Michał B.), *PErSJa* (Ernest J.)
+
+Nie wrzucać nic do mastera!  
+Niech każdy pracuje na swoim branchu, mergować będziemy później.  
+Polecam lekturę wiki projektu, może pomóc w organizacji kodu.  
