@@ -24,7 +24,7 @@ public:
 	void removeClient(int id);
 	int sendData(int id, packet data);
 	int recvData(int *id, packet *buffer);
-	int sendTransmissionPerm(int id);
+	int sendTransferPerm(int id);
 };
 
 #endif /*__DISTRIBUTOR_H__ */

@@ -18,12 +18,12 @@
 #define CLOSEALL		0xFF	// shutdown
 //-----------------------------------------------------------------------------
 
-typedef uint32_t[1024] ttdata;
+typedef uint32_t[1024] ttdata; // do something with this !!!
 
 typedef struct _packet {
 						uint32_t len;
 						uint8_t code;
-						ttdata data;
+						ttdata data; // as most of packets will have no data, only codes, try to do it in other way
 } __attribute__((packed)) packet;
 //-----------------------------------------------------------------------------
 

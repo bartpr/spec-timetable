@@ -51,7 +51,7 @@ int Distributor::recvData(int *id, packet *buffer)
 }
 //-----------------------------------------------------------------------------
 
-int Distributor::sendTransmissionPerm(int id)
+int Distributor::sendTransferPerm(int id)
 {
 
 }
