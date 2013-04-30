@@ -4,6 +4,10 @@
 class Genotype
 {
 protected:
-    Gene *genes;
+    Gene **genes;
+    int numberOfGenes;
+public:
+    Genotype(int numberOfGenes);
+    ~Genotype();
 };
 #endif
