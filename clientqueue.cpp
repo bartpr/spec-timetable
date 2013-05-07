@@ -42,6 +42,7 @@ Queue::Queue()
 
 Queue::~Queue()
 {
+	if(this->index == 0) return;
 	for(int i=0; i <= this->index; i++) delete this->list[i];
 }
 //-----------------------------------------------------------------------------
@@ -56,7 +57,7 @@ int Queue::addClient(const char *ip, const char *port)
 
 void Queue::removeClient(int id)
 {
-	delete this->getClient(id);
+	delete this->getClient(id); // HERE IS THE BUG IN <Queue::getClient()>
 }
 //-----------------------------------------------------------------------------
 
@@ -68,6 +69,6 @@ Client **Queue::getList(void)
 
 Client *Queue::getClient(int id)
 {
-	for(int i=0; i <= this->index; i++) if(this->list[i]->getID() == id) return this->list[i];
+	for(int i=0; i <= this->index; i++) if(this->list[i]->getID() /* big BOOM if any of clients have been deleted */ == id) return this->list[i];
 }
 //-----------------------------------------------------------------------------
