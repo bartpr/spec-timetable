@@ -20,6 +20,9 @@
 *.exe
 bin/*
 
+# Backup files
+*~
+
 # Borland backup files
 *.~*
 

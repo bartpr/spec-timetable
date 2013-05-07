@@ -30,7 +30,7 @@ int Distributor::addClient(const char *ip, const char *port)
 {
 	int id = q->addClient(ip, port);
 	Client *c = q->getClient(id);
-	if(c == NULL) perror("addClient"); 
+	if(c == NULL) ; 
 	s->taddSocket(c->getSocket(), TS_MODE_R);
 	s->taddSocket(c->getSocket(), TS_MODE_W);
 	return id;

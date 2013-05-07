@@ -11,6 +11,14 @@ int main(void)
 	printf("add ok\n");
 	printf("Added client %d, socket <%s>\n", id, D->getClient(id)->getSocket()->tgetInstanceName());
 	printf("get ok\n");
+	id = D->addClient("127.0.0.1", "5555");
+	printf("add ok\n");
+	printf("Added client %d, socket <%s>\n", id, D->getClient(id)->getSocket()->tgetInstanceName());
+	printf("get ok\n");
+	id = D->addClient("127.0.0.1", "5555");
+	printf("add ok\n");
+	printf("Added client %d, socket <%s>\n", id, D->getClient(id)->getSocket()->tgetInstanceName());
+	printf("get ok\n");
 	delete D;
 	printf("delete ok\n");
 	return 0;
