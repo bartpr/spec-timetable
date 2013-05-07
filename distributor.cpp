@@ -29,7 +29,8 @@ Distributor::~Distributor()
 int Distributor::addClient(const char *ip, const char *port)
 {
 	int id = q->addClient(ip, port);
-	s->taddSocket(q->getClient(id)->getSocket(), TS_MODE_RW);
+	s->taddSocket(q->getClient(id)->getSocket(), TS_MODE_R);
+	s->taddSocket(q->getClient(id)->getSocket(), TS_MODE_W);
 }
 //-----------------------------------------------------------------------------
 
@@ -39,13 +40,13 @@ void Distributor::removeClient(int id)
 }
 //-----------------------------------------------------------------------------
 
-int Distributor::sendData(int id, packet data)
+int Distributor::sendData(int id, header *hdr, void *data)
 {
 
 }
 //-----------------------------------------------------------------------------
 
-int Distributor::recvData(int *id, packet *buffer)
+int Distributor::recvData(int *id, void *buffer)
 {
 
 }

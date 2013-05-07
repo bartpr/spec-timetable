@@ -22,8 +22,8 @@ public:
 	~Distributor();
 	int addClient(const char *ip, const char *port);
 	void removeClient(int id);
-	int sendData(int id, packet data);
-	int recvData(int *id, packet *buffer);
+	int sendData(int id, header *hdr, void *data);
+	int recvData(int *id, void *buffer);
 	int sendTransferPerm(int id);
 };
 

@@ -46,7 +46,7 @@ Queue::~Queue()
 }
 //-----------------------------------------------------------------------------
 
-int addClient(const char *ip, const char *port)
+int Queue::addClient(const char *ip, const char *port)
 {
 	this->list[this->index++] = (Client*)malloc(sizeof(Client*));
 	this->list[this->index] = new Client(ip, port);
@@ -54,19 +54,19 @@ int addClient(const char *ip, const char *port)
 }
 //-----------------------------------------------------------------------------
 
-void removeClient(int id)
+void Queue::removeClient(int id)
 {
 	delete this->getClient(id);
 }
 //-----------------------------------------------------------------------------
 
-Client **getList(void)
+Client **Queue::getList(void)
 {
 	return this->list;
 }
 //-----------------------------------------------------------------------------
 
-Client *getClient(int id)
+Client *Queue::getClient(int id)
 {
 	for(int i=0; i <= this->index; i++) if(this->list[i]->getID() == id) return this->list[i];
 }

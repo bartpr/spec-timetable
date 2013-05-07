@@ -18,6 +18,10 @@
 
 # Executables
 *.exe
+bin/*
 
 # Borland backup files
 *.~*
+
+# Dependency files
+*.d
