@@ -12,7 +12,7 @@ Distributor::Distributor(int maxclients, const char *port)
 	init_winsock(2,0);
 #endif
 	s = new tselector(maxclients);
-	q = new Queue();
+	q = new Queue(maxclients);
 }
 //-----------------------------------------------------------------------------
 
@@ -29,8 +29,11 @@ Distributor::~Distributor()
 int Distributor::addClient(const char *ip, const char *port)
 {
 	int id = q->addClient(ip, port);
-	s->taddSocket(q->getClient(id)->getSocket(), TS_MODE_R);
-	s->taddSocket(q->getClient(id)->getSocket(), TS_MODE_W);
+	Client *c = q->getClient(id);
+	if(c == NULL) perror("addClient"); 
+	s->taddSocket(c->getSocket(), TS_MODE_R);
+	s->taddSocket(c->getSocket(), TS_MODE_W);
+	return id;
 }
 //-----------------------------------------------------------------------------
 
@@ -55,5 +58,11 @@ int Distributor::recvData(int *id, void *buffer)
 int Distributor::sendTransferPerm(int id)
 {
 
+}
+//-----------------------------------------------------------------------------
+
+Client *Distributor::getClient(int id)
+{
+	return this->q->getClient(id);
 }
 //-----------------------------------------------------------------------------

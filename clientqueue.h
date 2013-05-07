@@ -30,7 +30,7 @@ protected:
 	Client **list;
 
 public:
-	Queue();
+	Queue(int maxclients);
 	~Queue();
 	int addClient(const char *ip, const char *port);
 	void removeClient(int id);

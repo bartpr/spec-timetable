@@ -4,10 +4,12 @@
  */
 
 #include "clientqueue.h"
+#include <time.h>
 //-----------------------------------------------------------------------------
 
 Client::Client(const char *ip, const char *port)
 {
+	srand(time(NULL));	// THIS HAS TO BE CHANGED, RANDOM RESULTS ONLY WHEN CALLED IN TIME MORE THAN 1sec
 	this->id = rand(); //randomize client id
 	char instance_name[32];
 	sprintf(instance_name, "terve://socket/%x", this->id);
@@ -34,9 +36,10 @@ tsocket *Client::getSocket(void)
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-Queue::Queue()
+Queue::Queue(int maxclients)
 {
 	this->index = 0;
+	this->list = (Client**)malloc(sizeof(Client*) * maxclients);
 }
 //-----------------------------------------------------------------------------
 
@@ -49,9 +52,9 @@ Queue::~Queue()
 
 int Queue::addClient(const char *ip, const char *port)
 {
-	this->list[this->index++] = (Client*)malloc(sizeof(Client*));
+	//this->list[this->index] = (Client*)malloc(sizeof(Client*));
 	this->list[this->index] = new Client(ip, port);
-	return this->list[this->index]->getID();
+	return this->list[this->index++]->getID();
 }
 //-----------------------------------------------------------------------------
 
@@ -70,5 +73,6 @@ Client **Queue::getList(void)
 Client *Queue::getClient(int id)
 {
 	for(int i=0; i <= this->index; i++) if(this->list[i]->getID() /* big BOOM if any of clients have been deleted */ == id) return this->list[i];
+	return NULL;
 }
 //-----------------------------------------------------------------------------
