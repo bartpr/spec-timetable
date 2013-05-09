@@ -8,6 +8,7 @@
 //-----------------------------------------------------------------------------
 #include <stdint.h>
 //-----------------------------------------------------------------------------
+// Protocol codes
 #define INITIALZ		0x00	// init client
 #define INITPOPL		0x01	// initial population
 #define DATAREQT		0x02	// data request

@@ -30,9 +30,9 @@ int Distributor::addClient(const char *ip, const char *port)
 {
 	int id = q->addClient(ip, port);
 	Client *c = q->getClient(id);
-	if(c == NULL) ; 
+	if(c == NULL) ; // return some sort of error
 	s->taddSocket(c->getSocket(), TS_MODE_R);
-	s->taddSocket(c->getSocket(), TS_MODE_W);
+	s->taddSocket(c->getSocket(), TS_MODE_W); // not sure if it's needed
 	return id;
 }
 //-----------------------------------------------------------------------------
@@ -45,7 +45,13 @@ void Distributor::removeClient(int id)
 
 int Distributor::sendData(int id, header *hdr, void *data)
 {
-
+	int hdrlen = sizeof(hdr);
+	void *buffer = (void*)malloc(hdr->len);
+	memcpy(buffer, hdr, hdrlen);
+	memcpy(buffer+hdrlen, data, hdr->len-hdrlen);
+	int status = q->getClient(id)->getSocket()->tsend((char*)buffer, hdr->len);
+	free(buffer);
+	return status;
 }
 //-----------------------------------------------------------------------------
 
@@ -57,7 +63,12 @@ int Distributor::recvData(int *id, void *buffer)
 
 int Distributor::sendTransferPerm(int id)
 {
-
+	header *hdr = (header*)malloc(sizeof(header));
+	hdr->len = sizeof(hdr);
+	hdr->code = PERMISSN;
+	int status = q->getClient(id)->getSocket()->tsend((char*)hdr, hdr->len);
+	free(hdr);
+	return status;
 }
 //-----------------------------------------------------------------------------
 

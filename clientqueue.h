@@ -13,6 +13,7 @@ class Client
 {
 protected:
 	int id;
+	int status; // ??
 	tsocket *sock;
 
 public:
@@ -20,6 +21,8 @@ public:
 	~Client();
 	tsocket *getSocket();
 	int getID(void);
+	void setStatus(int s);
+	int getStatus(void);
 };
 //-----------------------------------------------------------------------------
 

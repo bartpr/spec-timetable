@@ -45,8 +45,12 @@ Queue::Queue(int maxclients)
 
 Queue::~Queue()
 {
-	if(this->index == 0) return;
-	for(int i=0; i <= this->index; i++) delete this->list[i];
+	if(this->index == 0) free(list);
+	else
+	{
+		for(int i=0; i <= this->index; i++) delete this->list[i];
+		free(list);
+	}
 }
 //-----------------------------------------------------------------------------
 
@@ -74,5 +78,17 @@ Client *Queue::getClient(int id)
 {
 	for(int i=0; i <= this->index; i++) if(this->list[i]->getID() /* big BOOM if any of clients have been deleted */ == id) return this->list[i];
 	return NULL;
+}
+//-----------------------------------------------------------------------------
+
+void Queue::setStatus(int s)
+{
+	this->status = s;
+}
+//-----------------------------------------------------------------------------
+
+int getStatus(void)
+{
+	return this->status;
 }
 //-----------------------------------------------------------------------------

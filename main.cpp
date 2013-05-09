@@ -21,5 +21,6 @@ int main(void)
 	printf("get ok\n");
 	delete D;
 	printf("delete ok\n");
+	printf("%p\n", D);
 	return 0;
 }
