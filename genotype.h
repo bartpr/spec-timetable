@@ -7,7 +7,6 @@ public:
     Genotype(unsigned int numberOfGenes);
     ~Genotype();
     void Evaluation(); //Funkcja oceniaj¹ca
-
 protected:
     Gene **genes; //Tablica wszystkich przedmiotów(po kolei wed³ug grup[klas])
     unsigned int numberOfGenes;

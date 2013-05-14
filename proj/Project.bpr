@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="Project.exe"/>
-    <OBJFILES value="..\main.obj ..\genotype.obj ..\gene.obj ..\data.obj"/>
+    <OBJFILES value="..\main.obj ..\genotype.obj ..\gene.obj ..\data.obj ..\information.obj"/>
     <RESFILES value="Project.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -12,7 +12,7 @@
     <LIBRARIES value=""/>
     <SPARELIBS value=""/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dclocx.bpi"/>
-    <PATHCPP value=".;..;..;..;.."/>
+    <PATHCPP value=".;..;..;..;..;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -49,6 +49,7 @@
       <FILE FILENAME="..\genotype.cpp" FORMNAME="" UNITNAME="genotype" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\gene.cpp" FORMNAME="" UNITNAME="gene" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\data.cpp" FORMNAME="" UNITNAME="data" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\information.cpp" FORMNAME="" UNITNAME="information" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
