@@ -1,13 +1,17 @@
 #ifndef genotypeH
 #define genotypeH
 #include "gene.h"
-class Genotype
+class Genotype //Jeden osobnik
 {
-protected:
-    Gene **genes;
-    int numberOfGenes;
 public:
-    Genotype(int numberOfGenes);
+    Genotype(unsigned int numberOfGenes);
     ~Genotype();
+    void Evaluation(); //Funkcja oceniaj¹ca
+
+protected:
+    Gene **genes; //Tablica wszystkich przedmiotów(po kolei wed³ug grup[klas])
+    unsigned int numberOfGenes;
+    double mark;
+    bool penalty;
 };
 #endif

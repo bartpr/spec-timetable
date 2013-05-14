@@ -1,16 +1,15 @@
 #include "genotype.h"
 
-Genotype::Genotype(int numberOfGenes)
+Genotype::Genotype(unsigned int Genes) : numberOfGenes(Genes)
 {
-    this->numberOfGenes=numberOfGenes;
-    this->genes = new Gene*[numberOfGenes];
-    for(int i=0;i<numberOfGenes;i++)
-        this->genes[i] = new Gene(10, 10);
+    genes = new Gene*[numberOfGenes];
+    for(unsigned int i=0;i<numberOfGenes;i++)
+        genes[i] = new Gene(10, 10);
 }
 
 Genotype::~Genotype()
 {
-    for(int i=0;i<this->numberOfGenes;i++)
+    for(unsigned int i=0;i<this->numberOfGenes;i++)
     {
         delete genes[i];
     }

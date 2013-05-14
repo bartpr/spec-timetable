@@ -1,9 +1,7 @@
 #include "gene.h"
 
-Gene::Gene(unsigned char term, unsigned char room)
+Gene::Gene(unsigned char t, unsigned char r) :term(t), room(r)
 {
-    this->term=term;
-    this->room=room;
 }
 Gene::~Gene()
 {
