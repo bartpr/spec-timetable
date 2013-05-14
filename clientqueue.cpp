@@ -48,7 +48,8 @@ Queue::~Queue()
 	if(this->index == 0) free(list);
 	else
 	{
-		for(int i=0; i <= this->index; i++) delete this->list[i];
+		for(int i=0; i <= this->index; i++)
+			if(this->list[i] != NULL) delete this->list[i];
 		free(list);
 	}
 }
@@ -56,7 +57,6 @@ Queue::~Queue()
 
 int Queue::addClient(const char *ip, const char *port)
 {
-	//this->list[this->index] = (Client*)malloc(sizeof(Client*));
 	this->list[this->index] = new Client(ip, port);
 	return this->list[this->index++]->getID();
 }
@@ -64,7 +64,9 @@ int Queue::addClient(const char *ip, const char *port)
 
 void Queue::removeClient(int id)
 {
-	delete this->getClient(id); // HERE IS THE BUG IN <Queue::getClient()>
+	Client *c = this->getClient(id);
+	delete c;
+	c = NULL;
 }
 //-----------------------------------------------------------------------------
 
@@ -76,14 +78,16 @@ Client **Queue::getList(void)
 
 Client *Queue::getClient(int id)
 {
-	for(int i=0; i <= this->index; i++) if(this->list[i]->getID() /* big BOOM if any of clients have been deleted */ == id) return this->list[i];
+	for(int i=0; i <= this->index; i++) 
+		if(this->list[i] != NULL)
+			if(this->list[i]->getID() == id) return this->list[i];
 	return NULL;
 }
 //-----------------------------------------------------------------------------
 
 Client *Queue::getClientBySocket(tsocket *sock)
 {
-	// TODO: instance name method
+	// maybe instance name method ?
 	for(int i=0; i <= this->index; i++) if(this->list[i]->getSocket()->tgetDescriptor() == sock->tgetDescriptor()) return this->list[i];
 	return NULL;
 }

@@ -30,7 +30,7 @@ int Distributor::addClient(const char *ip, const char *port)
 {
 	int id = q->addClient(ip, port);
 	Client *c = q->getClient(id);
-	if(c == NULL) ; // return some sort of error
+	if(c == NULL) return -1;
 	s->taddSocket(c->getSocket(), TS_MODE_R);
 	s->taddSocket(c->getSocket(), TS_MODE_W); // not sure if it's needed
 	return id;
@@ -61,20 +61,29 @@ int Distributor::recvData(int *id, void *buffer)
 	tsocket *S = s->twait();
 	if(S == NULL) return NULL;
 	void *rec_buf = malloc(sizeof(buffer));
-
-	int n = 0;
-	if((n = S->treceive((char*)rec_buf)) == -1) perror("tRECEIVE");
-	if(n == 0) 
-	{
-		printf("[%s] Connection reset by peer.\n", S->tgetInstanceName());
-		return 0;
-	}
-	// TODO: checking for full data receive
 	header *hdr;
 	int hdrlen = sizeof(header);
-	memcpy(hdr, rec_buf, hdrlen);
-	int len = hdr->len - hdrlen;
-	memcpy(buffer, rec_buf+hdrlen, len);
+	int len = 0;
+
+	int rec_count = 0;
+	do // be sure to receive all data sent
+	{
+		int n = 0;
+		if((n = S->treceive((char*)rec_buf)) == -1) perror("tRECEIVE");
+		if(n == 0)
+		{
+			printf("[%s] Connection reset by peer.\n", S->tgetInstanceName());
+			return 0;
+		}
+		if(rec_count == 0) // copy header only at first loop pass
+		{
+			memcpy(hdr, rec_buf, hdrlen);
+			len = hdr->len - hdrlen;
+		}
+		memcpy(buffer+(rec_count-hdrlen), rec_buf, len);
+		rec_count += n;
+	}
+	while(rec_count < hdr->len);
 
 	*id = q->getClientBySocket(S)->getID();
 }
