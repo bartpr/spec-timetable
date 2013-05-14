@@ -9,15 +9,15 @@ int main(void)
 	printf("D ok\n");
 	int id = D->addClient("127.0.0.1", "5555");
 	printf("add ok\n");
-	printf("Added client %d, socket <%s>\n", id, D->getClient(id)->getSocket()->tgetInstanceName());
+	printf("Added client %d, socket <%s>(%d)\n", id, D->getClient(id)->getSocket()->tgetInstanceName(), D->getClient(id)->getSocket()->tgetDescriptor());
 	printf("get ok\n");
 	id = D->addClient("127.0.0.1", "5555");
 	printf("add ok\n");
-	printf("Added client %d, socket <%s>\n", id, D->getClient(id)->getSocket()->tgetInstanceName());
+	printf("Added client %d, socket <%s>(%d)\n", id, D->getClient(id)->getSocket()->tgetInstanceName(), D->getClient(id)->getSocket()->tgetDescriptor());
 	printf("get ok\n");
 	id = D->addClient("127.0.0.1", "5555");
 	printf("add ok\n");
-	printf("Added client %d, socket <%s>\n", id, D->getClient(id)->getSocket()->tgetInstanceName());
+	printf("Added client %d, socket <%s>(%d)\n", id, D->getClient(id)->getSocket()->tgetInstanceName(), D->getClient(id)->getSocket()->tgetDescriptor());
 	printf("get ok\n");
 	delete D;
 	printf("delete ok\n");

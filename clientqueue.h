@@ -38,5 +38,8 @@ public:
 	Client *getClient(int id);
 	Client *getClientBySocket(tsocket *sock);
 };
+//-----------------------------------------------------------------------------
+
+int idgen(void);
 
 #endif /*__CLIENTQUEUE_H__ */

@@ -4,13 +4,13 @@
  */
 
 #include "clientqueue.h"
-#include <time.h>
+#include <fcntl.h>
+#include <math.h>
 //-----------------------------------------------------------------------------
 
 Client::Client(const char *ip, const char *port)
 {
-	srand(time(NULL));	// THIS HAS TO BE CHANGED, RANDOM RESULTS ONLY WHEN CALLED IN TIME MORE THAN 1sec
-	this->id = rand(); //randomize client id
+	this->id = idgen();
 	char instance_name[32];
 	sprintf(instance_name, "terve://socket/%x", this->id);
 	this->sock = new tsocket(SOCK_STREAM, instance_name);
@@ -90,5 +90,16 @@ Client *Queue::getClientBySocket(tsocket *sock)
 	// maybe instance name method ?
 	for(int i=0; i <= this->index; i++) if(this->list[i]->getSocket()->tgetDescriptor() == sock->tgetDescriptor()) return this->list[i];
 	return NULL;
+}
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
+int idgen(void)
+{
+	int cid = 0;
+	int fd = open("/dev/urandom", O_RDONLY, NULL);
+	read(fd, &cid, sizeof(cid));
+	close(fd);
+	return abs(cid);
 }
 //-----------------------------------------------------------------------------
