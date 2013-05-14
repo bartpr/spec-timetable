@@ -11,5 +11,9 @@ Genotype::Genotype(int numberOfGenes)
 Genotype::~Genotype()
 {
     for(int i=0;i<this->numberOfGenes;i++)
+    {
         genes[i]->~Gene();
+        delete genes[i];
+    }
+    delete genes;
 }
