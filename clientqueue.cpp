@@ -80,3 +80,11 @@ Client *Queue::getClient(int id)
 	return NULL;
 }
 //-----------------------------------------------------------------------------
+
+Client *Queue::getClientBySocket(tsocket *sock)
+{
+	// TODO: instance name method
+	for(int i=0; i <= this->index; i++) if(this->list[i]->getSocket()->tgetDescriptor() == sock->tgetDescriptor()) return this->list[i];
+	return NULL;
+}
+//-----------------------------------------------------------------------------

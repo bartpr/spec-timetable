@@ -57,7 +57,26 @@ int Distributor::sendData(int id, header *hdr, void *data)
 
 int Distributor::recvData(int *id, void *buffer)
 {
+	memset(buffer, 0, sizeof(buffer));
+	tsocket *S = s->twait();
+	if(S == NULL) return NULL;
+	void *rec_buf = malloc(sizeof(buffer));
 
+	int n = 0;
+	if((n = S->treceive((char*)rec_buf)) == -1) perror("tRECEIVE");
+	if(n == 0) 
+	{
+		printf("[%s] Connection reset by peer.\n", S->tgetInstanceName());
+		return 0;
+	}
+	// TODO: checking for full data receive
+	header *hdr;
+	int hdrlen = sizeof(header);
+	memcpy(hdr, rec_buf, hdrlen);
+	int len = hdr->len - hdrlen;
+	memcpy(buffer, rec_buf+hdrlen, len);
+
+	*id = q->getClientBySocket(S)->getID();
 }
 //-----------------------------------------------------------------------------
 

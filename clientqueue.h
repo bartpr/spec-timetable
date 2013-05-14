@@ -36,6 +36,7 @@ public:
 	void removeClient(int id);
 	Client **getList(void);
 	Client *getClient(int id);
+	Client *getClientBySocket(tsocket *sock);
 };
 
 #endif /*__CLIENTQUEUE_H__ */
