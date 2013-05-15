@@ -19,10 +19,22 @@
 #define CLOSEALL		0xFF	// shutdown
 //-----------------------------------------------------------------------------
 
+#if defined(_WIN32)
+#	define PACKED
+#	pragma pack(push)
+#	pragma pack(1)
+#else
+#	define PACKED __attribute__((packed))
+#endif
+
 typedef struct _header {
 						uint32_t len;
 						uint8_t code;
-} __attribute__((packed)) header;
+} PACKED header;
+
+#if defined(_WIN32)
+#	pragma pack(pop)
+#endif
 //-----------------------------------------------------------------------------
 
 #endif /* __TTPROTO_H__ */

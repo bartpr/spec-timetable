@@ -72,6 +72,7 @@ int Distributor::recvData(int *id, void *buffer)
 		if((n = S->treceive((char*)rec_buf)) == -1) perror("tRECEIVE");
 		if(n == 0)
 		{
+			// indicate reset in any other way
 			printf("[%s] Connection reset by peer.\n", S->tgetInstanceName());
 			return 0;
 		}
@@ -86,6 +87,7 @@ int Distributor::recvData(int *id, void *buffer)
 	while(rec_count < hdr->len);
 
 	*id = q->getClientBySocket(S)->getID();
+	return rec_count;
 }
 //-----------------------------------------------------------------------------
 
@@ -103,5 +105,11 @@ int Distributor::sendTransferPerm(int id)
 Client *Distributor::getClient(int id)
 {
 	return this->q->getClient(id);
+}
+//-----------------------------------------------------------------------------
+
+void Distributor::dump(void)
+{
+	this->q->dump();
 }
 //-----------------------------------------------------------------------------

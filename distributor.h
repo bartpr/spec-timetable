@@ -26,6 +26,7 @@ public:
 	int recvData(int *id, void *buffer);
 	int sendTransferPerm(int id);
 	Client *getClient(int id);
+	void dump(void);
 };
 
 #endif /*__DISTRIBUTOR_H__ */

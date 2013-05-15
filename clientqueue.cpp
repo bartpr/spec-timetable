@@ -6,6 +6,7 @@
 #include "clientqueue.h"
 #include <fcntl.h>
 #include <math.h>
+#include <stdio.h>
 //-----------------------------------------------------------------------------
 
 Client::Client(const char *ip, const char *port)
@@ -32,6 +33,18 @@ int Client::getID(void)
 tsocket *Client::getSocket(void)
 {
 	return this->sock;
+}
+//-----------------------------------------------------------------------------
+
+char *Client::tostring(void)
+{
+	// memset(----, 0, sizeof(char)*128);
+	// sprintf(-----, "%d [ %s ] (%d)",
+			// id,
+			// this->sock->tgetInstanceName(),
+			// this->sock->tgetDescriptor()
+	// );
+	// return -----;
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -87,9 +100,18 @@ Client *Queue::getClient(int id)
 
 Client *Queue::getClientBySocket(tsocket *sock)
 {
-	// maybe instance name method ?
-	for(int i=0; i <= this->index; i++) if(this->list[i]->getSocket()->tgetDescriptor() == sock->tgetDescriptor()) return this->list[i];
+	for(int i=0; i <= this->index; i++) 
+		if(!strcmp(this->list[i]->getSocket()->tgetInstanceName(), sock->tgetInstanceName()))
+			return this->list[i];
 	return NULL;
+}
+//-----------------------------------------------------------------------------
+
+void Queue::dump(void)
+{
+	for(int i=0; i <= this->index; i++) 
+		if(this->list[i] != NULL)
+			printf("%s\n", this->list[i]->tostring());
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

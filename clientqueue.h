@@ -20,6 +20,7 @@ public:
 	~Client();
 	tsocket *getSocket();
 	int getID(void);
+	char *tostring(void);
 };
 //-----------------------------------------------------------------------------
 
@@ -37,6 +38,7 @@ public:
 	Client **getList(void);
 	Client *getClient(int id);
 	Client *getClientBySocket(tsocket *sock);
+	void dump(void);
 };
 //-----------------------------------------------------------------------------
 
