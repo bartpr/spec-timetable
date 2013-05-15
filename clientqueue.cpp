@@ -36,15 +36,13 @@ tsocket *Client::getSocket(void)
 }
 //-----------------------------------------------------------------------------
 
-char *Client::tostring(void)
+char *Client::dump(void)
 {
-	// memset(----, 0, sizeof(char)*128);
-	// sprintf(-----, "%d [ %s ] (%d)",
-			// id,
-			// this->sock->tgetInstanceName(),
-			// this->sock->tgetDescriptor()
-	// );
-	// return -----;
+	printf("%d [ %s ] (%d)\n",
+			id,
+			this->sock->tgetInstanceName(),
+			this->sock->tgetDescriptor()
+	);
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -111,7 +109,7 @@ void Queue::dump(void)
 {
 	for(int i=0; i <= this->index; i++) 
 		if(this->list[i] != NULL)
-			printf("%s\n", this->list[i]->tostring());
+			this->list[i]->dump();
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
