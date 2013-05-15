@@ -20,7 +20,7 @@ public:
 	~Client();
 	tsocket *getSocket();
 	int getID(void);
-	char *dump(void);
+	void dump(void);
 };
 //-----------------------------------------------------------------------------
 

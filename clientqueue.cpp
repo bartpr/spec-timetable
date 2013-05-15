@@ -36,7 +36,7 @@ tsocket *Client::getSocket(void)
 }
 //-----------------------------------------------------------------------------
 
-char *Client::dump(void)
+void Client::dump(void)
 {
 	printf("%d [ %s ] (%d)\n",
 			id,

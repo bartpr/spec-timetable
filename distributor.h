@@ -10,6 +10,7 @@
 #include "clientqueue.h"
 #include "ttproto.h"
 //-----------------------------------------------------------------------------
+
 class Distributor
 {
 protected:
