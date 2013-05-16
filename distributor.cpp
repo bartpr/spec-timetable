@@ -7,6 +7,8 @@
 //-----------------------------------------------------------------------------
 
 Distributor::Distributor(int maxclients, const char *port)
+/* Create socket selector and client queue
+ * Initialize network if applicable */
 {
 #if defined(_WIN32)
 	init_winsock(2,0);
@@ -17,6 +19,7 @@ Distributor::Distributor(int maxclients, const char *port)
 //-----------------------------------------------------------------------------
 
 Distributor::~Distributor()
+/* Free memory and close library if needed */
 {
 	delete s;
 	delete q;
@@ -27,6 +30,7 @@ Distributor::~Distributor()
 //-----------------------------------------------------------------------------
 
 int Distributor::addClient(const char *ip, const char *port)
+/* Add client to queue and its socket to selector */
 {
 	int id = q->addClient(ip, port);
 	Client *c = q->getClient(id);
@@ -38,12 +42,15 @@ int Distributor::addClient(const char *ip, const char *port)
 //-----------------------------------------------------------------------------
 
 void Distributor::removeClient(int id)
+/* Remove client from queue and its socket from selector */
 {
+	// TODO: remove sockets from selector
 	q->removeClient(id);
 }
 //-----------------------------------------------------------------------------
 
 int Distributor::sendData(int id, header *hdr, void *data)
+/* Send data to client of given ID */
 {
 	int hdrlen = sizeof(hdr);
 	void *buffer = (void*)malloc(hdr->len);
@@ -56,6 +63,8 @@ int Distributor::sendData(int id, header *hdr, void *data)
 //-----------------------------------------------------------------------------
 
 int Distributor::recvData(int *id, void *buffer)
+/* Receive all sent data, fill up id with id of sending client,
+ * buffer with received data */
 {
 	memset(buffer, 0, sizeof(buffer));
 	tsocket *S = s->twait();
@@ -92,6 +101,7 @@ int Distributor::recvData(int *id, void *buffer)
 //-----------------------------------------------------------------------------
 
 int Distributor::sendTransferPerm(int id)
+/* Send transfer permission packet to client */
 {
 	header *hdr = (header*)malloc(sizeof(header));
 	hdr->len = sizeof(hdr);
@@ -103,12 +113,14 @@ int Distributor::sendTransferPerm(int id)
 //-----------------------------------------------------------------------------
 
 Client *Distributor::getClient(int id)
+/* Return client from queue */
 {
 	return this->q->getClient(id);
 }
 //-----------------------------------------------------------------------------
 
 void Distributor::dump(void)
+/* Print all clients in distributor */
 {
 	this->q->dump();
 }
