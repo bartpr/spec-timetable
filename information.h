@@ -1,9 +1,12 @@
 #ifndef informationH
 #define informationH
-
-
-
-class Information  //Informacje
+/*
+    Potrzebne do t³umaczenia identyfikatorów grup, nauczycieli i przedmiotów na nazwy.
+    Niepotrzebne do dzia³ania czêsci w³asciwej programu.
+    Potrzebne tylko do interfejsu wyjscia i wejscia.
+    Istnieje tylko 1 obiekt takiej klasy i znajduje siê na stacji bazowej.
+*/
+class Information
 {
 public:
     Information(unsigned char NumberOfGroups, unsigned char NumberOfTeachers,

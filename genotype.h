@@ -1,7 +1,11 @@
 #ifndef genotypeH
 #define genotypeH
 #include "gene.h"
-class Genotype //Jeden osobnik
+/*
+    Jest to jeden osobnik - caly plan lekcji.
+    Zawiera ocenê, karê, ilosc genów(grup) oraz tablicê wskaŸników na wszystkie geny.
+*/
+class Genotype
 {
 public:
     Genotype(unsigned int numberOfGenes);
