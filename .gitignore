@@ -28,11 +28,9 @@ bin/*
 
 # Dependency files
 *.d
-/*.obj
-/*.~bpr
+
 /*.bpf
-/*.exe
+
 /*.res
 /*.tds
-/*.~h
-/*.~cpp
+
