@@ -44,7 +44,7 @@ int Distributor::addClient(const char *ip, const char *port)
 void Distributor::removeClient(int id)
 /* Remove client from queue and its socket from selector */
 {
-	// TODO: remove sockets from selector
+	s->tremoveSocket(q->getClient(id)->getSocket()->tgetInstanceName());
 	q->removeClient(id);
 }
 //-----------------------------------------------------------------------------
@@ -79,12 +79,7 @@ int Distributor::recvData(int *id, void *buffer)
 	{
 		int n = 0;
 		if((n = S->treceive((char*)rec_buf)) == -1) perror("tRECEIVE");
-		if(n == 0)
-		{
-			// indicate reset in any other way
-			printf("[%s] Connection reset by peer.\n", S->tgetInstanceName());
-			return 0;
-		}
+		if(n == 0) return -1; // connection reset by peer
 		if(rec_count == 0) // copy header only at first loop pass
 		{
 			memcpy(hdr, rec_buf, hdrlen);

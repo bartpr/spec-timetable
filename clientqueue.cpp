@@ -4,7 +4,13 @@
  */
 
 #include "clientqueue.h"
-#include <fcntl.h>
+
+#if defined(_WIN32)
+#	include <stdlib.h>
+#else
+#	include <fcntl.h>
+#endif
+
 #include <math.h>
 #include <stdio.h>
 //-----------------------------------------------------------------------------
@@ -131,9 +137,13 @@ int idgen(void)
 /* Generate completely random ID */
 {
 	int cid = 0;
+#if defined(_WIN32)
+	cid = atoi(getenv("RANDOM"));
+#else
 	int fd = open("/dev/urandom", O_RDONLY, NULL);
 	read(fd, &cid, sizeof(cid));
 	close(fd);
+#endif
 	return abs(cid);
 }
 //-----------------------------------------------------------------------------
