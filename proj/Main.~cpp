@@ -19,7 +19,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
-   Book* book ;//= xlCreateBook(); // xlCreateXMLBook() for xlsx
+   Book* book = xlCreateBook(); // xlCreateXMLBook() for xlsx
 		/*if(book)
 		{
 			Sheet* sheet = book->addSheet("Sheet1");
