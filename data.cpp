@@ -1,6 +1,6 @@
 #include "data.h"
 
-Data::Data(unsigned char numberOfGroups)
+Data::Data(unsigned char numberOfLessons)
 {
-    groups = new Group[numberOfGroups];  
+    tab = new Lesson[numberOfLessons];
 }

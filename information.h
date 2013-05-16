@@ -1,7 +1,9 @@
 #ifndef informationH
 #define informationH
 
-class Information
+
+
+class Information  //Informacje
 {
 public:
     Information(unsigned char NumberOfGroups, unsigned char NumberOfTeachers,
@@ -13,5 +15,5 @@ protected:
     char** groups;
     char** teachers;
     char** subjects;
-}
+};
 #endif
