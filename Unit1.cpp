@@ -41,7 +41,7 @@ class GeneticListener
 class GenPacket
 {
   header *head;
-  void *value;
+  char *value;
   unsigned int valueLen;
 
   void initializeDefaultValues();
@@ -49,6 +49,12 @@ class GenPacket
   public:
   GenPacket();
   GenPacket(void *packet);
+
+  unsigned int getPacketSize();
+  unsigned int getValueSize();
+  void *getValue();
+  char *getValueAsCString();
+
 
 };
 
@@ -86,6 +92,18 @@ int main(int argc, char* argv[])
         cout << lst.is_initialized() << endl;
         cout << sizeof(header) << endl;
 
+        char *t = "hello word";
+        void *packet = createPacket(t, strlen(t)+1,2);
+        int i = 0;
+        for(;;i++) if(((char*)packet+5)[i] == '\0') break;
+        cout << i;
+
+        GenPacket *p = new GenPacket(packet);
+        cout << p->getPacketSize() << endl;
+        cout << p->getValueSize() << endl;
+        cout << p->getValueAsCString() << endl;
+
+        delete p;
         getchar();
         return 0;
 }
@@ -169,6 +187,7 @@ GenPacket::GenPacket()
 void GenPacket::initializeDefaultValues()
 {
   head = NULL;
+  value = NULL;
 }
 
 //wczytanie istniejacego pakietu
@@ -182,10 +201,13 @@ GenPacket::GenPacket(void *packet)
   head = ((header*)packet);
 
   //Pobranie wartosci
+
+  cout << endl << head->len;
   if(head->len > 5)
   {
-   this->valueLen = head->len - 5;
-   memcpy(value,((char*)packet)+5,this->valueLen); //!!!!!!!!!
+  this->valueLen = head->len - 5;
+  value = new char[this->valueLen+1];
+  memcpy(value,((char*)packet)+5,this->valueLen); //!!!!!!!!!
   }
   else
   {
@@ -193,4 +215,29 @@ GenPacket::GenPacket(void *packet)
   }
 
 
+}
+
+unsigned int GenPacket::getPacketSize()
+{
+  if(head == NULL && value == NULL )return 0;
+  else if(value == NULL) return 5;
+  else
+  {
+   return 5 + this->valueLen;
+  }
+}
+
+void *GenPacket::getValue()
+{
+ return (void*)this->value;
+}
+
+unsigned int GenPacket::getValueSize()
+{
+   return this->valueLen;
+}
+
+char *GenPacket::getValueAsCString()
+{
+   return this->value;
 }
