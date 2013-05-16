@@ -20,9 +20,9 @@
 //-----------------------------------------------------------------------------
 
 typedef struct _header {
-        uint32_t len;
-        uint8_t code;
-} /* __attribute__((packed))*/ header;
+	uint32_t len;
+	uint8_t code;
+} PACKED header;
 //-----------------------------------------------------------------------------
 
 #endif /* __TTPROTO_H__ */
