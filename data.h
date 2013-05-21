@@ -1,3 +1,4 @@
+
 #ifndef dataH
 #define dataH
 /*
@@ -8,11 +9,11 @@
 class Data
 {
 public:
-    Data(unsigned char numberOfGroups);
-    ~Data();
+    Data(unsigned char NumberOfLessons);
+//    ~Data();
 
 protected:
-    unsigned char numerOfGroups;
+    unsigned char numberOfLessons;
     struct Lesson
     {
         unsigned char group, teacher, subject; //unikalne identyfikatory grupy, nauczyciela, przedmiotu
