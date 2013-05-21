@@ -27,6 +27,23 @@ public:
 	int sendTransferPerm(int id);
 	Client *getClient(int id);
 	void dump(void);
+	//--- PROTOCOL IMPLEMENTATION ---//
+	int initClients(void);					// sent to all clients
+	int sendPopulation(int id, void *data);	// require id 
+	int dataWait(void);						// do not need any input
+	int instruct(int id, void *data);		// require client id
+	int shutdown(void);						// sent to all
 };
 
 #endif /*__DISTRIBUTOR_H__ */
+
+/** How to use it:
+	
+	initClients();
+	sendPopulation();
+	flag = 0;
+	while(!flag)
+	{
+		dataWai()
+		instruct()
+	}
