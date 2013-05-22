@@ -35,7 +35,7 @@ public:
 	int shutdown(void);						// sent to all
 };
 
-#endif /*__DISTRIBUTOR_H__ */
+#endif /* __DISTRIBUTOR_H__ */
 
 /** How to use it:
 	
@@ -47,3 +47,5 @@ public:
 		dataWai()
 		instruct()
 	}
+	shutdown()
+**/

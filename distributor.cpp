@@ -120,3 +120,67 @@ void Distributor::dump(void)
 	this->q->dump();
 }
 //-----------------------------------------------------------------------------
+
+int Distributor::initClients(void)
+/* Initialize all clients in queue */
+{
+	int index = this->q->getIndex();
+	Client **list = this->q->getList();
+	int i = 0;
+	void *buffer = malloc(sizeof(uint32_t)+index*(sizeof(uint32_t)+sizeof(uint32_t)+sizeof(uint32_t)));
+					// sizeof(uint32_t) - number of client
+					// index - multiply by number of clients
+					// sizeof(uint32_t) - id
+					// sizeof(uint32_t) - ip addr
+					// sizeof(uint32_t) - port
+					// all values in NBO
+	for(i=0; i <= index; i++)
+	{
+		if(list[i] != NULL)
+		{
+			uint32_t id = htonl(list[i]->getID());
+			uint32_t port = htonl(list[i]->getSocket()->tgetPort());
+			// TODO: get binary IP from tsocket
+		}
+	}
+	memcpy(buffer, i, sizeof(uint32_t)); // copy number of clients
+
+	for(i=0; i <= index; i++)
+	{ 
+		if(list[i] != NULL)
+		{
+			if(list[i]->connect() == -1) return -1;
+			// do the initialization, send client list
+		}
+	}
+	return i;
+}
+//-----------------------------------------------------------------------------
+
+int Distributor::sendPopulation(int id, void *data)
+/* Distribute initial population among the clients */
+{
+
+}
+//-----------------------------------------------------------------------------
+
+int Distributor::dataWait(void)
+/* Wait for data from clients */
+{
+
+}
+//-----------------------------------------------------------------------------
+
+int Distributor::instruct(int id, void *data)
+/* Send instructions to clients */
+{
+
+}
+//-----------------------------------------------------------------------------
+
+int Distributor::shutdown(void)
+/* Shutdown all clients */
+{
+
+}
+//-----------------------------------------------------------------------------

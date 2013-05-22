@@ -27,4 +27,4 @@ public:
 
 void *mkpacket(header *hdr, void *data);
 
-#endif /*__DCLIENT_H__ */
+#endif /* __DCLIENT_H__ */

@@ -21,6 +21,7 @@ public:
 	tsocket *getSocket();
 	int getID(void);
 	void dump(void);
+	int connect(void);
 };
 //-----------------------------------------------------------------------------
 
@@ -39,9 +40,10 @@ public:
 	Client *getClient(int id);
 	Client *getClientBySocket(tsocket *sock);
 	void dump(void);
+	int getIndex(void);
 };
 //-----------------------------------------------------------------------------
 
 int idgen(void);
 
-#endif /*__CLIENTQUEUE_H__ */
+#endif /* __CLIENTQUEUE_H__ */
