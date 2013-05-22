@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
+#include <vector>
 #pragma hdrstop
 
 #include "FormMain.h"
@@ -11,18 +12,21 @@
 #pragma link "CGAUGES"
 #pragma link "pies"
 #pragma resource "*.dfm"
-TForm1 *Form1;
+
+using namespace std;
+
+#include "Classroom.h"
+
+TFormGUI *FormGUI;
+vector<Classroom> vClassrooms;
+
 //---------------------------------------------------------------------------
-__fastcall TForm1::TForm1(TComponent* Owner)
+__fastcall TFormGUI::TFormGUI(TComponent* Owner)
         : TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::About1Click(TObject *Sender)
-{
-        Close();
-}
-//---------------------------------------------------------------------------
+
 
 

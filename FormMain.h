@@ -17,7 +17,7 @@
 #include "pies.h"
 #include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TFormGUI : public TForm
 {
 __published:	// IDE-managed Components
         TPageControl *PageControl1;
@@ -45,7 +45,7 @@ __published:	// IDE-managed Components
         TListBox *ListBox4;
         TButton *Button12;
         TMainMenu *MainMenu1;
-        TMenuItem *Plik1;
+        TMenuItem *File1;
         TMenuItem *Newproject1;
         TMenuItem *Loadproject1;
         TMenuItem *Saveproject1;
@@ -66,13 +66,11 @@ __published:	// IDE-managed Components
         TButton *Button15;
         TRadioButton *RadioButton1;
         TRadioButton *RadioButton2;
-        void __fastcall About1Click(TObject *Sender);
-        void __fastcall Timer1Timer(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
-        __fastcall TForm1(TComponent* Owner);
+        __fastcall TFormGUI(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TFormGUI *FormGUI;
 //---------------------------------------------------------------------------
 #endif

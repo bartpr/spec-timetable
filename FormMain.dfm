@@ -1,9 +1,9 @@
-object Form1: TForm1
+object FormGUI: TFormGUI
   Left = 257
   Top = 133
   Width = 496
   Height = 418
-  Caption = 'Form1'
+  Caption = 'Timetable'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,8 +19,8 @@ object Form1: TForm1
     Top = 0
     Width = 480
     Height = 360
-    ActivePage = TabSheet5
-    TabIndex = 4
+    ActivePage = TabSheet2
+    TabIndex = 1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Main'
@@ -280,7 +280,7 @@ object Form1: TForm1
   end
   object MainMenu1: TMainMenu
     Left = 448
-    object Plik1: TMenuItem
+    object File1: TMenuItem
       Caption = '&File'
       object Newproject1: TMenuItem
         Caption = '&New project'
@@ -308,7 +308,6 @@ object Form1: TForm1
       Caption = '&Help'
       object About1: TMenuItem
         Caption = 'About'
-        OnClick = About1Click
       end
     end
   end
