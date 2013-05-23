@@ -5,13 +5,16 @@
     Zawieraj¹ 3 identyfikatory dla ka¿dego genu - nauczyciel, grupa, przedmiot.
     Na ka¿dym komputerze jest 1 obiekt tej klasy.
 */
+
+#include <vector>
+using namespace std;
 class Data
 {
 public:
     Data(unsigned char numberOfGroups);
-    ~Data();
+ //   ~Data();
 
-protected:
+//protected:
     unsigned char numerOfGroups;
     struct Lesson
     {
