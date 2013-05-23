@@ -5,7 +5,6 @@
     Zawieraj¹ 3 identyfikatory dla ka¿dego genu - nauczyciel, grupa, przedmiot.
     Na ka¿dym komputerze jest 1 obiekt tej klasy.
 */
-int Max_Data_Id= 0;
 
 class Data
 {
