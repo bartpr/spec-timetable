@@ -85,7 +85,7 @@ int Distributor::recvData(int *id, void *buffer)
 			memcpy(hdr, rec_buf, hdrlen);
 			len = hdr->len - hdrlen;
 		}
-		memcpy(buffer+(rec_count-hdrlen), rec_buf, len);
+		memcpy(buffer+(rec_count-hdrlen), rec_buf, len); // potential memory leak
 		rec_count += n;
 	}
 	while(rec_count < hdr->len);
@@ -126,7 +126,7 @@ int Distributor::initClients(void)
 {
 	int index = this->q->getIndex();
 	Client **list = this->q->getList();
-	int i = 0;
+	uint32_t i = 0;
 	void *buffer = malloc(sizeof(uint32_t)+index*(sizeof(uint32_t)+sizeof(uint32_t)+sizeof(uint32_t)));
 					// sizeof(uint32_t) - number of client
 					// index - multiply by number of clients
@@ -140,19 +140,37 @@ int Distributor::initClients(void)
 		{
 			uint32_t id = htonl(list[i]->getID());
 			uint32_t port = htonl(list[i]->getSocket()->tgetPort());
-			// TODO: get binary IP from tsocket
+			uint32_t ip; // TODO: get binary IP from tsocket
+					// copy id to buffer (1st entry of each record)
+			memcpy(buffer+sizeof(uint32_t) + i*(3*sizeof(uint32_t)), &id, sizeof(uint32_t));
+					// copy ip to buffer (2nd entry of each record) 
+			memcpy(buffer+sizeof(uint32_t) + (i+1)*(3*sizeof(uint32_t)) - 2*sizeof(uint32_t), &ip, sizeof(uint32_t));
+					// copy port to buffer (3rd entry of each record)
+			memcpy(buffer+sizeof(uint32_t) + (i+1)*(3*sizeof(uint32_t)) - sizeof(uint32_t), &port, sizeof(uint32_t)); 
 		}
 	}
-	memcpy(buffer, i, sizeof(uint32_t)); // copy number of clients
+	i = htonl(i);
+	memcpy(buffer, &i, sizeof(uint32_t)); // copy number of clients
+	int len = sizeof(header) + sizeof(buffer);
+	void *send_buf = malloc(len);
+	
+	header hdr; // create packet header
+	hdr.len = len;
+	hdr.code = INITIALZ;
+
+	memcpy(send_buf, &hdr, sizeof(hdr));
+	memcpy(send_buf+sizeof(hdr), buffer, sizeof(buffer));
 
 	for(i=0; i <= index; i++)
 	{ 
 		if(list[i] != NULL)
 		{
-			if(list[i]->connect() == -1) return -1;
-			// do the initialization, send client list
+			if(list[i]->connect() == -1) return -1; // open connection to client
+			list[i]->getSocket()->tsend((char*)send_buf, len); // send full client list to each client			
 		}
 	}
+	free(buffer);
+	free(send_buf);
 	return i;
 }
 //-----------------------------------------------------------------------------
@@ -160,7 +178,15 @@ int Distributor::initClients(void)
 int Distributor::sendPopulation(int id, void *data)
 /* Distribute initial population among the clients */
 {
-
+	header hdr;
+	hdr.len = sizeof(hdr)+sizeof(data);
+	hdr.code = INITPOPL;
+	void *send_buf = malloc(hdr.len);
+	memcpy(send_buf, &hdr, sizeof(hdr));
+	memcpy(send_buf+sizeof(hdr), data, sizeof(data));
+	int status = q->getClient(id)->getSocket()->tsend(send_buf, hdr.len);
+	free(send_buf);
+	return status;
 }
 //-----------------------------------------------------------------------------
 
@@ -174,7 +200,15 @@ int Distributor::dataWait(void)
 int Distributor::instruct(int id, void *data)
 /* Send instructions to clients */
 {
-
+	header hdr;
+	hdr.len = sizeof(hdr)+sizeof(data);
+	hdr.code = INITPOPL;
+	void *send_buf = malloc(hdr.len);
+	memcpy(send_buf, &hdr, sizeof(hdr));
+	memcpy(send_buf+sizeof(hdr), data, sizeof(data));
+	int status = q->getClient(id)->getSocket()->tsend(send_buf, hdr.len);
+	free(send_buf);
+	return status;
 }
 //-----------------------------------------------------------------------------
 
