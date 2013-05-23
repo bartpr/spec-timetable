@@ -5,11 +5,14 @@
     Zawieraj¹ 3 identyfikatory dla ka¿dego genu - nauczyciel, grupa, przedmiot.
     Na ka¿dym komputerze jest 1 obiekt tej klasy.
 */
+int Max_Data_Id= 0;
+
 class Data
 {
 public:
     Data(unsigned char numberOfGroups);
     ~Data();
+	void Make_Forest();//pozniej
 
 protected:
     unsigned char numerOfGroups;
@@ -21,8 +24,8 @@ protected:
     {
       static unsigned short knots;//liczba utworzonych wezlow
       unsigned short id;
-      knot* subgroups;//podzial grupy na pod grupy
-      unsigned short* lessons;//lekcje jaka zawiera dana grupa
+      knot *subgroups;//podzial grupy na podgrupy
+      unsigned short *lessons;//lekcje jaka zawiera dana grupa
       vector<unsigned short> checked;//sprawdzane wezla
     } *k; //korzen lasu, najbardziej ogolna grupa
 };

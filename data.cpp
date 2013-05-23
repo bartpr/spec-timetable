@@ -5,3 +5,11 @@ Data::Data(unsigned char numberOfLessons)
 {
     tab = new Lesson[numberOfLessons];
 }
+
+void Data::Make_Forest( tablica ){
+	Data.k->knots+= ;
+
+
+
+}
+
