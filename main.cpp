@@ -5,10 +5,13 @@
 #include "genetic.h"
 #include <iostream>
 using namespace std;
-int main(int argc, char* argv[])
+int main()
 {
-    Data d(10);
-    geneticAlgorithm(d);
+    /*
+        Wczytywanie danych, tworzenie obiektow itd. -> Shockah
+    */
+    Data d(10, 5, 5);
+    geneticAlgorithm(d,10,100);
     system("pause");
     return 0;
 }
