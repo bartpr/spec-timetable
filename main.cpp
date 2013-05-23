@@ -2,13 +2,14 @@
 #include "gene.h"
 #include "information.h"
 #include "data.h"
+#include "genetic.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Data d(80);
+    Data d(80, 70, 80);
     fstream plik("pliczek.txt");
     for(int i = 0; i < 80; i++)
     {
@@ -18,6 +19,9 @@ int main(int argc, char* argv[])
     }
     plik.close();
 
+	/*
+        Wczytywanie danych, tworzenie obiektow itd. -> Shockah
+    */
     //wpisywanie nauczycieli
     d.tab[0].teacher = 1;
     d.tab[1].teacher = 2;
@@ -186,6 +190,7 @@ int main(int argc, char* argv[])
     for( int i=0; i< 80; i++)
       cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
 
+    geneticAlgorithm(d,10,100);
     system("pause");
     return 0;
 }

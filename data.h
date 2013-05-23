@@ -1,5 +1,9 @@
+
 #ifndef dataH
 #define dataH
+#include <vector>
+//#include "genotype.h"
+using namespace std;
 /*
     Wszystkie informacje odnosnie calego planu lekcji(genotype).
     Zawieraj¹ 3 identyfikatory dla ka¿dego genu - nauczyciel, grupa, przedmiot.
@@ -12,12 +16,16 @@ using namespace std;
 class Data
 {
 public:
-    Data(unsigned char numberOfGroups);
- //   ~Data();
 
+    Data(unsigned char NumberOfLessons, unsigned char NumberOfTerms,  unsigned char NumberOfRooms);
+//    ~Data();
 
-//protected:
-    unsigned char numerOfGroups;
+protected:
+    friend class Genotype;
+    unsigned short numberOfLessons; //Ilosc genow
+    unsigned char numberOfTerms; //Ilosc terminow w szkole np: 14*5 dni
+    unsigned char numberOfRooms; //Ilosc sal
+
     struct Lesson
     {
         unsigned char group, teacher, subject; //unikalne identyfikatory grupy, nauczyciela, przedmiotu

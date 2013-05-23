@@ -1,10 +1,20 @@
+#include <stdlib.h>
+#include <time.h>
 #include "genotype.h"
 
-Genotype::Genotype(unsigned int Genes) : numberOfGenes(Genes)
+Genotype::Genotype(const Data &data)
 {
+    numberOfGenes = data.numberOfLessons;
+    numberOfRooms = data.numberOfRooms;
+    numberOfTerms = data.numberOfTerms;
     genes = new Gene*[numberOfGenes];
+    srand(time(NULL));
     for(unsigned int i=0;i<numberOfGenes;i++)
-        genes[i] = new Gene(10, 10);
+    {
+        int terms = rand()%data.numberOfTerms;
+        int rooms = rand()%data.numberOfRooms;
+        genes[i] = new Gene(terms, rooms);
+    }
 }
 
 Genotype::~Genotype()
@@ -21,6 +31,10 @@ void Genotype::Evaluation()
   penalty = false;
   mark = 0;
   //zalozenia przed ocena
-
-
 }//funkcja oceniaj¹ca
+
+bool Genotype::Mark(double &mark)
+{
+    mark = this->mark;
+    return penalty;
+}
