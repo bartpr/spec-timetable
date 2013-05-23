@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 #include "genotype.h"
+using namespace std;
+
 
 Genotype::Genotype(const Data &data)
 {
@@ -28,10 +31,33 @@ Genotype::~Genotype()
 
 void Genotype::Evaluation()
 {
+  //zalozenia przed ocena
   penalty = false;
   mark = 0;
-  //zalozenia przed ocena
+
+  termsCollision();
+
+
 }//funkcja oceniaj¹ca
+
+double Genotype::termsCollision()
+{
+
+  double tmpPenalty= 0;
+  
+  for( int i= 0; i< numberOfGenes; i++ )//sprawdzenia kazdej ts z kazda
+    for( int j= i+1; j< numberOfGenes; j++ )
+      if( genes[ i ]->term== genes[ j ]->term )
+        if( genes[ i ]->room== genes[ j ]->room )
+        {
+          penalty= true;
+          tmpPenalty--;
+        }
+
+  penalty+= tmpPenalty;
+  return tmpPenalty;
+
+}
 
 bool Genotype::Mark(double &mark)
 {

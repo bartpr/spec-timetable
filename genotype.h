@@ -13,6 +13,7 @@ public:
     ~Genotype();
     void Evaluation(); //Funkcja oceniaj¹ca
     bool Mark(double &mark);
+    double termsCollision();//kolizja terminosal
 protected:
     Gene **genes; //Tablica wszystkich przedmiotów(po kolei wed³ug grup[klas])
     unsigned short numberOfGenes;

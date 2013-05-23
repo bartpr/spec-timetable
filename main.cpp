@@ -10,18 +10,23 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     Data d(80, 70, 80);
+
+    /* //wpisywanie do pliku
     fstream plik("pliczek.txt");
     for(int i = 0; i < 80; i++)
     {
-         //plik << "d.tab[" << i << "].group = " << endl; - drukowanie tego nizej na wszelki wypadek
-         d.tab[i].group = i / 40 + 1;//wpisywanie grup
-//          cout << i << "---" << (int)d.tab[i].group << endl;
+         plik << "d.tab[" << i << "].group = " << endl; - drukowanie tego nizej na wszelki wypadek
+         cout << i << "---" << (int)d.tab[i].group << endl;
     }
-    plik.close();
+    plik.close();*/
 
-	/*
+    /*
         Wczytywanie danych, tworzenie obiektow itd. -> Shockah
     */
+
+    for(int i = 0; i < 80; i++)
+        d.tab[i].group = i / 40 + 1;//wpisywanie grup
+
     //wpisywanie nauczycieli
     d.tab[0].teacher = 1;
     d.tab[1].teacher = 2;
@@ -186,8 +191,8 @@ int main(int argc, char* argv[])
     d.tab[77].subject = 13;
     d.tab[78].subject = 13;
     d.tab[79].subject = 14;
-
-    for( int i=0; i< 80; i++)
+    
+    for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
       cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
 
     geneticAlgorithm(d,10,100);
