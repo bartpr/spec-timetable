@@ -18,5 +18,14 @@ protected:
     {
         unsigned char group, teacher, subject; //unikalne identyfikatory grupy, nauczyciela, przedmiotu
     } *tab; //wszystkie informacje o konkretnym genie
+    struct knot
+    {
+    public:
+      static unsigned short knots;//liczba utworzonych wezlow
+      unsigned short id;
+      knot** subgroups;//podzial grupy na pod grupy
+      unsigned short* lessons;//lekcje jaka zawiera dana grupa
+      vector<unsigned short> checked;//sprawdzane wezla
+    } *k; //korzen lasu, najbardziej ogolna grupa
 };
 #endif

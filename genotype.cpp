@@ -15,3 +15,9 @@ Genotype::~Genotype()
     }
     delete genes;
 }
+
+void Genotype::Evaluation()
+{
+cout<<"hohohohoho";
+
+}//funkcja oceniaj¹ca
