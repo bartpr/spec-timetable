@@ -38,7 +38,45 @@ void __fastcall TFormGUI::Button1Click(TObject *Sender)
                 Classroom c;
                 c.id = FormGUI->dialogResultText;
                 vClassrooms.push_back(c);
-                LClassrooms->AddItem(FormGUI->dialogResultText,NULL);        
+                LClassrooms->AddItem(FormGUI->dialogResultText,NULL);
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::Button3Click(TObject *Sender)
+{
+        if (LClassrooms->ItemIndex == -1) return;
+
+        AnsiString el = LClassrooms->Items->operator[](LClassrooms->ItemIndex);
+        for (unsigned int i = 0; i < vClassrooms.size(); i++) {
+                Classroom c = vClassrooms[i];
+                if (c.id == el) {
+                        vClassrooms.erase(vClassrooms.begin()+i);
+                        LClassrooms->DeleteSelected();
+                        return;
+                }
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::Button2Click(TObject *Sender)
+{
+        if (LClassrooms->ItemIndex == -1) return;
+
+        AnsiString el = LClassrooms->Items->operator[](LClassrooms->ItemIndex);
+        for (unsigned int i = 0; i < vClassrooms.size(); i++) {
+                Classroom c = vClassrooms[i];
+                if (c.id == el) {
+                        FormGUI->dialogResultHasText = true;
+                        FormGUI->dialogResultText = c.id;
+                        FormDialogText->ShowModal();
+                        if (FormGUI->dialogResultHasText) {
+                                c.id = FormGUI->dialogResultText;
+                                LClassrooms->DeleteSelected();
+                                LClassrooms->AddItem(FormGUI->dialogResultText,NULL);
+                        }
+                        return;
+                }
         }
 }
 //---------------------------------------------------------------------------

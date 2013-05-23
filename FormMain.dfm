@@ -86,6 +86,7 @@ object FormGUI: TFormGUI
         Height = 25
         Caption = 'Rename'
         TabOrder = 2
+        OnClick = Button2Click
       end
       object Button3: TButton
         Left = 144
@@ -94,6 +95,7 @@ object FormGUI: TFormGUI
         Height = 25
         Caption = 'Remove'
         TabOrder = 3
+        OnClick = Button3Click
       end
     end
     object TabSheet3: TTabSheet
