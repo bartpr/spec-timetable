@@ -6,11 +6,9 @@
     Na ka¿dym komputerze jest 1 obiekt tej klasy.
 */
 
-<<<<<<< HEAD
 #include <vector>
 using namespace std;
-=======
->>>>>>> ed2da4a22659cf0bf23886eb8659ac3d88add8d9
+
 class Data
 {
 public:

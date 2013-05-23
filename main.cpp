@@ -13,12 +13,12 @@ int main(int argc, char* argv[])
     for(int i = 0; i < 80; i++)
     {
          //plik << "d.tab[" << i << "].group = " << endl; - drukowanie tego nizej na wszelki wypadek
-         d.tab[i].group = i / 40 + 1;
+         d.tab[i].group = i / 40 + 1;//wpisywanie grup
 //          cout << i << "---" << (int)d.tab[i].group << endl;
     }
     plik.close();
 
-    //int i = 0;
+    //wpisywanie nauczycieli
     d.tab[0].teacher = 1;
     d.tab[1].teacher = 2;
     d.tab[2].teacher = 2;
@@ -100,8 +100,8 @@ int main(int argc, char* argv[])
     d.tab[78].teacher =    25;
     d.tab[79].teacher =    14;
 
-    for( int i=0; i< 80; i++)
-      cout<< i<< ": "<< d.tab[i].group<< ", "<< d.tab[i].subject<< ", "<< d.tab[i].teacher<< endl;
+
+    //wpisywanie przedmiotow
     d.tab[0].subject = 1;
     d.tab[1].subject = 2;
     d.tab[2].subject = 2;
@@ -182,6 +182,10 @@ int main(int argc, char* argv[])
     d.tab[77].subject = 13;
     d.tab[78].subject = 13;
     d.tab[79].subject = 14;
+
+    for( int i=0; i< 80; i++)
+      cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
+
     system("pause");
     return 0;
 }
