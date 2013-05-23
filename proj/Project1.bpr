@@ -8,7 +8,7 @@
     <RESFILES value="Project1.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value=""/>
+    <LIBFILES value="..\lib\tsocket.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value=""/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dclocx.bpi"/>
@@ -22,8 +22,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Project1.bpf"/>
-    <INCLUDEPATH value="..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\include;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="..\;..;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -46,6 +46,7 @@
       <FILE FILENAME="Project1.res" FORMNAME="" UNITNAME="Project1.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Project1.bpf" FORMNAME="" UNITNAME="Project1" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\Unit1.cpp" FORMNAME="" UNITNAME="Unit1" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\lib\tsocket.lib" FORMNAME="" UNITNAME="tsocket.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -79,24 +80,39 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=1
-Item0=..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\include;$(BCB)\include\vcl
+Count=4
+Item0=..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\include;$(BCB)\include;$(BCB)\include\vcl
+Item1=..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\include;$(BCB)\include\vcl
+Item2=..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\include;$(BCB)\include\vcl;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\include
+Item3=..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=1
-Item0=..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\lib\obj;$(BCB)\lib
+Count=7
+Item0=..\;..;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\;..;$(BCB)\lib\obj;$(BCB)\lib;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\lib
+Item2=..\;..;$(BCB)\lib\obj;$(BCB)\lib;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\lib\
+Item3=..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\lib\obj;$(BCB)\lib;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt\lib;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\lib
+Item4=..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\lib\obj;$(BCB)\lib
+Item5=..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\lib\obj;$(BCB)\lib
+Item6=..\;..;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\projekt;$(BCB)\lib\obj;$(BCB)\lib;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=1
+Count=6
 Item0=_DEBUG
+Item1=_DEBUG
+Item2=_DEBUG
+Item3=_DEBUG
+Item4=_DEBUG _WIN32
+Item5=_DEBUG _WIN32
 
 [HistoryLists\hlFinalOutputDir]
-Count=1
-Item0=C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\bin
+Count=2
+Item0=C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\bin\
+Item1=C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\bin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl

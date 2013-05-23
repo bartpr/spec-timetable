@@ -3,19 +3,31 @@
 #pragma hdrstop
 #include <iostream>
 #include "ttproto.h"
+#include "include/tsocket.h"
 #include <winsock2.h>
+
 
 using namespace std;
 
 //Inicjalizacja winsock'a w srodowisku Windows
 //Klasa odpowiadajaca za inicjalizacje
-class WSAInitializer
+
+
+
+//Inicjalizacja winsock'a
+bool WinsockInit()
 {
-        bool initialized;
- public:
-        bool init();
-        WSAInitializer();
-};
+  WSADATA WSAData;
+  if (WSAStartup(MAKEWORD(2,2),&WSAData) != 0)
+  {
+      return FALSE;
+  }
+  else
+  {
+      return TRUE;
+  }
+}
+
 
 //Klasa odpowiadajaca za stworzenie gniazda nasluchujacego
 //od klientow i odbierania tych wiadomosci
@@ -40,6 +52,7 @@ class GeneticListener
 //klasa s³u¿¹ca do odczytania pakietu
 class GenPacket
 {
+  private:
   header *head;
   char *value;
   unsigned int valueLen;
@@ -49,6 +62,7 @@ class GenPacket
   public:
   GenPacket();
   GenPacket(void *packet);
+
 
   unsigned int getPacketSize();
   unsigned int getValueSize();
@@ -82,13 +96,20 @@ void *createPacket(void *value, int len, int code) //dlugosc 5 + len + 1
 #pragma argsused
 int main(int argc, char* argv[])
 {
-        WSAInitializer ws;
-        ws.init();
+        //WinsockInit();
 
+
+        tsocket *sock = new tsocket(SOCK_STREAM,"mainSocket");
+        sock->taddress(NULL,"10000");
+        sock->topen();
+        sock->tbind();
+        sock->tlisten(1);
+        tsocket *s = sock->taccept();
+        char *bufor = new char[500];
+        memset(bufor,'\0',500);
+        s->treceive(bufor);
         GeneticListener lst;
-        lst.setIP("127.0.0.1");
-        lst.setPort("10000");
-        lst.run();
+
         cout << lst.is_initialized() << endl;
         cout << sizeof(header) << endl;
 
@@ -148,7 +169,6 @@ void GeneticListener::run()
 
 bool GeneticListener::is_initialized()
 {
- cout << initialized;
  if(initialized == 7)
  {
   return true;
@@ -160,23 +180,6 @@ bool GeneticListener::is_initialized()
 
 }
 
-bool WSAInitializer::init()
-{
-  WSADATA WSAData;
-  if (WSAStartup(MAKEWORD(2,2),&WSAData) != 0)
-  {
-      return FALSE;
-  }
-  else
-  {
-      return TRUE;
-  }
-}
-
-WSAInitializer::WSAInitializer()
-{
- initialized = false;
-}
 
 
 GenPacket::GenPacket()
@@ -202,21 +205,21 @@ GenPacket::GenPacket(void *packet)
 
   //Pobranie wartosci
 
-  cout << endl << head->len;
   if(head->len > 5)
   {
-  this->valueLen = head->len - 5;
-  value = new char[this->valueLen+1];
-  memcpy(value,((char*)packet)+5,this->valueLen); //!!!!!!!!!
+    this->valueLen = head->len - 5;
+    value = new char[this->valueLen+1];
+    memcpy(value,((char*)packet)+5,this->valueLen); //!!!!!!!!!
   }
   else
   {
-   value = NULL;
+    value = NULL;
   }
 
 
 }
 
+//wielkosc pakietu w bajtach
 unsigned int GenPacket::getPacketSize()
 {
   if(head == NULL && value == NULL )return 0;
@@ -227,9 +230,11 @@ unsigned int GenPacket::getPacketSize()
   }
 }
 
+
+//zwraca wartosc pakietu
 void *GenPacket::getValue()
 {
- return (void*)this->value;
+   return (void*)this->value;
 }
 
 unsigned int GenPacket::getValueSize()
@@ -241,3 +246,24 @@ char *GenPacket::getValueAsCString()
 {
    return this->value;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
