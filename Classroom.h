@@ -2,7 +2,7 @@
 #define CLASSROOM_H
 
 struct Classroom {
-	char* id;
+	AnsiString id;
 };
 
 #endif

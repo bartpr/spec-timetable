@@ -4,12 +4,12 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="TimetableGUI.exe"/>
-    <OBJFILES value="TimetableGUI.obj FormMain.obj"/>
+    <OBJFILES value="TimetableGUI.obj FormMain.obj FrmDialogText.obj"/>
     <RESFILES value="TimetableGUI.res"/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) FormMain.dfm"/>
+    <RESDEPEN value="$(RESFILES) FormMain.dfm FrmDialogText.dfm"/>
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl.lib rtl.lib bcbsmp.lib vclx.lib"/>
@@ -49,6 +49,7 @@
       <FILE FILENAME="TimetableGUI.cpp" FORMNAME="" UNITNAME="TimetableGUI" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FormMain.cpp" FORMNAME="FormGUI" UNITNAME="FormMain" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Classroom.h" FORMNAME="" UNITNAME="Classroom.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FrmDialogText.cpp" FORMNAME="FormDialogText" UNITNAME="FrmDialogText" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

@@ -4,6 +4,7 @@
 #pragma hdrstop
 //---------------------------------------------------------------------------
 USEFORM("FormMain.cpp", FormGUI);
+USEFORM("FrmDialogText.cpp", FormDialogText);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -11,6 +12,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
         {
                  Application->Initialize();
                  Application->CreateForm(__classid(TFormGUI), &FormGUI);
+                 Application->CreateForm(__classid(TFormDialogText), &FormDialogText);
                  Application->Run();
         }
         catch (Exception &exception)

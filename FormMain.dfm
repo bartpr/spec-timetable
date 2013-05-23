@@ -1,9 +1,11 @@
 object FormGUI: TFormGUI
-  Left = 257
-  Top = 133
-  Width = 496
-  Height = 418
+  Left = 768
+  Top = 129
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
   Caption = 'Timetable'
+  ClientHeight = 360
+  ClientWidth = 480
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -60,7 +62,7 @@ object FormGUI: TFormGUI
     object TabSheet2: TTabSheet
       Caption = 'Classrooms'
       ImageIndex = 1
-      object ListBox1: TListBox
+      object LClassrooms: TListBox
         Left = 0
         Top = 0
         Width = 472
@@ -75,6 +77,7 @@ object FormGUI: TFormGUI
         Height = 25
         Caption = 'Add'
         TabOrder = 1
+        OnClick = Button1Click
       end
       object Button2: TButton
         Left = 72

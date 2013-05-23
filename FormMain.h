@@ -30,7 +30,7 @@ __published:	// IDE-managed Components
         TLabel *Label1;
         TLabel *Label2;
         TCSpinEdit *CSpinEdit2;
-        TListBox *ListBox1;
+        TListBox *LClassrooms;
         TButton *Button1;
         TButton *Button2;
         TButton *Button3;
@@ -66,9 +66,12 @@ __published:	// IDE-managed Components
         TButton *Button15;
         TRadioButton *RadioButton1;
         TRadioButton *RadioButton2;
+        void __fastcall Button1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFormGUI(TComponent* Owner);
+        AnsiString dialogResultText;
+        bool dialogResultHasText;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFormGUI *FormGUI;
