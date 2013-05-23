@@ -54,7 +54,7 @@ double Genotype::termsCollision()
           tmpPenalty--;
         }
 
-  penalty+= tmpPenalty;
+  mark+= tmpPenalty;
   return tmpPenalty;
 
 }
