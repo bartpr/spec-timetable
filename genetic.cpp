@@ -14,11 +14,12 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     //Pokolenia (petla glowna algorytmu genetycznego)
     for(int i=0; i<numberOfGenerations; i++)
     {
+        generateParents(genotypes, numberOfGenotypes);
+        //Tworzenie nowego pokolenia
+        for(int i=0; i<numberOfGenotypes; i++)
+        {
         
-
-
-
-
+        }
     }
 }
 

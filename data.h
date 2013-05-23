@@ -1,4 +1,3 @@
-
 #ifndef dataH
 #define dataH
 #include <vector>
@@ -20,7 +19,7 @@ public:
     Data(unsigned char NumberOfLessons, unsigned char NumberOfTerms,  unsigned char NumberOfRooms);
 //    ~Data();
 
-protected:
+//protected:
     friend class Genotype;
     unsigned short numberOfLessons; //Ilosc genow
     unsigned char numberOfTerms; //Ilosc terminow w szkole np: 14*5 dni
