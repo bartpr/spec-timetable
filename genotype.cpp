@@ -18,6 +18,9 @@ Genotype::~Genotype()
 
 void Genotype::Evaluation()
 {
-cout<<"hohohohoho";
+  penalty = false;
+  mark = 0;
+  //zalozenia przed ocena
+
 
 }//funkcja oceniaj¹ca
