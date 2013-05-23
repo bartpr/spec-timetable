@@ -6,13 +6,17 @@
     Na ka¿dym komputerze jest 1 obiekt tej klasy.
 */
 
+<<<<<<< HEAD
 #include <vector>
 using namespace std;
+=======
+>>>>>>> ed2da4a22659cf0bf23886eb8659ac3d88add8d9
 class Data
 {
 public:
     Data(unsigned char numberOfGroups);
  //   ~Data();
+
 
 //protected:
     unsigned char numerOfGroups;
@@ -24,8 +28,8 @@ public:
     {
       static unsigned short knots;//liczba utworzonych wezlow
       unsigned short id;
-      knot* subgroups;//podzial grupy na pod grupy
-      unsigned short* lessons;//lekcje jaka zawiera dana grupa
+      knot *subgroups;//podzial grupy na podgrupy
+      unsigned short *lessons;//lekcje jaka zawiera dana grupa
       vector<unsigned short> checked;//sprawdzane wezla
     } *k; //korzen lasu, najbardziej ogolna grupa
 };
