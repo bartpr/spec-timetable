@@ -184,7 +184,7 @@ int Distributor::sendPopulation(int id, void *data)
 	void *send_buf = malloc(hdr.len);
 	memcpy(send_buf, &hdr, sizeof(hdr));
 	memcpy(send_buf+sizeof(hdr), data, sizeof(data));
-	int status = q->getClient(id)->getSocket()->tsend(send_buf, hdr.len);
+	int status = q->getClient(id)->getSocket()->tsend((char*)send_buf, hdr.len);
 	free(send_buf);
 	return status;
 }
@@ -206,7 +206,7 @@ int Distributor::instruct(int id, void *data)
 	void *send_buf = malloc(hdr.len);
 	memcpy(send_buf, &hdr, sizeof(hdr));
 	memcpy(send_buf+sizeof(hdr), data, sizeof(data));
-	int status = q->getClient(id)->getSocket()->tsend(send_buf, hdr.len);
+	int status = q->getClient(id)->getSocket()->tsend((char*)send_buf, hdr.len);
 	free(send_buf);
 	return status;
 }
