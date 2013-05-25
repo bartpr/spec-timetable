@@ -7,6 +7,7 @@
 class Gene
 {
 public:
+    Gene();
     Gene(unsigned char term, unsigned char room);
     ~Gene();
 protected:

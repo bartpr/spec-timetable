@@ -8,6 +8,7 @@
 */
 class Genotype
 {
+friend void crossover(Genotype* genotype1, Genotype* genotype2);
 public:
     Genotype(const Data &data);
     ~Genotype();
