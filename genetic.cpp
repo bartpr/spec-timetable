@@ -14,35 +14,89 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     //Pokolenia (petla glowna algorytmu genetycznego)
     for(int i=0; i<numberOfGenerations; i++)
     {
-        generateParents(genotypes, numberOfGenotypes);
+        genotypes = generateParents(genotypes, numberOfGenotypes);
         //Tworzenie nowego pokolenia
-        for(int i=0; i<numberOfGenotypes; i++)
+        for(int j=0; j<numberOfGenotypes; j++)
         {
             //Krzyzowanie
-            crossover(genotypes[i], genotypes[i+1]);
+            crossover(genotypes[j], genotypes[j+1], data.numberOfAllLessons);
+            j++;
         }
     }
 }
 
-void generateParents(Genotype** genotypes, int numberOfGenotypes)
+Genotype** generateParents(Genotype** genotypes, int numberOfGenotypes)
 {
+    Genotype** temp = new Genotype*[numberOfGenotypes];
+    for(int i=0; i<numberOfGenotypes; i++)
+    {
+        temp[i] = new Genotype(genotypes[i]);
+    }
+    int sum=0;
+    //Odejmowanie minumum jest opcjonalne - mozna usunac(zaleznie od efektywnosci)
+    int min=genotypes[0]->mark;
+    for(int i=1;i<numberOfGenotypes;i++)
+    {
+        if(genotypes[i]->mark<min)
+        {
+            min=genotypes[i]->mark;    
+        }
+    }
+    min--;
 
+    for(int i=0;i<numberOfGenotypes;i++)
+    {
+        genotypes[i]->mark-=min;
+        sum+=genotypes[i]->mark;
+        genotypes[i]->mark=sum;
+    }
+    for(int i=0;i<numberOfGenotypes;i++)
+    {
+        int random = rand()%sum;
+        for(int j=0;j<numberOfGenotypes;i++)
+        {
+            if(genotypes[j]->mark>=random)
+            {
+                //"Kopiowanie" danych
+                for(int k=0; k<genotypes[j]->numberOfGenes;k++)
+                    temp[i]->genes[k]= new Gene(genotypes[j]->genes[k]->Term(), genotypes[j]->genes[k]->Room());
+                break;
+            }
+        }
+    }
+    for(int i=0; i<numberOfGenotypes; i++)
+        genotypes[i]->~Genotype();
+    return temp;
 }
 
-void crossover(Genotype* genotype1, Genotype* genotype2)
+void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes)
 {
-    //Ocena nowych osobnikow
-    Gene *temp;
-
-
-    int i=0; //Tutaj bedzie petla for, losowanie przedzialu (k) itd.
-    temp = genotype1->genes[i];
-    genotype1->genes[i] = genotype2->genes[i];
-    genotype2->genes[i] = temp;
-    //Tutaj zakonczy sie petla
+    Gene* temp;
+    int f=rand()%numberOfGenes; //Poczatek krzyzowania
+    int l=rand()%(numberOfGenes-f)+f; //Koniec krzyzowania
+    while(f<l)
+    {
+        temp = genotype1->genes[f];
+        genotype1->genes[f] = genotype2->genes[f];
+        genotype2->genes[f] = temp;
+        f++;
+    }
     delete temp;
+    mutation(genotype1, numberOfGenes);
+    mutation(genotype2, numberOfGenes);
+    //Ocena nowych osobnikow
     genotype1->Evaluation();
     genotype2->Evaluation();
+}
+
+void mutation(Genotype* genotype, int numberOfGenes)
+{
+    if(rand()%1000<1)//szansa 0,1%
+    {
+        int k = rand()%numberOfGenes;
+        delete genotype->genes[k];
+        genotype->genes[k] = new Gene(rand()%genotype->numberOfTerms, rand()%genotype->numberOfRooms);
+    }
 }
 
 

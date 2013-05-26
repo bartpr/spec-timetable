@@ -10,6 +10,8 @@ public:
     Gene();
     Gene(unsigned char term, unsigned char room);
     ~Gene();
+    unsigned char Term();
+    unsigned char Room();
 protected:
     unsigned char term;
     unsigned char room;

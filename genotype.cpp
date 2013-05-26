@@ -1,10 +1,16 @@
-#include <stdlib.h>
-#include <time.h>
 #include "genotype.h"
+
+Genotype::Genotype(const Genotype* genotype)
+{
+    numberOfGenes = genotype->numberOfGenes;
+    numberOfRooms = genotype->numberOfRooms;
+    numberOfTerms = genotype->numberOfTerms;
+    genes = new Gene*[numberOfGenes];
+}
 
 Genotype::Genotype(const Data &data)
 {
-    numberOfGenes = data.numberOfLessons;
+    numberOfGenes = data.numberOfAllLessons;
     numberOfRooms = data.numberOfRooms;
     numberOfTerms = data.numberOfTerms;
     genes = new Gene*[numberOfGenes];

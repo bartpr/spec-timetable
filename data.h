@@ -16,12 +16,12 @@ class Data
 {
 public:
 
-    Data(unsigned char NumberOfLessons, unsigned char NumberOfTerms,  unsigned char NumberOfRooms);
+    Data(unsigned char NumberOfAllLessons, unsigned char NumberOfTerms,  unsigned char NumberOfRooms);
 //    ~Data();
 
 //protected:
     friend class Genotype;
-    unsigned short numberOfLessons; //Ilosc genow
+    unsigned short numberOfAllLessons; //Ilosc genow
     unsigned char numberOfTerms; //Ilosc terminow w szkole np: 14*5 dni
     unsigned char numberOfRooms; //Ilosc sal
 

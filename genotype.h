@@ -1,5 +1,7 @@
 #ifndef genotypeH
 #define genotypeH
+#include <stdlib.h>
+#include <time.h>
 #include "gene.h"
 #include "data.h"
 /*
@@ -8,8 +10,11 @@
 */
 class Genotype
 {
-friend void crossover(Genotype* genotype1, Genotype* genotype2);
+friend void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes);
+friend void generateParents(Genotype** genotypes, int numberOfGenotypes);
+friend void mutation(Genotype* genotype, int numberOfGenes);
 public:
+    Genotype(const Genotype* genotype);
     Genotype(const Data &data);
     ~Genotype();
     void Evaluation(); //Funkcja oceniaj¹ca
