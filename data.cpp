@@ -1,5 +1,5 @@
 #include "data.h"
-unsigned short Data::knot::knots = 0;
+unsigned short Data::Node::nodes = 0;
 
 
 

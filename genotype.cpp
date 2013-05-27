@@ -64,3 +64,52 @@ bool Genotype::Mark(double &mark)
     mark = this->mark;
     return penalty;
 }
+
+double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
+{
+	double tmpPenalty = 0;
+	if(p== 0 && q == 0)
+	{
+		for(int i = 0; i < p->numberOfSubgroups; i++)
+			tmpPenalty += collisionsInClass(d, d.k, d.k->subgroups[i]);
+		return tmpPenalty;
+	}
+	if(p->numberOfLessons == 0)
+	{
+		p->checked.push_back(q->id);
+		q->checked.push_back(p->id);
+	}
+	else
+	{
+		bool flag = false;
+		for(int i = 0; i < p->checked.size(); i++)
+			if(p->checked[i] == q->id)
+			{
+				flag = true;
+				break;
+			}
+		if(!flag)
+		{
+			bool *tab = new bool[d.numberOfTerms];
+			for(int i = 0; i < d.numberOfTerms; i++)
+				tab[i] = false;
+			for(int i = 0; i < p->numberOfLessons; i++)
+				tab[genes[p->lessons[i]]->term] = true;
+			for(int i = 0; i < q->numberOfLessons; i++)
+				if(tab[genes[q->lessons[i]]->term])
+					tmpPenalty++;
+			p->checked.push_back(q->id);
+			q->checked.push_back(p->id);
+			delete tab;
+		}
+		for(int i = 0; i < q->numberOfSubgroups; i++)
+		{
+			tmpPenalty += collisionsInClass(d, p, q->subgroups[i]);
+		}
+	}
+	for(int i = 0; i < q->numberOfSubgroups; i++)
+	{
+		tmpPenalty += collisionsInClass(d, q, q->subgroups[i]);
+	}
+	return tmpPenalty;
+}

@@ -30,13 +30,16 @@ public:
     {
         unsigned char group, teacher, subject; //unikalne identyfikatory grupy, nauczyciela, przedmiotu
     } *tab; //wszystkie informacje o konkretnym genie
-    struct knot
+    struct Node
     {
-      static unsigned short knots;//liczba utworzonych wezlow
-      unsigned short id;
-      knot *subgroups;//podzial grupy na podgrupy
-      unsigned short *lessons;//lekcje jaka zawiera dana grupa
-      vector<unsigned short> checked;//sprawdzane wezla
+		Node() : id(nodes) { nodes++; }      
+		static unsigned short nodes;//liczba utworzonych wezlow
+		unsigned short id;
+		unsigned char numberOfSubgroups;
+		Node **subgroups;//podzial grupy na podgrupy
+		unsigned char numberOfLessons;
+		unsigned short *lessons;//lekcje jaka zawiera dana grupa
+		vector<unsigned short> checked;//sprawdzane wezla
     } *k; //korzen lasu, najbardziej ogolna grupa
 };
 #endif

@@ -191,8 +191,32 @@ int main(int argc, char* argv[])
     d.tab[77].subject = 13;
     d.tab[78].subject = 13;
     d.tab[79].subject = 14;
-    
-    for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
+
+	Data::Node *p;
+	d.k = new Data::Node;
+	d.k->lessons = 0;
+	d.k->numberOfLessons = 0;
+	d.k->numberOfSubgroups = 2; //ilosc klas
+	d.k->subgroups = new Data::Node*[d.k->numberOfSubgroups];
+	d.k->subgroups[0] = new Data::Node;
+	d.k->subgroups[1] = new Data::Node;
+	d.k->subgroups[0]->numberOfLessons = /*ilosc lekcji*/;
+	d.k->subgroups[0]->lessons = new short[d.k->subgroups[0]->numberOfLessons];
+	//trzeba wpisac numery lekcji
+	d.k->subgroups[0]->numberOfSubgroups = 2; //ilosc grup w I klasie
+	d.k->subgroups[0]->subgroups = new Data::Node*[d.k->subgroups[0]->numberOfSubgroups];
+	d.k->subgroups[0]->subgroups[0] = new Data::Node;
+	d.k->subgroups[0]->subgroups[1] = new Data::Node;
+	d.k->subgroups[0]->subgroups[0]->numberOfLessons = d.k->subgroups[0]->subgroups[1]->numberOfLessons = /*ilosc lekcji*/;
+	d.k->subgroups[0]->subgroups[0]->numberOfSubgroups = d.k->subgroups[0]->subgroups[1]->numberOfSubgroups = 4;
+	d.k->subgroups[0]->subgroups[0]->subgroups = d.k->subgroups[0]->subgroups[1]->subgroups = new Data::Node*[d.k->subgroups[0]->subgroups[1]->numberOfSubgroups];
+	//przepisac te informacje do innych grup w d.k->subgroups[0]->subgroups[0]->subgroups
+	d.k->subgroups[0]->subgroups[0]->subgroups[0] = new Data::Node;
+	d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfSubgroups = 0;
+	d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfLessons = /*ilosc lekcji*/;
+	d.k->subgroups[0]->subgroups[0]->subgroups[0]->lessons = new short[d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfLessons];
+
+	for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
       cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
 
     geneticAlgorithm(d,10,100);
