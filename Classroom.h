@@ -1,8 +1,10 @@
 #ifndef CLASSROOM_H
 #define CLASSROOM_H
 
-struct Classroom {
-	AnsiString id;
+class Classroom {
+	public:
+		AnsiString id;
+		bool operator==(Classroom* c);
 };
 
 #endif

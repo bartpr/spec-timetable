@@ -25,6 +25,7 @@ void __fastcall TFormDialogText::FormShow(TObject *Sender)
                 Edit1->Text = "";
         }
         FormGUI->dialogResultHasText = false;
+        Edit1->SetFocus();
 }
 //---------------------------------------------------------------------------
 
@@ -49,3 +50,17 @@ void __fastcall TFormDialogText::Button2Click(TObject *Sender)
         FormDialogText->Close();
 }
 //---------------------------------------------------------------------------
+void __fastcall TFormDialogText::Edit1KeyDown(TObject *Sender, WORD &Key,
+      TShiftState Shift)
+{
+        if (Key == VK_RETURN) Button1->Click();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormDialogText::FormKeyDown(TObject *Sender, WORD &Key,
+      TShiftState Shift)
+{
+        if (Key == VK_ESCAPE) Button2->Click();
+}
+//---------------------------------------------------------------------------
+

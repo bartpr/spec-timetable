@@ -1,6 +1,6 @@
 object FormGUI: TFormGUI
-  Left = 768
-  Top = 129
+  Left = 762
+  Top = 172
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Timetable'
@@ -21,8 +21,8 @@ object FormGUI: TFormGUI
     Top = 0
     Width = 480
     Height = 360
-    ActivePage = TabSheet2
-    TabIndex = 1
+    ActivePage = TabSheet3
+    TabIndex = 2
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Main'
@@ -68,34 +68,36 @@ object FormGUI: TFormGUI
         Width = 472
         Height = 300
         ItemHeight = 13
+        Sorted = True
         TabOrder = 0
+        OnKeyDown = LClassroomsKeyDown
       end
-      object Button1: TButton
+      object BClassroomAdd: TButton
         Left = 0
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Add'
         TabOrder = 1
-        OnClick = Button1Click
+        OnClick = BClassroomAddClick
       end
-      object Button2: TButton
+      object BClassroomRename: TButton
         Left = 72
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Rename'
         TabOrder = 2
-        OnClick = Button2Click
+        OnClick = BClassroomRenameClick
       end
-      object Button3: TButton
+      object BClassroomRemove: TButton
         Left = 144
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Remove'
         TabOrder = 3
-        OnClick = Button3Click
+        OnClick = BClassroomRemoveClick
       end
     end
     object TabSheet3: TTabSheet
@@ -115,69 +117,69 @@ object FormGUI: TFormGUI
         Height = 13
         Caption = 'Classroom filter'
       end
-      object ListBox2: TListBox
+      object LSubjects: TListBox
         Left = 0
         Top = 24
         Width = 236
         Height = 276
         ItemHeight = 13
+        Sorted = True
         TabOrder = 0
+        OnClick = LSubjectsClick
+        OnKeyDown = LSubjectsKeyDown
       end
-      object ListBox5: TListBox
+      object LSubjectFilters: TListBox
         Left = 231
         Top = 24
         Width = 241
         Height = 276
         ItemHeight = 13
+        Sorted = True
         TabOrder = 1
       end
-      object Button4: TButton
+      object BSubjectAdd: TButton
         Left = 0
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Add'
         TabOrder = 2
+        OnClick = BSubjectAddClick
       end
-      object Button5: TButton
+      object BSubjectRename: TButton
         Left = 72
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Rename'
         TabOrder = 3
+        OnClick = BSubjectRenameClick
       end
-      object Button6: TButton
+      object BSubjectRemove: TButton
         Left = 144
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Remove'
         TabOrder = 4
+        OnClick = BSubjectRemoveClick
       end
-      object Button13: TButton
+      object BSubjectFilterAdd: TButton
         Left = 231
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Add'
         TabOrder = 5
+        OnClick = BSubjectFilterAddClick
       end
-      object Button14: TButton
+      object BSubjectFilterRemove: TButton
         Left = 303
         Top = 305
         Width = 65
         Height = 25
-        Caption = 'Rename'
-        TabOrder = 6
-      end
-      object Button15: TButton
-        Left = 375
-        Top = 305
-        Width = 65
-        Height = 25
         Caption = 'Remove'
-        TabOrder = 7
+        TabOrder = 6
       end
       object RadioButton1: TRadioButton
         Left = 347
@@ -185,7 +187,7 @@ object FormGUI: TFormGUI
         Width = 62
         Height = 17
         Caption = 'Whitelist'
-        TabOrder = 8
+        TabOrder = 7
       end
       object RadioButton2: TRadioButton
         Left = 411
@@ -193,7 +195,7 @@ object FormGUI: TFormGUI
         Width = 62
         Height = 17
         Caption = 'Blacklist'
-        TabOrder = 9
+        TabOrder = 8
       end
     end
     object TabSheet4: TTabSheet
@@ -219,6 +221,7 @@ object FormGUI: TFormGUI
         Width = 236
         Height = 276
         ItemHeight = 13
+        Sorted = True
         TabOrder = 0
       end
       object Button7: TButton
@@ -267,6 +270,7 @@ object FormGUI: TFormGUI
         Width = 241
         Height = 276
         ItemHeight = 13
+        Sorted = True
         TabOrder = 6
       end
       object Button12: TButton

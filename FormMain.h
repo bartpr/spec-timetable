@@ -16,6 +16,9 @@
 #include "CGAUGES.h"
 #include "pies.h"
 #include <ExtCtrls.hpp>
+
+#include <vector>
+using namespace std;
 //---------------------------------------------------------------------------
 class TFormGUI : public TForm
 {
@@ -31,9 +34,9 @@ __published:	// IDE-managed Components
         TLabel *Label2;
         TCSpinEdit *CSpinEdit2;
         TListBox *LClassrooms;
-        TButton *Button1;
-        TButton *Button2;
-        TButton *Button3;
+        TButton *BClassroomAdd;
+        TButton *BClassroomRename;
+        TButton *BClassroomRemove;
         TListBox *ListBox3;
         TButton *Button7;
         TButton *Button8;
@@ -56,24 +59,33 @@ __published:	// IDE-managed Components
         TMenuItem *About1;
         TLabel *Label5;
         TLabel *Label6;
-        TListBox *ListBox2;
-        TListBox *ListBox5;
-        TButton *Button4;
-        TButton *Button5;
-        TButton *Button6;
-        TButton *Button13;
-        TButton *Button14;
-        TButton *Button15;
+        TListBox *LSubjects;
+        TListBox *LSubjectFilters;
+        TButton *BSubjectAdd;
+        TButton *BSubjectRename;
+        TButton *BSubjectRemove;
+        TButton *BSubjectFilterAdd;
+        TButton *BSubjectFilterRemove;
         TRadioButton *RadioButton1;
         TRadioButton *RadioButton2;
-        void __fastcall Button1Click(TObject *Sender);
-        void __fastcall Button3Click(TObject *Sender);
-        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall BClassroomAddClick(TObject *Sender);
+        void __fastcall BClassroomRemoveClick(TObject *Sender);
+        void __fastcall BClassroomRenameClick(TObject *Sender);
+        void __fastcall BSubjectAddClick(TObject *Sender);
+        void __fastcall BSubjectRenameClick(TObject *Sender);
+        void __fastcall BSubjectRemoveClick(TObject *Sender);
+        void __fastcall LClassroomsKeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift);
+        void __fastcall LSubjectsKeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift);
+        void __fastcall BSubjectFilterAddClick(TObject *Sender);
+        void __fastcall LSubjectsClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFormGUI(TComponent* Owner);
         AnsiString dialogResultText;
         bool dialogResultHasText;
+		vector<AnsiString> dialogComboItems;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFormGUI *FormGUI;

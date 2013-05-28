@@ -3,7 +3,6 @@ object FormDialogText: TFormDialogText
   Top = 181
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
-  Caption = 'Input text'
   ClientHeight = 96
   ClientWidth = 320
   Color = clBtnFace
@@ -13,8 +12,10 @@ object FormDialogText: TFormDialogText
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   OnClose = FormClose
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -24,6 +25,7 @@ object FormDialogText: TFormDialogText
     Width = 289
     Height = 21
     TabOrder = 0
+    OnKeyDown = Edit1KeyDown
   end
   object Button1: TButton
     Left = 88
