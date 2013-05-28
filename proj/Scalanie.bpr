@@ -22,8 +22,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Scalanie.bpf"/>
-    <INCLUDEPATH value="..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\include;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\..\nowy\include;..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\include;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="..\..\nowy\include;..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\lib;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>

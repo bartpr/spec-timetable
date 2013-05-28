@@ -5,9 +5,7 @@
 #include <GenPacket.h>
 #include <tsocket.h>
 #include <winsock2.h>
-#include <clientqueue.h>
-#include <distributor.h>
-#include <Serialization.h>
+
 
 using namespace std;
 
@@ -54,15 +52,12 @@ int main(int argc, char* argv[])
         delete []str;
         str = NULL;
         str = new char[20];
-        str = "juhc ci w lana";
+        str = "chuj ci w dupala";
 
         pack->setValue(str,strlen(str));
         delete []str;
         pack->setPacketCode(13);
         validationPacket(pack->getPacket());
-
-        GenPacket *readpack = new GenPacket(pack->getPacket());
-        validationPacket(readpack->getPacket());
 
         tsocket *socket = new tsocket(SOCK_STREAM,"sock");
         socket->taddress(NULL,"1223");
