@@ -196,37 +196,43 @@ int main(int argc, char* argv[])
     d.tab[i++].subject = 4;
     d.tab[i++].subject = 5; //rel
     d.tab[i++].subject = 5;
-    d.tab[i++].subject = 6; //niem II
-    d.tab[i++].subject = 6;
     d.tab[i++].subject = 7;  //wf
     d.tab[i++].subject = 7;
     d.tab[i++].subject = 7;
     d.tab[i++].subject = 8;   //geo
     d.tab[i++].subject = 9;   //hist
     d.tab[i++].subject = 9;
-    d.tab[i++].subject =  11;  //niemiecki I
-    d.tab[i++].subject =  11;
     d.tab[i++].subject =  12;  //fizyka
     d.tab[i++].subject =  13;   //zwo
+    d.tab[i++].subject =  15;   //chemia
+  //lekcje klasa I
+
+   //     grupa I
+    d.tab[i++].subject =  11;  //niemiecki I
+    d.tab[i++].subject =  11;
     d.tab[i++].subject =  14;   //progr  I
     d.tab[i++].subject =  14;
     d.tab[i++].subject =  14;
     d.tab[i++].subject =  14;
-    d.tab[i++].subject =  15;   //chemia
     d.tab[i++].subject =  16;   //j ang I
     d.tab[i++].subject =  16;
-    d.tab[i++].subject =  17;   //j ang II
-    d.tab[i++].subject =  17;
     d.tab[i++].subject =  18;   //sois
     d.tab[i++].subject =  18;
     d.tab[i++].subject =  18;
+
+ //       grupa II
+    d.tab[i++].subject =  17;   //j ang II
+    d.tab[i++].subject =  17;
     d.tab[i++].subject =  19;  //sois II
     d.tab[i++].subject =  19;
     d.tab[i++].subject =  19;
     d.tab[i++].subject =  20;   //progr II
     d.tab[i++].subject =  20;
     d.tab[i++].subject =  20;
-    d.tab[i++].subject =  20;  //nauczyciele klasa I
+    d.tab[i++].subject =  20;
+    d.tab[i++].subject = 6; //niem II
+    d.tab[i++].subject = 6;
+
 
     d.tab[i++].subject = 10;
     d.tab[i++].subject = 10;
@@ -257,51 +263,56 @@ int main(int argc, char* argv[])
 
 
     //klasa II
-    d.tab[i++].subject = 1;
+    d.tab[i++].subject = 1; //biologia
+    d.tab[i++].subject = 2; //matema
     d.tab[i++].subject = 2;
     d.tab[i++].subject = 2;
     d.tab[i++].subject = 2;
     d.tab[i++].subject = 2;
-    d.tab[i++].subject = 2;
-    d.tab[i++].subject = 3;
+    d.tab[i++].subject = 3;  //pp
+    d.tab[i++].subject = 4; //pol
     d.tab[i++].subject = 4;
     d.tab[i++].subject = 4;
-    d.tab[i++].subject =  4;
     d.tab[i++].subject = 4;
+    d.tab[i++].subject = 5; //rel
     d.tab[i++].subject = 5;
-    d.tab[i++].subject = 5;
-    d.tab[i++].subject = 6;
-    d.tab[i++].subject = 6;
+    d.tab[i++].subject = 7;  //wf
     d.tab[i++].subject = 7;
     d.tab[i++].subject = 7;
-    d.tab[i++].subject = 7;
-    d.tab[i++].subject = 8;
+    d.tab[i++].subject = 8;   //geo
+    d.tab[i++].subject = 9;   //hist
     d.tab[i++].subject = 9;
-    d.tab[i++].subject = 9;
+    d.tab[i++].subject =  12;  //fizyka
+    d.tab[i++].subject =  13;   //zwo
+    d.tab[i++].subject =  15;   //chemia
+  //lekcje klasa I
+
+   //     grupa I
+    d.tab[i++].subject =  11;  //niemiecki I
     d.tab[i++].subject =  11;
-    d.tab[i++].subject =  11;
-    d.tab[i++].subject =  12;
-    d.tab[i++].subject =  13;
+    d.tab[i++].subject =  14;   //progr  I
     d.tab[i++].subject =  14;
     d.tab[i++].subject =  14;
     d.tab[i++].subject =  14;
-    d.tab[i++].subject =  14;
-    d.tab[i++].subject =  15;
+    d.tab[i++].subject =  16;   //j ang I
     d.tab[i++].subject =  16;
-    d.tab[i++].subject =  16;
+    d.tab[i++].subject =  18;   //sois
+    d.tab[i++].subject =  18;
+    d.tab[i++].subject =  18;
+
+ //       grupa II
+    d.tab[i++].subject =  17;   //j ang II
     d.tab[i++].subject =  17;
-    d.tab[i++].subject =  17;
-    d.tab[i++].subject =  18;
-    d.tab[i++].subject =  18;
-    d.tab[i++].subject =  18;
+    d.tab[i++].subject =  19;  //sois II
     d.tab[i++].subject =  19;
     d.tab[i++].subject =  19;
-    d.tab[i++].subject =  19;
+    d.tab[i++].subject =  20;   //progr II
     d.tab[i++].subject =  20;
     d.tab[i++].subject =  20;
     d.tab[i++].subject =  20;
-    d.tab[i++].subject =  20;
-    //nauczyciele klasa II
+    d.tab[i++].subject = 6; //niem II
+    d.tab[i++].subject = 6;
+
 
     d.tab[i++].subject = 10;
     d.tab[i++].subject = 10;
