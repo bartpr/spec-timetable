@@ -22,6 +22,7 @@ Client::Client(const char *ip, const char *port)
 	char instance_name[32];
 	sprintf(instance_name, "terve://socket/%x", this->id);
 	this->sock = new tsocket(SOCK_STREAM, instance_name);
+	this->sock->taddress(ip, port);
 }
 //-----------------------------------------------------------------------------
 
@@ -49,7 +50,7 @@ tsocket *Client::getSocket(void)
 void Client::dump(void)
 /* Print client information */
 {
-	printf("%d [ %s ] (%d)\n",
+	printf("%-12d [ %-25s ] (%d)\n",
 			id,
 			this->sock->tgetInstanceName(),
 			this->sock->tgetDescriptor()
@@ -80,7 +81,7 @@ Queue::~Queue()
 	if(this->index == 0) free(list);
 	else
 	{
-		for(int i=0; i <= this->index; i++)
+		for(int i=0; i < this->index; i++)
 			if(this->list[i] != NULL) delete this->list[i];
 		free(list);
 	}
@@ -115,7 +116,7 @@ Client **Queue::getList(void)
 Client *Queue::getClient(int id)
 /* Return client for given ID */
 {
-	for(int i=0; i <= this->index; i++) 
+	for(int i=0; i < this->index; i++) 
 		if(this->list[i] != NULL)
 			if(this->list[i]->getID() == id) return this->list[i];
 	return NULL;
@@ -124,7 +125,7 @@ Client *Queue::getClient(int id)
 
 Client *Queue::getClientBySocket(tsocket *sock)
 {
-	for(int i=0; i <= this->index; i++) 
+	for(int i=0; i < this->index; i++) 
 		if(!strcmp(this->list[i]->getSocket()->tgetInstanceName(), sock->tgetInstanceName()))
 			return this->list[i];
 	return NULL;
@@ -134,7 +135,7 @@ Client *Queue::getClientBySocket(tsocket *sock)
 void Queue::dump(void)
 /* Print all clients' in list information */
 {
-	for(int i=0; i <= this->index; i++) 
+	for(int i=0; i < this->index; i++) 
 		if(this->list[i] != NULL)
 			this->list[i]->dump();
 }

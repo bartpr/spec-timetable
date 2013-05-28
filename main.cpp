@@ -20,8 +20,12 @@ int main(void)
 	printf("Added client "); D->getClient(id)->dump();
 	printf("get ok\n");
 	D->dump();
+	//printf("Initialized %d clients\n", D->initClients());perror("main");
 	delete D;
 	printf("delete ok\n");
 	printf("%p\n", D);
+	// tsocket *s = new tsocket(SOCK_STREAM, "testing");
+	// s->taddress(NULL, "9989");
+	// printf("%d", s->tgetPort());
 	return 0;
 }

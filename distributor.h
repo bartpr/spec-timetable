@@ -28,11 +28,11 @@ public:
 	Client *getClient(int id);
 	void dump(void);
 	//--- PROTOCOL IMPLEMENTATION ---//
-	int initClients(void);					// sent to all clients
+	/*int initClients(void);					// sent to all clients
 	int sendPopulation(int id, void *data);	// require id 
 	int dataWait(void);						// do not need any input
 	int instruct(int id, void *data);		// require client id
-	int shutdown(void);						// sent to all
+	int shutdown(void);	*/					// sent to all
 };
 
 #endif /* __DISTRIBUTOR_H__ */

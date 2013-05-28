@@ -37,4 +37,7 @@ typedef struct _header {
 #endif
 //-----------------------------------------------------------------------------
 
+int mkpacket(void *destination, int code, void *data, int datalen);
+int dcpacket(void *destination, int *code, void *data);
+
 #endif /* __TTPROTO_H__ */

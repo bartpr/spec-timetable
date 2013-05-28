@@ -16,15 +16,13 @@ protected:
 public:
 	void *returnDistribution(void);
 	//--- PROTOCOL IMPLEMENTATION ---//
-	int waitInit(void);
+	/*int waitInit(void);
 	int waitPopulation(void);
 	int wait(void);
 	int sendData(void);
-	int waitInstruct(void);
+	int waitInstruct(void);*/
 
 };
 //-----------------------------------------------------------------------------
-
-void *mkpacket(header *hdr, void *data);
 
 #endif /* __DCLIENT_H__ */

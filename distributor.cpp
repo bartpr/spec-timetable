@@ -121,9 +121,9 @@ void Distributor::dump(void)
 }
 //-----------------------------------------------------------------------------
 
-int Distributor::initClients(void)
+/*int Distributor::initClients(void)
 /* Initialize all clients in queue */
-{
+/*{
 	int index = this->q->getIndex();
 	Client **list = this->q->getList();
 	uint32_t i = 0;
@@ -134,13 +134,13 @@ int Distributor::initClients(void)
 					// sizeof(uint32_t) - ip addr
 					// sizeof(uint32_t) - port
 					// all values in NBO
-	for(i=0; i <= index; i++)
+	for(i=0; i < index; i++)
 	{
 		if(list[i] != NULL)
 		{
 			uint32_t id = htonl(list[i]->getID());
 			uint32_t port = htonl(list[i]->getSocket()->tgetPort());
-			uint32_t ip; // TODO: get binary IP from tsocket
+			uint32_t ip = 0; // TODO: get binary IP from tsocket
 					// copy id to buffer (1st entry of each record)
 			memcpy(buffer+sizeof(uint32_t) + i*(3*sizeof(uint32_t)), &id, sizeof(uint32_t));
 					// copy ip to buffer (2nd entry of each record) 
@@ -161,7 +161,7 @@ int Distributor::initClients(void)
 	memcpy(send_buf, &hdr, sizeof(hdr));
 	memcpy(send_buf+sizeof(hdr), buffer, sizeof(buffer));
 
-	for(i=0; i <= index; i++)
+	for(i=0; i < index; i++)
 	{ 
 		if(list[i] != NULL)
 		{
@@ -177,7 +177,7 @@ int Distributor::initClients(void)
 
 int Distributor::sendPopulation(int id, void *data)
 /* Distribute initial population among the clients */
-{
+/*{
 	header hdr;
 	hdr.len = sizeof(hdr)+sizeof(data);
 	hdr.code = INITPOPL;
@@ -186,20 +186,22 @@ int Distributor::sendPopulation(int id, void *data)
 	memcpy(send_buf+sizeof(hdr), data, sizeof(data));
 	int status = q->getClient(id)->getSocket()->tsend((char*)send_buf, hdr.len);
 	free(send_buf);
+
+	void *rec_buf = malloc(sizeof(header));
 	return status;
 }
 //-----------------------------------------------------------------------------
 
 int Distributor::dataWait(void)
 /* Wait for data from clients */
-{
+/*{
 
 }
 //-----------------------------------------------------------------------------
 
 int Distributor::instruct(int id, void *data)
 /* Send instructions to clients */
-{
+/*{
 	header hdr;
 	hdr.len = sizeof(hdr)+sizeof(data);
 	hdr.code = INITPOPL;
@@ -214,7 +216,7 @@ int Distributor::instruct(int id, void *data)
 
 int Distributor::shutdown(void)
 /* Shutdown all clients */
-{
+/*{
 
-}
+}*/
 //-----------------------------------------------------------------------------
