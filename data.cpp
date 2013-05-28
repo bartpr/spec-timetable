@@ -13,18 +13,7 @@ Data::Data(unsigned char numberOfLessons)
     tab = new Lesson[numberOfLessons];
 }
 
-void Data::Make_Forest( short *D_t ){
-	this->k= new knot;
-	int m=0;
-	while( D_t != '\0' ){
-		m++;
-	}
-	for( int i= 0; i< m; i++ ){
-	
-	}
-	
-}
-/*void Data::Make_Forest( short *Dolans_t ){
+void Data::Make_Forest( short *Dolans_t ){
     this->k= new knot;
 	k->id= ci;
 	ci++;
@@ -62,4 +51,4 @@ void Data::Make_Forest_p( short *Dolans_t, knot *k ){
 			k->subgroups[ i ]= NULL;
 		}
 	}
-}*/
+}

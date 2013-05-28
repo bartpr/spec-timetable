@@ -24,10 +24,9 @@ public:
     Data(unsigned char numberOfGroups);
     //~Data();
 	void Make_Forest( short *Dolans_t );
-	//void Make_Forest( short *Dolans_t );//pozniej
 
 protected:
-	//void Make_Forest_p( short *Dolans_t, knot *k );
+	void Make_Forest_p( short *Dolans_t, knot *k );
     unsigned char numerOfGroups;
     struct Lesson
     {
