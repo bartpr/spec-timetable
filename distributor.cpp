@@ -49,16 +49,12 @@ void Distributor::removeClient(int id)
 }
 //-----------------------------------------------------------------------------
 
-int Distributor::sendData(int id, header *hdr, void *data)
+int Distributor::sendData(int id, void *data)
 /* Send data to client of given ID */
 {
-	int hdrlen = sizeof(hdr);
-	void *buffer = (void*)malloc(hdr->len);
-	memcpy(buffer, hdr, hdrlen);
-	memcpy(buffer+hdrlen, data, hdr->len-hdrlen);
-	int status = q->getClient(id)->getSocket()->tsend((char*)buffer, hdr->len);
-	free(buffer);
-	return status;
+	header hdr;
+	memcpy(&hdr, data, sizeof(header));
+	return q->getClient(id)->getSocket()->tsend((char*)data, hdr->len);
 }
 //-----------------------------------------------------------------------------
 
@@ -85,7 +81,7 @@ int Distributor::recvData(int *id, void *buffer)
 			memcpy(hdr, rec_buf, hdrlen);
 			len = hdr->len - hdrlen;
 		}
-		memcpy(buffer+(rec_count-hdrlen), rec_buf, len); // potential memory leak
+		memcpy(buffer+(rec_count-hdrlen), rec_buf, n);
 		rec_count += n;
 	}
 	while(rec_count < hdr->len);
