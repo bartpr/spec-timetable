@@ -14,7 +14,6 @@ Genotype::Genotype(const Data &data)
     numberOfRooms = data.numberOfRooms;
     numberOfTerms = data.numberOfTerms;
     genes = new Gene*[numberOfGenes];
-    srand(time(NULL));
     for(unsigned int i=0;i<numberOfGenes;i++)
     {
         int terms = rand()%data.numberOfTerms;

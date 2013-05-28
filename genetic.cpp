@@ -7,6 +7,7 @@ using namespace std;
 
 void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGenotypes)
 {
+    srand(time(NULL));
     //Stworzenie populacji poczatkowej
     Genotype** genotypes = new Genotype*[numberOfGenotypes];
     for(int i=0; i<numberOfGenotypes; i++)
