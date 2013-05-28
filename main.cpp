@@ -81,8 +81,8 @@ int main(int argc, char* argv[])
     d.tab[50].teacher =  20;
     d.tab[51].teacher =  20;
     d.tab[52].teacher =  21;
-    d.tab[53].teacher =  21;
-    d.tab[54].teacher =  21;
+    d.tab[53].teacher =  1;
+    d.tab[54].teacher =  1;
     d.tab[55].teacher =  2;
     d.tab[56].teacher =  2;
     d.tab[57].teacher =  3;
@@ -200,21 +200,28 @@ int main(int argc, char* argv[])
 	d.k->subgroups = new Data::Node*[d.k->numberOfSubgroups];
 	d.k->subgroups[0] = new Data::Node;
 	d.k->subgroups[1] = new Data::Node;
-	d.k->subgroups[0]->numberOfLessons = /*ilosc lekcji*/;
+	d.k->subgroups[0]->numberOfLessons = d.k->subgroups[0]->numberOfLessons = /*ile lekcji w podgrupie*/;
 	d.k->subgroups[0]->lessons = new short[d.k->subgroups[0]->numberOfLessons];
+	d.k->subgroups[1]->lessons = new short[d.k->subgroups[0]->numberOfLessons];
 	//trzeba wpisac numery lekcji
 	d.k->subgroups[0]->numberOfSubgroups = 2; //ilosc grup w I klasie
+	d.k->subgroups[1]->numberOfSubgroups = 2; //ilosc grup w II klasie
 	d.k->subgroups[0]->subgroups = new Data::Node*[d.k->subgroups[0]->numberOfSubgroups];
 	d.k->subgroups[0]->subgroups[0] = new Data::Node;
 	d.k->subgroups[0]->subgroups[1] = new Data::Node;
+	d.k->subgroups[1]->subgroups = new Data::Node*[d.k->subgroups[0]->numberOfSubgroups];
+	d.k->subgroups[1]->subgroups[0] = new Data::Node;
+	d.k->subgroups[1]->subgroups[1] = new Data::Node;
 	d.k->subgroups[0]->subgroups[0]->numberOfLessons = d.k->subgroups[0]->subgroups[1]->numberOfLessons = /*ilosc lekcji*/;
+	d.k->subgroups[0]->subgroups[0]->lessons = new short[d.k->subgroups[0]->subgroups[0]->numberOfLessons];
 	d.k->subgroups[0]->subgroups[0]->numberOfSubgroups = d.k->subgroups[0]->subgroups[1]->numberOfSubgroups = 4;
 	d.k->subgroups[0]->subgroups[0]->subgroups = d.k->subgroups[0]->subgroups[1]->subgroups = new Data::Node*[d.k->subgroups[0]->subgroups[1]->numberOfSubgroups];
 	//przepisac te informacje do innych grup w d.k->subgroups[0]->subgroups[0]->subgroups
-	d.k->subgroups[0]->subgroups[0]->subgroups[0] = new Data::Node;
-	d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfSubgroups = 0;
-	d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfLessons = /*ilosc lekcji*/;
-	d.k->subgroups[0]->subgroups[0]->subgroups[0]->lessons = new short[d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfLessons];
+  for(/*...*/)
+    d.k->subgroups[0]->subgroups[0]->subgroups[i] = new Data::Node;
+    d.k->subgroups[0]->subgroups[0]->subgroups[i]->numberOfSubgroups = 0;
+    d.k->subgroups[0]->subgroups[0]->subgroups[i]->numberOfLessons = /*ilosc lekcji*/;
+    d.k->subgroups[0]->subgroups[0]->subgroups[i]->lessons = new short[d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfLessons];
 
 	for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
       cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
