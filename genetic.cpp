@@ -15,7 +15,8 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     //Pokolenia (petla glowna algorytmu genetycznego)
     for(int i=0; i<numberOfGenerations; i++)
     {
-        genotypes = generateParents(genotypes, numberOfGenotypes);
+        double* tableOfMarks = new double[numberOfGenotypes];
+        int* parents = generateParents(tableOfMarks, numberOfGenotypes);
         //Tworzenie nowego pokolenia
         for(int j=0; j<numberOfGenotypes; j += 2)
         {
@@ -27,49 +28,39 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     }
 }
 
-Genotype** generateParents(Genotype** genotypes, int numberOfGenotypes)
+int* generateParents(double* tableOfMarks, int numberOfGenotypes)
 {
-    Genotype** temp = new Genotype*[numberOfGenotypes];
-    for(int i=0; i<numberOfGenotypes; i++)
-    {
-        temp[i] = new Genotype(genotypes[i]);
-    }
+    int* parents = new int[numberOfGenotypes];
     int sum=0;
     //Odejmowanie minumum jest opcjonalne - mozna usunac(zaleznie od efektywnosci)
-    int min=genotypes[0]->mark;
+    int min=tableOfMarks[0];
     for(int i=1;i<numberOfGenotypes;i++)
     {
-        if(genotypes[i]->mark<min)
+        if(tableOfMarks[i]<min)
         {
-            min=genotypes[i]->mark;    
+            min=tableOfMarks[i];
         }
     }
     min--;
 
     for(int i=0;i<numberOfGenotypes;i++)
     {
-        genotypes[i]->mark-=min;
-        sum+=genotypes[i]->mark;
-        genotypes[i]->mark=sum;
+        tableOfMarks[i]-=min;
+        sum+=tableOfMarks[i];
+        tableOfMarks[i]=sum;
     }
     for(int i=0;i<numberOfGenotypes;i++)
     {
         int random = rand()%sum;
         for(int j=0;j<numberOfGenotypes;j++)
         {
-            if(genotypes[j]->mark>=random)
+            if(tableOfMarks[j]>=random)
             {
-                //"Kopiowanie" danych
-                for(int k=0; k<genotypes[j]->numberOfGenes;k++)
-                    temp[i]->genes[k]= new Gene(genotypes[j]->genes[k]->Term(), genotypes[j]->genes[k]->Room());
-                break;
+                parents[i]=j;
             }
         }
     }
-    for(int i=0; i<numberOfGenotypes; i++)
-        delete genotypes[i];
-    delete genotypes;
-    return temp;
+    return parents;
 }
 
 void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes)
@@ -98,4 +89,11 @@ void mutation(Genotype* genotype, int numberOfGenes)
     }
 }
 
+Genotype* copyGenotype(Genotype* genotype)
+{
+    Genotype* newGenotype = new Genotype(genotype);
+    for(int k=0; k<genotype->numberOfGenes;k++)
+        newGenotype->genes[k]= new Gene(genotype->genes[k]->Term(), genotype->genes[k]->Room());
+    return newGenotype;
+}
 
