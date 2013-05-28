@@ -9,11 +9,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Data d(80, 70, 80);
+    Data d(900, 70, 90);
 	/*
         Wczytywanie danych, tworzenie obiektow itd. -> Shockah
     */
-    geneticAlgorithm(d,10,100);
+    geneticAlgorithm(d,100,50000);
     system("pause");
     return 0;
 }

@@ -10,17 +10,19 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     {
         genotypes[i] = new Genotype(data);
         genotypes[i]->Evaluation();
+
     }
     //Pokolenia (petla glowna algorytmu genetycznego)
     for(int i=0; i<numberOfGenerations; i++)
     {
         genotypes = generateParents(genotypes, numberOfGenotypes);
         //Tworzenie nowego pokolenia
-        for(int j=0; j<numberOfGenotypes; j++)
+        for(int j=0; j<numberOfGenotypes; j += 2)
         {
             //Krzyzowanie
             crossover(genotypes[j], genotypes[j+1], data.numberOfAllLessons);
-            j++;
+            genotypes[j]->Evaluation();
+            genotypes[j+1]->Evaluation();
         }
     }
 }
@@ -53,7 +55,7 @@ Genotype** generateParents(Genotype** genotypes, int numberOfGenotypes)
     for(int i=0;i<numberOfGenotypes;i++)
     {
         int random = rand()%sum;
-        for(int j=0;j<numberOfGenotypes;i++)
+        for(int j=0;j<numberOfGenotypes;j++)
         {
             if(genotypes[j]->mark>=random)
             {
@@ -65,7 +67,8 @@ Genotype** generateParents(Genotype** genotypes, int numberOfGenotypes)
         }
     }
     for(int i=0; i<numberOfGenotypes; i++)
-        genotypes[i]->~Genotype();
+        delete genotypes[i];
+    delete genotypes;
     return temp;
 }
 
@@ -81,12 +84,8 @@ void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes)
         genotype2->genes[f] = temp;
         f++;
     }
-    delete temp;
     mutation(genotype1, numberOfGenes);
     mutation(genotype2, numberOfGenes);
-    //Ocena nowych osobnikow
-    genotype1->Evaluation();
-    genotype2->Evaluation();
 }
 
 void mutation(Genotype* genotype, int numberOfGenes)

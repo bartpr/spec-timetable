@@ -11,7 +11,7 @@
 class Genotype
 {
 friend void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes);
-friend void generateParents(Genotype** genotypes, int numberOfGenotypes);
+friend Genotype** generateParents(Genotype** genotypes, int numberOfGenotypes);
 friend void mutation(Genotype* genotype, int numberOfGenes);
 public:
     Genotype(const Genotype* genotype);
