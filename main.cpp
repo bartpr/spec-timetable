@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Data d(200,200,200);
+    Data d(136,100,14*5);
 
     /* //wpisywanie do pliku
     fstream plik("pliczek.txt");
@@ -24,8 +24,8 @@ int main(int argc, char* argv[])
         Wczytywanie danych, tworzenie obiektow itd. -> Shockah
     */
 
-    for(int i = 0; i < 80; i++)
-        d.tab[i].group = i / 40 + 1;//wpisywanie grup
+    for(int i = 0; i < d.numberOfLessons; i++)
+        d.tab[i].group = i /(d.numberOfLessons/2) + 1;//wpisywanie grup
 
     //wpisywanie nauczycieli
 
