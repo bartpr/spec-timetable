@@ -1,6 +1,9 @@
 #include "genetic.h"
 #include "genotype.h"
 #include "data.h"
+#include <iostream>
+
+using namespace std;
 
 void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGenotypes)
 {
@@ -10,27 +13,35 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     {
         genotypes[i] = new Genotype(data);
         genotypes[i]->Evaluation();
-
     }
+    double* tableOfMarks = new double[numberOfGenotypes];
+    bool* tableOfPenalty = new bool[numberOfGenotypes];
     //Pokolenia (petla glowna algorytmu genetycznego)
     for(int i=0; i<numberOfGenerations; i++)
     {
-        double* tableOfMarks = new double[numberOfGenotypes];
-        int* parents = generateParents(tableOfMarks, numberOfGenotypes);
+        cout<<"Pokolenie "<<i<<endl;
+        for(int k=0; k>numberOfGenotypes; k++)
+        {
+            tableOfPenalty[k] = genotypes[k]->Mark(tableOfMarks[k]);
+        }
+        int* parents = new int[numberOfGenotypes];
+        generateParents(tableOfMarks, numberOfGenotypes, parents);
         //Tworzenie nowego pokolenia
         for(int j=0; j<numberOfGenotypes; j += 2)
         {
             //Krzyzowanie
-            crossover(genotypes[j], genotypes[j+1], data.numberOfAllLessons);
+            crossover(genotypes[parents[j]], genotypes[parents[j+1]], data.numberOfAllLessons);
             genotypes[j]->Evaluation();
             genotypes[j+1]->Evaluation();
         }
+        delete parents;
     }
+    delete tableOfMarks;
+    delete tableOfPenalty;
 }
 
-int* generateParents(double* tableOfMarks, int numberOfGenotypes)
+void generateParents(double* tableOfMarks, int numberOfGenotypes, int *parents)
 {
-    int* parents = new int[numberOfGenotypes];
     int sum=0;
     //Odejmowanie minumum jest opcjonalne - mozna usunac(zaleznie od efektywnosci)
     int min=tableOfMarks[0];
@@ -60,7 +71,6 @@ int* generateParents(double* tableOfMarks, int numberOfGenotypes)
             }
         }
     }
-    return parents;
 }
 
 void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes)
