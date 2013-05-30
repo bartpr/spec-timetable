@@ -21,8 +21,8 @@ object FormGUI: TFormGUI
     Top = 0
     Width = 480
     Height = 360
-    ActivePage = TabSheet3
-    TabIndex = 2
+    ActivePage = TabSheet1
+    TabIndex = 0
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Main'
@@ -48,6 +48,7 @@ object FormGUI: TFormGUI
         MaxValue = 7
         MinValue = 1
         TabOrder = 0
+        Value = 5
       end
       object CSpinEdit2: TCSpinEdit
         Left = 16
@@ -57,6 +58,7 @@ object FormGUI: TFormGUI
         MaxValue = 50
         MinValue = 1
         TabOrder = 1
+        Value = 14
       end
     end
     object TabSheet2: TTabSheet
@@ -136,6 +138,7 @@ object FormGUI: TFormGUI
         ItemHeight = 13
         Sorted = True
         TabOrder = 1
+        OnKeyDown = LSubjectFiltersKeyDown
       end
       object BSubjectAdd: TButton
         Left = 0
@@ -180,6 +183,7 @@ object FormGUI: TFormGUI
         Height = 25
         Caption = 'Remove'
         TabOrder = 6
+        OnClick = BSubjectFilterRemoveClick
       end
       object RSubjectFilterWhite: TRadioButton
         Left = 347
@@ -225,6 +229,8 @@ object FormGUI: TFormGUI
         ItemHeight = 13
         Sorted = True
         TabOrder = 0
+        OnClick = LTeachersClick
+        OnKeyDown = LTeachersKeyDown
       end
       object BTeacherAdd: TButton
         Left = 0
@@ -269,6 +275,7 @@ object FormGUI: TFormGUI
         Height = 25
         Caption = 'Remove'
         TabOrder = 5
+        OnClick = BTeacherSubjectRemoveClick
       end
       object LTeacherSubjects: TListBox
         Left = 231
@@ -278,6 +285,7 @@ object FormGUI: TFormGUI
         ItemHeight = 13
         Sorted = True
         TabOrder = 6
+        OnKeyDown = LTeacherSubjectsKeyDown
       end
     end
     object TabSheet5: TTabSheet

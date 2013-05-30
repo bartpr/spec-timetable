@@ -85,6 +85,15 @@ __published:	// IDE-managed Components
     void __fastcall BTeacherRenameClick(TObject *Sender);
     void __fastcall BTeacherRemoveClick(TObject *Sender);
     void __fastcall BTeacherSubjectAddClick(TObject *Sender);
+	void __fastcall BSubjectFilterRemoveClick(TObject *Sender);
+	void __fastcall LTeachersClick(TObject *Sender);
+	void __fastcall BTeacherSubjectRemoveClick(TObject *Sender);
+	void __fastcall LSubjectFiltersKeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift);
+	void __fastcall LTeachersKeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift);
+	void __fastcall LTeacherSubjectsKeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFormGUI(TComponent* Owner);

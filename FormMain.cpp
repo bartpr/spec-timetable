@@ -236,6 +236,8 @@ void __fastcall TFormGUI::BSubjectFilterAddClick(TObject *Sender)
 void __fastcall TFormGUI::LSubjectsClick(TObject *Sender)
 {
         LSubjectFilters->Clear();
+        RSubjectFilterWhite->Checked = false;
+        RSubjectFilterBlack->Checked = false;
         if (LSubjects->ItemIndex == -1) return;
 
         for (unsigned int i = 0; i < vSubjects.size(); i++) {
@@ -374,4 +376,96 @@ void __fastcall TFormGUI::BTeacherSubjectAddClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+
+void __fastcall TFormGUI::BSubjectFilterRemoveClick(TObject *Sender)
+{
+	if (LSubjects->ItemIndex == -1) return;
+    AnsiString str = LSubjects->Items->operator[](LSubjects->ItemIndex);
+    for (unsigned int i = 0; i < vSubjects.size(); i++) {
+            Subject* s = vSubjects[i];
+            if (s->name == str) {
+                    for (unsigned int j = 0; j < s->filters.size(); j++) {
+                    	if (s->filters[j]->id == LSubjectFilters->Items->operator[](LSubjectFilters->ItemIndex)) {
+                            s->filters.erase(s->filters.begin()+j);
+                            LSubjectFilters->Items->Delete(LSubjectFilters->ItemIndex);
+                        	break;
+                        }
+                    }
+                    return;
+            }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::LTeachersClick(TObject *Sender)
+{
+	LTeacherSubjects->Clear();
+    if (LTeachers->ItemIndex == -1) return;
+
+    for (unsigned int i = 0; i < vTeachers.size(); i++) {
+            Teacher* t = vTeachers[i];
+            if (t->name == LTeachers->Items->operator[](LTeachers->ItemIndex)) {
+                    for (unsigned int j = 0; j < t->teaches.size(); j++) {
+                            LTeacherSubjects->AddItem(t->teaches[j]->id,NULL);
+                    }
+                    return;
+            }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::BTeacherSubjectRemoveClick(TObject *Sender)
+{
+	if (LTeachers->ItemIndex == -1) return;
+    AnsiString str = LTeachers->Items->operator[](LTeachers->ItemIndex);
+    for (unsigned int i = 0; i < vTeachers.size(); i++) {
+            Teacher* t = vTeachers[i];
+            if (t->name == str) {
+                    for (unsigned int j = 0; j < t->teaches.size(); j++) {
+                    	if (t->teaches[j]->name == LTeacherSubjects->Items->operator[](LTeacherSubjects->ItemIndex)) {
+                            t->teaches.erase(t->teaches.begin()+j);
+                            LTeacherSubjects->Items->Delete(LTeacherSubjects->ItemIndex);
+                        	break;
+                        }
+                    }
+                    return;
+            }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::LSubjectFiltersKeyDown(TObject *Sender,
+      WORD &Key, TShiftState Shift)
+{
+	if (!LSubjectFilters->Focused()) return;
+    switch (Key) {
+            case VK_INSERT: BSubjectFilterAdd->Click(); break;
+            case VK_DELETE: BSubjectFilterRemove->Click(); break;
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::LTeachersKeyDown(TObject *Sender, WORD &Key,
+      TShiftState Shift)
+{
+	if (!LTeachers->Focused()) return;
+    switch (Key) {
+            case VK_INSERT: BTeacherAdd->Click(); break;
+            case VK_DELETE: BTeacherRemove->Click(); break;
+            case VK_F2: BTeacherRename->Click(); break;
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::LTeacherSubjectsKeyDown(TObject *Sender,
+      WORD &Key, TShiftState Shift)
+{
+	if (!LTeacherSubjects->Focused()) return;
+    switch (Key) {
+            case VK_INSERT: BTeacherSubjectAdd->Click(); break;
+            case VK_DELETE: BTeacherSubjectRemove->Click(); break;
+    }
+}
+//---------------------------------------------------------------------------
 
