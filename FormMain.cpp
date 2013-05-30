@@ -407,7 +407,7 @@ void __fastcall TFormGUI::LTeachersClick(TObject *Sender)
             Teacher* t = vTeachers[i];
             if (t->name == LTeachers->Items->operator[](LTeachers->ItemIndex)) {
                     for (unsigned int j = 0; j < t->teaches.size(); j++) {
-                            LTeacherSubjects->AddItem(t->teaches[j]->id,NULL);
+                            LTeacherSubjects->AddItem(t->teaches[j]->name,NULL);
                     }
                     return;
             }
