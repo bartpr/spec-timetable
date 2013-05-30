@@ -1,6 +1,6 @@
 object FormGUI: TFormGUI
-  Left = 762
-  Top = 172
+  Left = 322
+  Top = 333
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Timetable'
@@ -181,21 +181,23 @@ object FormGUI: TFormGUI
         Caption = 'Remove'
         TabOrder = 6
       end
-      object RadioButton1: TRadioButton
+      object RSubjectFilterWhite: TRadioButton
         Left = 347
         Top = 3
         Width = 62
         Height = 17
         Caption = 'Whitelist'
         TabOrder = 7
+        OnClick = RSubjectFilterWhiteClick
       end
-      object RadioButton2: TRadioButton
+      object RSubjectFilterBlack: TRadioButton
         Left = 411
         Top = 3
         Width = 62
         Height = 17
         Caption = 'Blacklist'
         TabOrder = 8
+        OnClick = RSubjectFilterBlackClick
       end
     end
     object TabSheet4: TTabSheet
@@ -215,7 +217,7 @@ object FormGUI: TFormGUI
         Height = 13
         Caption = 'Subjects teached'
       end
-      object ListBox3: TListBox
+      object LTeachers: TListBox
         Left = 0
         Top = 24
         Width = 236
@@ -224,47 +226,51 @@ object FormGUI: TFormGUI
         Sorted = True
         TabOrder = 0
       end
-      object Button7: TButton
+      object BTeacherAdd: TButton
         Left = 0
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Add'
         TabOrder = 1
+        OnClick = BTeacherAddClick
       end
-      object Button8: TButton
+      object BTeacherRename: TButton
         Left = 72
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Rename'
         TabOrder = 2
+        OnClick = BTeacherRenameClick
       end
-      object Button9: TButton
+      object BTeacherRemove: TButton
         Left = 144
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Remove'
         TabOrder = 3
+        OnClick = BTeacherRemoveClick
       end
-      object Button10: TButton
+      object BTeacherSubjectAdd: TButton
         Left = 231
         Top = 305
         Width = 65
         Height = 25
         Caption = 'Add'
         TabOrder = 4
+        OnClick = BTeacherSubjectAddClick
       end
-      object Button11: TButton
+      object BTeacherSubjectRemove: TButton
         Left = 303
         Top = 305
         Width = 65
         Height = 25
-        Caption = 'Rename'
+        Caption = 'Remove'
         TabOrder = 5
       end
-      object ListBox4: TListBox
+      object LTeacherSubjects: TListBox
         Left = 231
         Top = 24
         Width = 241
@@ -272,14 +278,6 @@ object FormGUI: TFormGUI
         ItemHeight = 13
         Sorted = True
         TabOrder = 6
-      end
-      object Button12: TButton
-        Left = 375
-        Top = 305
-        Width = 65
-        Height = 25
-        Caption = 'Remove'
-        TabOrder = 7
       end
     end
     object TabSheet5: TTabSheet

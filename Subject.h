@@ -9,6 +9,9 @@ class Subject {
 	public:
 		AnsiString name;
 		vector<Classroom*> filters;
+		bool filterMode; //true - whitelist; false - blacklist
+		
+		bool operator==(Classroom* c);
 };
 
 #endif

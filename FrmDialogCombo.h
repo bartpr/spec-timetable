@@ -21,6 +21,8 @@ __published:	// IDE-managed Components
         void __fastcall Button2Click(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift);
+    void __fastcall ComboBox1KeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFormDialogCombo(TComponent* Owner);

@@ -44,5 +44,6 @@ object FormDialogCombo: TFormDialogCombo
     Sorted = True
     TabOrder = 2
     OnChange = ComboBox1Change
+    OnKeyDown = ComboBox1KeyDown
   end
 end

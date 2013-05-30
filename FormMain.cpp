@@ -19,10 +19,12 @@ using namespace std;
 
 #include "Classroom.h"
 #include "Subject.h"
+#include "Teacher.h"
 
 TFormGUI *FormGUI;
 vector<Classroom*> vClassrooms;
 vector<Subject*> vSubjects;
+vector<Teacher*> vTeachers;
 
 //---------------------------------------------------------------------------
 __fastcall TFormGUI::TFormGUI(TComponent* Owner)
@@ -56,17 +58,39 @@ void __fastcall TFormGUI::BClassroomRemoveClick(TObject *Sender)
                 if (c->id == el) {
                         vClassrooms.erase(vClassrooms.begin()+i);
                         LClassrooms->DeleteSelected();
-                        return;
-                }
-                for (unsigned int i = 0; i < vSubjects.size(); i++) {
-                        Subject* s = vSubjects[i];
-                        for (unsigned int i = 0; i < s->filters.size(); i++) {
-                                if (s->filters[i] == c) {
-                                        s->filters.erase(s->filters.begin()+(i--));
+
+                        for (unsigned int j = 0; j < vSubjects.size(); j++) {
+                                Subject* s = vSubjects[j];
+                                for (unsigned int k = 0; k < s->filters.size(); k++) {
+                                        if (s->filters[k] == c) {
+                                                s->filters.erase(s->filters.begin()+(k--));
+                                        }
+                                }
+                        }
+
+                        for (int j = 0; j < LSubjectFilters->Count; j++) {
+                                if (LSubjectFilters->Items->operator[](j) == c->id) {
+                                        LSubjectFilters->Clear();
+                                        for (unsigned int i = 0; i < vSubjects.size(); i++) {
+                                                Subject* s = vSubjects[i];
+                                                if (s->name == LSubjects->Items->operator[](LSubjects->ItemIndex)) {
+                                                        for (unsigned int j = 0; j < s->filters.size(); j++) {
+                                                                LSubjectFilters->AddItem(s->filters[j]->id,NULL);
+                                                        }
+                                                        if (c != NULL) {
+                                                                delete c;
+                                                                c = NULL;
+                                                        }
+                                                        return;
+                                                }
+                                        }
                                 }
                         }
                 }
-                delete c;
+                if (c != NULL) {
+                        delete c;
+                        c = NULL;
+                }
         }
 }
 //---------------------------------------------------------------------------
@@ -217,6 +241,8 @@ void __fastcall TFormGUI::LSubjectsClick(TObject *Sender)
         for (unsigned int i = 0; i < vSubjects.size(); i++) {
                 Subject* s = vSubjects[i];
                 if (s->name == LSubjects->Items->operator[](LSubjects->ItemIndex)) {
+                        RSubjectFilterWhite->Checked = s->filterMode;
+                        RSubjectFilterBlack->Checked = !s->filterMode;
                         for (unsigned int j = 0; j < s->filters.size(); j++) {
                                 LSubjectFilters->AddItem(s->filters[j]->id,NULL);
                         }
@@ -225,4 +251,127 @@ void __fastcall TFormGUI::LSubjectsClick(TObject *Sender)
         }
 }
 //---------------------------------------------------------------------------
+
+
+void __fastcall TFormGUI::RSubjectFilterWhiteClick(TObject *Sender)
+{
+        if (LSubjects->ItemIndex == -1) {
+            RSubjectFilterWhite->Checked = false;
+            return;
+        }
+        for (unsigned int i = 0; i < vSubjects.size(); i++) {
+                Subject* s = vSubjects[i];
+                if (s->name == LSubjects->Items->operator[](LSubjects->ItemIndex)) {
+                        s->filterMode = true;
+                        return;
+                }
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::RSubjectFilterBlackClick(TObject *Sender)
+{
+        if (LSubjects->ItemIndex == -1) {
+            RSubjectFilterBlack->Checked = false;
+            return;
+        }
+        for (unsigned int i = 0; i < vSubjects.size(); i++) {
+                Subject* s = vSubjects[i];
+                if (s->name == LSubjects->Items->operator[](LSubjects->ItemIndex)) {
+                        s->filterMode = false;
+                        return;
+                }
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::BTeacherAddClick(TObject *Sender)
+{
+    FormGUI->dialogResultHasText = false;
+    FormDialogText->ShowModal();
+    if (FormGUI->dialogResultHasText && FormGUI->dialogResultText != "") {
+            Teacher* t = new Teacher();
+            t->name = FormGUI->dialogResultText;
+            vTeachers.push_back(t);
+            LTeachers->AddItem(FormGUI->dialogResultText,NULL);
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::BTeacherRenameClick(TObject *Sender)
+{
+    if (LTeachers->ItemIndex == -1) return;
+
+    AnsiString el = LTeachers->Items->operator[](LTeachers->ItemIndex);
+    for (unsigned int i = 0; i < vTeachers.size(); i++) {
+            Teacher* t = vTeachers[i];
+            if (t->name == el) {
+                    FormGUI->dialogResultHasText = true;
+                    FormGUI->dialogResultText = t->name;
+                    FormDialogText->ShowModal();
+                    if (FormGUI->dialogResultHasText && FormGUI->dialogResultText != "") {
+                            t->name = FormGUI->dialogResultText;
+                            LTeachers->DeleteSelected();
+                            LTeachers->AddItem(FormGUI->dialogResultText,NULL);
+                    }
+                    return;
+            }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::BTeacherRemoveClick(TObject *Sender)
+{
+    if (LTeachers->ItemIndex == -1) return;
+
+    AnsiString el = LTeachers->Items->operator[](LTeachers->ItemIndex);
+    for (unsigned int i = 0; i < vTeachers.size(); i++) {
+            Teacher* t = vTeachers[i];
+            if (t->name == el) {
+                    vTeachers.erase(vTeachers.begin()+i);
+                    LTeachers->DeleteSelected();
+                    return;
+            }
+            delete t;
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::BTeacherSubjectAddClick(TObject *Sender)
+{
+    if (LTeachers->ItemIndex == -1) return;
+    AnsiString str = LTeachers->Items->operator[](LTeachers->ItemIndex);
+    Teacher* t = NULL;
+    for (unsigned int i = 0; i < vTeachers.size(); i++) {
+            if (vTeachers[i]->name == str) {
+                    t = vTeachers[i];
+                    break;
+            }
+    }
+    if (t == NULL) return;
+
+    dialogComboItems.clear();
+    for (unsigned int i = 0; i < vSubjects.size(); i++) {
+            for (unsigned int j = 0; j < t->teaches.size(); j++) {
+                    if (t->teaches[j] == vSubjects[i]) {
+                            goto L;
+                    }
+            }
+            dialogComboItems.push_back(vSubjects[i]->name);
+            L: {}
+    }
+
+    FormDialogCombo->ShowModal();
+    if (FormGUI->dialogResultHasText && FormGUI->dialogResultText != "") {
+            for (unsigned int i = 0; i < vSubjects.size(); i++) {
+                    if (vSubjects[i]->name == FormGUI->dialogResultText) {
+                            LTeacherSubjects->Items->Add(FormGUI->dialogResultText);
+                            t->teaches.push_back(vSubjects[i]);
+                            return;
+                    }
+            }
+    }
+}
+//---------------------------------------------------------------------------
+
 

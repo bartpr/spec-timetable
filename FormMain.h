@@ -37,16 +37,15 @@ __published:	// IDE-managed Components
         TButton *BClassroomAdd;
         TButton *BClassroomRename;
         TButton *BClassroomRemove;
-        TListBox *ListBox3;
-        TButton *Button7;
-        TButton *Button8;
-        TButton *Button9;
+    TListBox *LTeachers;
+    TButton *BTeacherAdd;
+    TButton *BTeacherRename;
+    TButton *BTeacherRemove;
         TLabel *Label3;
         TLabel *Label4;
-        TButton *Button10;
-        TButton *Button11;
-        TListBox *ListBox4;
-        TButton *Button12;
+    TButton *BTeacherSubjectAdd;
+    TButton *BTeacherSubjectRemove;
+    TListBox *LTeacherSubjects;
         TMainMenu *MainMenu1;
         TMenuItem *File1;
         TMenuItem *Newproject1;
@@ -66,8 +65,8 @@ __published:	// IDE-managed Components
         TButton *BSubjectRemove;
         TButton *BSubjectFilterAdd;
         TButton *BSubjectFilterRemove;
-        TRadioButton *RadioButton1;
-        TRadioButton *RadioButton2;
+    TRadioButton *RSubjectFilterWhite;
+    TRadioButton *RSubjectFilterBlack;
         void __fastcall BClassroomAddClick(TObject *Sender);
         void __fastcall BClassroomRemoveClick(TObject *Sender);
         void __fastcall BClassroomRenameClick(TObject *Sender);
@@ -80,6 +79,12 @@ __published:	// IDE-managed Components
           TShiftState Shift);
         void __fastcall BSubjectFilterAddClick(TObject *Sender);
         void __fastcall LSubjectsClick(TObject *Sender);
+    void __fastcall RSubjectFilterWhiteClick(TObject *Sender);
+    void __fastcall RSubjectFilterBlackClick(TObject *Sender);
+    void __fastcall BTeacherAddClick(TObject *Sender);
+    void __fastcall BTeacherRenameClick(TObject *Sender);
+    void __fastcall BTeacherRemoveClick(TObject *Sender);
+    void __fastcall BTeacherSubjectAddClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFormGUI(TComponent* Owner);

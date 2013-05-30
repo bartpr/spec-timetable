@@ -4,6 +4,7 @@
 class Classroom {
 	public:
 		AnsiString id;
+		
 		bool operator==(Classroom* c);
 };
 

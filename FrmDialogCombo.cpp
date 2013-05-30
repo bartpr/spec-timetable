@@ -65,3 +65,10 @@ void __fastcall TFormDialogCombo::FormKeyDown(TObject *Sender, WORD &Key,
         if (Key == VK_ESCAPE) Button2->Click();        
 }
 //---------------------------------------------------------------------------
+void __fastcall TFormDialogCombo::ComboBox1KeyDown(TObject *Sender,
+      WORD &Key, TShiftState Shift)
+{
+    if (Key == VK_RETURN) Button1->Click();    
+}
+//---------------------------------------------------------------------------
+
