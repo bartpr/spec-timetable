@@ -11,6 +11,7 @@ object FormDialogCombo: TFormDialogCombo
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   OnClose = FormClose
   OnKeyDown = FormKeyDown
