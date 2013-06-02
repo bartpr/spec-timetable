@@ -5,43 +5,94 @@
 
 using namespace std;
 
-void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGenotypes)
+void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGenotypes, int* distributionOfGenotypes, int numberOfComputers)
 {
     srand(time(NULL));
-    //Stworzenie populacji poczatkowej
-    Genotype** genotypes = new Genotype*[numberOfGenotypes];
-    for(int i=0; i<numberOfGenotypes; i++)
-    {
-        genotypes[i] = new Genotype(data);
-        genotypes[i]->Evaluation();
-    }
+    /*
+        Wyslanie rozkazu generowania osobnikow do kazdej stacji
+    */
     double* tableOfMarks = new double[numberOfGenotypes];
     bool* tableOfPenalty = new bool[numberOfGenotypes];
+
+    
     //Pokolenia (petla glowna algorytmu genetycznego)
     for(int i=0; i<numberOfGenerations; i++)
     {
         cout<<"Pokolenie "<<i<<endl;
-        for(int k=0; k>numberOfGenotypes; k++)
-        {
-            tableOfPenalty[k] = genotypes[k]->Mark(tableOfMarks[k]);
-        }
+        /*
+            Wypelnienie tablic tableOfMarks i tableOfPenalty danymi otrzymanymi
+            ze stacji roboczych.
+        */
         int* parents = new int[numberOfGenotypes];
-        generateParents(tableOfMarks, numberOfGenotypes, parents);
+        generateParents(tableOfMarks, tableOfPenalty, numberOfGenotypes, parents);
         //Tworzenie nowego pokolenia
-        for(int j=0; j<numberOfGenotypes; j += 2)
-        {
-            //Krzyzowanie
-            crossover(genotypes[parents[j]], genotypes[parents[j+1]], data.numberOfAllLessons);
-            genotypes[j]->Evaluation();
-            genotypes[j+1]->Evaluation();
-        }
+        /*
+            Wysylanie rozkazow przesylania oraz krzyzowania do poszczegolnych
+            stacji roboczych oraz edycja tablicy distributionOfGenotypes.
+        */
+
         delete parents;
     }
     delete tableOfMarks;
     delete tableOfPenalty;
 }
 
-void generateParents(double* tableOfMarks, int numberOfGenotypes, int *parents)
+void workStation(const Data &data, int numberOfGenotypes)
+{
+    Genotype** genotypes;
+    int order = 1; //Komenda - generowanie
+    while(order != 0)
+    {
+        //Przykladowe komendy
+        switch(order)
+        {
+            case 1:
+                createPopulation(genotypes, data, numberOfGenotypes);
+                break;
+            case 2:
+                //przeslij genotypy na inna stacje
+                break;
+            case 3:
+                //otrzymaj genotypy z innej stacji
+                break;
+            case 4:
+                //Wyslij oceny osobnikow
+                break;
+            case 5:
+                /*
+                    Przesylanie zakonczone - krzyzuju swoja populacje wedlug
+                    indeksow w otrzymanej tablicy parents
+                */
+                int* parents = new int[numberOfGenotypes]; //Zamienic na otrzymywanie
+                for(int j=0; j<numberOfGenotypes; j += 2)
+                {
+                    //Krzyzowanie
+                    crossover(genotypes[parents[j]], genotypes[parents[j+1]], data.numberOfAllLessons);
+                    genotypes[j]->Evaluation();
+                    genotypes[j+1]->Evaluation();
+                }
+                break;
+        }
+        //Oczekiwanie na otrzymanie rozkazu
+    }
+}
+
+/*
+
+*/
+
+void createPopulation(Genotype** genotypes, Data data, int numberOfGenotypes)
+{
+    //Stworzenie populacji poczatkowej
+    genotypes = new Genotype*[numberOfGenotypes];
+    for(int i=0; i<numberOfGenotypes; i++)
+    {
+        genotypes[i] = new Genotype(data);
+        genotypes[i]->Evaluation();
+    }
+}
+
+void generateParents(double* tableOfMarks, bool* tableOfPenalty, int numberOfGenotypes, int *parents)
 {
     int sum=0;
     //Odejmowanie minumum jest opcjonalne - mozna usunac(zaleznie od efektywnosci)

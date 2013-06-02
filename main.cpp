@@ -9,21 +9,35 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Data d(900, 70, 90);
-	/*
-        Wczytywanie danych, tworzenie obiektow itd. -> Shockah
-    */
-    //50000 - ilosc osobnikow
-    int* distributionOfGenotypes = new int[50000];
-    //20 - ilosc komputerow
-    k=-1;
-    for(int i=0;i<50000;i++)
+    //Jesli serwer
+
+    if(true)
     {
-        if(i%(50000/20)==0)
-            k++;
-        distributionOfGenotypes = k;
+        Data d(900, 70, 90);
+        /*
+            Wczytywanie danych, tworzenie obiektow itd. -> Shockah
+        */
+        int iloscOsobnikow = 50000;
+        int* distributionOfGenotypes = new int[iloscOsobnikow];
+        int iloscKomputerow = 20;
+        int k=0;
+        for(int i=0;i<iloscOsobnikow;i++)
+        {
+            if(i%(iloscOsobnikow/iloscKomputerow)==0 && i!=0)
+                k++;
+            distributionOfGenotypes[i] = k;
+        }
+        geneticAlgorithm(d, 100, iloscOsobnikow, distributionOfGenotypes, iloscKomputerow);
+    }else{
+        /*
+            Czekanie na rozkaz generowania osobnikow wraz z Data oraz iloscia
+            genotypow do wygenerowania.
+        */
+        Data d(900, 70, 90);
+        int iloscOsobnikow = 2500;
+        workStation(d, iloscOsobnikow);
     }
-    geneticAlgorithm(d, 100, 50000);
+
     system("pause");
     return 0;
 }
