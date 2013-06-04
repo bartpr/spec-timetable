@@ -8,20 +8,21 @@
 //-----------------------------------------------------------------------------
 #include "distributor.h"
 //-----------------------------------------------------------------------------
+#define ROLE_SERVER 0
+#define ROLE_CLIENT 1
+//-----------------------------------------------------------------------------
 
 class dClient
 {
 protected:
+	Distributor *D;
+	tselector *s;
+	tsocket *listener;
+	int role;
 
 public:
-	void *returnDistribution(void);
-	//--- PROTOCOL IMPLEMENTATION ---//
-	/*int waitInit(void);
-	int waitPopulation(void);
-	int wait(void);
-	int sendData(void);
-	int waitInstruct(void);*/
-
+	dClient(int role, int maxclients);
+	~dClient();
 };
 //-----------------------------------------------------------------------------
 

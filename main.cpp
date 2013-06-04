@@ -5,7 +5,7 @@
 
 int main(void)
 {
-	Distributor *D = new Distributor(200, "1003");
+	Distributor *D = new Distributor(200);
 	printf("D ok\n");
 	int id = D->addClient("127.0.0.1", "5555");
 	printf("add ok\n");

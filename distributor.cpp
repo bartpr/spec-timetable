@@ -6,7 +6,7 @@
 #include "distributor.h"
 //-----------------------------------------------------------------------------
 
-Distributor::Distributor(int maxclients, const char *port)
+Distributor::Distributor(int maxclients)
 /* Create socket selector and client queue
  * Initialize network if applicable */
 {

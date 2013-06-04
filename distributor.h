@@ -18,7 +18,7 @@ protected:
 	Queue *q;
 
 public:
-	Distributor(int maxclients, const char *port);
+	Distributor(int maxclients);
 	~Distributor();
 	int addClient(const char *ip, const char *port);
 	void removeClient(int id);
