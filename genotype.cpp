@@ -130,7 +130,7 @@ bool Genotype::Mark(double &mark)
 
 double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 {
-
+  double const collision = 1; //wspolczynnik kary za kolizje
 	double tmpPenalty = 0;
 	if(p== 0 && q == 0)
 	{
@@ -168,12 +168,12 @@ double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 		}
 		for(int i = 0; i < q->numberOfSubgroups; i++)
 		{
-			tmpPenalty += collisionsInClass(d, p, q->subgroups[i]);
+			tmpPenalty += collision*collisionsInClass(d, p, q->subgroups[i]);
 		}
 	}
 	for(int i = 0; i < q->numberOfSubgroups; i++)
 	{
-		tmpPenalty += collisionsInClass(d, q, q->subgroups[i]);
+		tmpPenalty += collision*collisionsInClass(d, q, q->subgroups[i]);
 	}
 	return tmpPenalty;
 }
