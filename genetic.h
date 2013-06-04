@@ -9,6 +9,5 @@ void generateParents(double* tableOfMarks, bool* tableOfPenalty, int numberOfGen
 void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes);
 void mutation(Genotype* genotype, int numberOfGenes);
 void createPopulation(Genotype** genotypes, Data data, int numberOfGenotypes);
-Genotype* copyGenotype(Genotype* genotype);
 
 #endif

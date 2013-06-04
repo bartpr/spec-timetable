@@ -151,11 +151,4 @@ void mutation(Genotype* genotype, int numberOfGenes)
     }
 }
 
-Genotype* copyGenotype(Genotype* genotype)
-{
-    Genotype* newGenotype = new Genotype(genotype);
-    for(int k=0; k<genotype->numberOfGenes;k++)
-        newGenotype->genes[k]= new Gene(genotype->genes[k]->Term(), genotype->genes[k]->Room());
-    return newGenotype;
-}
 

@@ -13,10 +13,10 @@ class Genotype
 friend void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes);
 friend Genotype** generateParents(Genotype** genotypes, int numberOfGenotypes);
 friend void mutation(Genotype* genotype, int numberOfGenes);
-friend Genotype* copyGenotype(Genotype* genotype);
 public:
-    Genotype(const Genotype* genotype);
+    Genotype& operator=(const Genotype &genotype);
     Genotype(const Data &data);
+    Genotype::Genotype(const Genotype &genotype);
     ~Genotype();
     void Evaluation(); //Funkcja oceniaj¹ca
     bool Mark(double &mark);
