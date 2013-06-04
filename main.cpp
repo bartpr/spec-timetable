@@ -203,7 +203,6 @@ int main(int argc, char* argv[])
     d.tab[i++].subject =  12;  //fizyka
     d.tab[i++].subject =  13;   //zwo
     d.tab[i++].subject =  15;   //chemia
-    cout << i << endl;
   //lekcje klasa I
 
    //     grupa I
@@ -284,7 +283,7 @@ int main(int argc, char* argv[])
     d.tab[i++].subject =  12;  //fizyka
     d.tab[i++].subject =  13;   //zwo
     d.tab[i++].subject =  15;   //chemia
-  cout << i << endl;  //lekcje klasa I
+ //lekcje klasa I
 
    //     grupa I
     d.tab[i++].subject =  11;  //niemiecki I
@@ -298,7 +297,7 @@ int main(int argc, char* argv[])
     d.tab[i++].subject =  18;   //sois
     d.tab[i++].subject =  18;
     d.tab[i++].subject =  18;
-  cout << i << endl;
+
  //       grupa II
     d.tab[i++].subject =  17;   //j ang II
     d.tab[i++].subject =  17;
@@ -311,7 +310,6 @@ int main(int argc, char* argv[])
     d.tab[i++].subject =  20;
     d.tab[i++].subject = 6; //niem II
     d.tab[i++].subject = 6;
-  cout << i << endl;  
 
     d.tab[i++].subject = 10;
     d.tab[i++].subject = 10;
@@ -338,9 +336,6 @@ int main(int argc, char* argv[])
     d.tab[i++].subject = 23;
     d.tab[i++].subject = 23;
     //specki klasa II
-    cout<<i << endl;
-
-    system("pause");
 
 
 	Data::Node *p;
@@ -363,10 +358,10 @@ int main(int argc, char* argv[])
 	d.k->subgroups[0]->subgroups[0]->numberOfLessons = d.k->subgroups[0]->subgroups[1]->numberOfLessons = 11;
 	d.k->subgroups[0]->subgroups[0]->lessons = new short[d.k->subgroups[0]->subgroups[0]->numberOfLessons];
   for(int j = 22; j < 33; j++)
-    d.k->subgroups[0]->subgroups[0]->lessons[j] = j;
+    d.k->subgroups[0]->subgroups[0]->lessons[j - 22] = j;
 	d.k->subgroups[0]->subgroups[1]->lessons = new short[d.k->subgroups[0]->subgroups[1]->numberOfLessons];
   for(int j = 33; j < 44; j++)
-    d.k->subgroups[0]->subgroups[1]->lessons[j] = j;
+    d.k->subgroups[0]->subgroups[1]->lessons[j- 33] = j;
 	d.k->subgroups[0]->subgroups[0]->numberOfSubgroups = d.k->subgroups[0]->subgroups[1]->numberOfSubgroups = 4;
 	d.k->subgroups[0]->subgroups[0]->subgroups = d.k->subgroups[0]->subgroups[1]->subgroups = new Data::Node*[d.k->subgroups[0]->subgroups[1]->numberOfSubgroups];
 
@@ -377,7 +372,7 @@ int main(int argc, char* argv[])
     d.k->subgroups[0]->subgroups[0]->subgroups[j]->numberOfLessons = 6;
     d.k->subgroups[0]->subgroups[0]->subgroups[j]->lessons = new short[d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfLessons];
     for(int k = 44 + 6 * j; k < 44 + 6 * (j+1); k++)
-        d.k->subgroups[0]->subgroups[0]->subgroups[j]->lessons[k] = k;
+        d.k->subgroups[0]->subgroups[0]->subgroups[j]->lessons[k-(44 + 6 * j)] = k;
   }
 
 	d.k->subgroups[1]->numberOfSubgroups = 2; //ilosc grup w II klasie
@@ -387,21 +382,21 @@ int main(int argc, char* argv[])
 	d.k->subgroups[1]->numberOfLessons = 22;
 	d.k->subgroups[1]->lessons = new short[d.k->subgroups[1]->numberOfLessons];
   for(int j = 68; j < 90; j++)
-    d.k->subgroups[1]->lessons[j] = j;
+    d.k->subgroups[1]->lessons[j-68] = j;
 	d.k->subgroups[1]->numberOfSubgroups = 2; //ilosc grup w I klasie
 	d.k->subgroups[1]->subgroups = new Data::Node*[d.k->subgroups[1]->numberOfSubgroups];
 	d.k->subgroups[1]->subgroups[0] = new Data::Node;
 	d.k->subgroups[1]->subgroups[1] = new Data::Node;
 
-	d.k->subgroups[1]->subgroups[0]->numberOfLessons = d.k->subgroups[0]->subgroups[1]->numberOfLessons = 11;
-	d.k->subgroups[1]->subgroups[0]->lessons = new short[d.k->subgroups[0]->subgroups[0]->numberOfLessons];
+	d.k->subgroups[1]->subgroups[0]->numberOfLessons = d.k->subgroups[1]->subgroups[1]->numberOfLessons = 11;
+	d.k->subgroups[1]->subgroups[0]->lessons = new short[d.k->subgroups[1]->subgroups[0]->numberOfLessons];
   for(int j = 90; j < 101; j++)
-    d.k->subgroups[1]->subgroups[0]->lessons[j] = j;
-	d.k->subgroups[1]->subgroups[1]->lessons = new short[d.k->subgroups[0]->subgroups[1]->numberOfLessons];
+    d.k->subgroups[1]->subgroups[0]->lessons[j-90] = j;
+	d.k->subgroups[1]->subgroups[1]->lessons = new short[d.k->subgroups[1]->subgroups[1]->numberOfLessons];
   for(int j = 101; j < 112; j++)
-    d.k->subgroups[1]->subgroups[1]->lessons[j] = j;
-	d.k->subgroups[1]->subgroups[0]->numberOfSubgroups = d.k->subgroups[0]->subgroups[1]->numberOfSubgroups = 4;
-	d.k->subgroups[1]->subgroups[0]->subgroups = d.k->subgroups[0]->subgroups[1]->subgroups = new Data::Node*[d.k->subgroups[0]->subgroups[1]->numberOfSubgroups];
+    d.k->subgroups[1]->subgroups[1]->lessons[j-101] = j;
+	d.k->subgroups[1]->subgroups[0]->numberOfSubgroups = d.k->subgroups[1]->subgroups[1]->numberOfSubgroups = 4;
+	d.k->subgroups[1]->subgroups[0]->subgroups = d.k->subgroups[1]->subgroups[1]->subgroups = new Data::Node*[d.k->subgroups[0]->subgroups[1]->numberOfSubgroups];
 
   for(int j = 0; j < 4; j++)
   {
@@ -410,14 +405,35 @@ int main(int argc, char* argv[])
     d.k->subgroups[1]->subgroups[0]->subgroups[j]->numberOfLessons = 6;
     d.k->subgroups[1]->subgroups[0]->subgroups[j]->lessons = new short[d.k->subgroups[0]->subgroups[0]->subgroups[0]->numberOfLessons];
     for(int k = 112 + 6 * j; k < 112 + 6 * (j+1); k++)
-        d.k->subgroups[1]->subgroups[0]->subgroups[j]->lessons[k] = k;
+        d.k->subgroups[1]->subgroups[0]->subgroups[j]->lessons[k - (112 + 6 * j)] = k;
+  }
+
+  //Wypisanie drzewa
+  for( int i= 0; i< d.k->numberOfSubgroups; i++ )
+  {
+    cout<< "Klasa "<< i<< endl;
+    for( int j= 0; j< d.k->subgroups[ i ]->numberOfLessons; j++ )
+      cout<< "\tLekcja nr "<< j<< ": "<< d.k->subgroups[ i ]->lessons[ j ]<< endl;
+    for( int j= 0; j< d.k->subgroups[ i ]->numberOfSubgroups; j++ )
+    {
+      cout<< "\tPodgrupa "<< j<< endl;
+      for( int m= 0; m< d.k->subgroups[ i ]->subgroups[ j ]->numberOfLessons; m++ )
+        cout<< "\t\tLekcja nr "<< m<< ": "<< d.k->subgroups[ i ]->subgroups[ j ]->lessons[ m ]<< endl;
+      for( int k= 0; k< d.k->subgroups[ i ]->subgroups[ j ]->numberOfSubgroups; k++ )
+      {
+        cout<< "\t\tSpecjalizacja "<< k<< endl;
+        for( int n= 0; n< d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->numberOfLessons; n++ )
+          cout<< "\t\t\tLekcja nr "<< n<< ": "<< d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]<< endl;
+      }
+
+    }
+
   }
 
 
 
-
-	for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
-      cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
+	//for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
+  //    cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
     geneticAlgorithm(d,10,100);
     system("pause");
     return 0;
