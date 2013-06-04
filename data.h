@@ -38,7 +38,7 @@ public:
 		unsigned char numberOfSubgroups;
 		Node **subgroups;//podzial grupy na podgrupy
 		unsigned char numberOfLessons;
-		unsigned short *lessons;//lekcje jaka zawiera dana grupa
+		/*unsigned */short *lessons;//lekcje jaka zawiera dana grupa
 		vector<unsigned short> checked;//sprawdzane wezla
     } *k; //korzen lasu, najbardziej ogolna grupa
 };
