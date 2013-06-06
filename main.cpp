@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Data d(136,100,14*5);
+    Data d(136,14*5, 100);
 
     /* //wpisywanie do pliku
     fstream plik("pliczek.txt");
@@ -408,27 +408,37 @@ int main(int argc, char* argv[])
         d.k->subgroups[1]->subgroups[0]->subgroups[j]->lessons[k - (112 + 6 * j)] = k;
   }
 
+  Genotype g( d );
+  double o = g.teachersEvaluation(d, 24);
   //Wypisanie drzewa
-  for( int i= 0; i< d.k->numberOfSubgroups; i++ )
+    fstream f("pliczek.txt", ios::in | ios::out | ios::trunc);
+ /* for( int i= 0; i< d.k->numberOfSubgroups; i++ )
   {
-    cout<< "Klasa "<< i<< endl;
+    f<< "Klasa "<< i<< endl;
     for( int j= 0; j< d.k->subgroups[ i ]->numberOfLessons; j++ )
-      cout<< "\tLekcja nr "<< j<< ": "<< d.k->subgroups[ i ]->lessons[ j ]<< endl;
+      f<< "" << (int)g.genes[d.k->subgroups[ i ]->lessons[ j ]]->term<< endl;
     for( int j= 0; j< d.k->subgroups[ i ]->numberOfSubgroups; j++ )
     {
-      cout<< "\tPodgrupa "<< j<< endl;
+      f<< "Podgrupa "<< j<< endl;
       for( int m= 0; m< d.k->subgroups[ i ]->subgroups[ j ]->numberOfLessons; m++ )
-        cout<< "\t\tLekcja nr "<< m<< ": "<< d.k->subgroups[ i ]->subgroups[ j ]->lessons[ m ]<< endl;
+        f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->lessons[ m ]]->term<< endl;
       for( int k= 0; k< d.k->subgroups[ i ]->subgroups[ j ]->numberOfSubgroups; k++ )
       {
-        cout<< "\t\tSpecjalizacja "<< k<< endl;
+        f<< "Specjalizacja "<< k<< endl;
         for( int n= 0; n< d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->numberOfLessons; n++ )
-          cout<< "\t\t\tLekcja nr "<< n<< ": "<< d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]<< endl;
+          f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]]->term<< endl;
       }
 
     }
 
+  }*/
+  for(int i = 0; i < d.numberOfLessons; i++)
+  {
+    f << (int)d.tab[i].teacher << "\t" << (int)g.genes[i]->term << endl;
   }
+  f.close();
+
+  cout << o << endl;
 
 
 

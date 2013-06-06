@@ -9,7 +9,7 @@ class Gene
 public:
     Gene(unsigned char term, unsigned char room);
     ~Gene();
-protected:
+//protected:
     friend class Genotype;
     unsigned char term;
     unsigned char room;

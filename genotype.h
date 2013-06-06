@@ -14,8 +14,9 @@ public:
     void Evaluation(); //Funkcja oceniaj¹ca
     bool Mark(double &mark);
     double termsCollision();//kolizja terminosal
+    double teachersEvaluation(const Data &d, int numberOfTeachers);
 	double collisionsInClass(Data &d, Data::Node *p = 0, Data::Node *q = 0);
-protected:
+//protected:
     Gene **genes; //Tablica wszystkich przedmiotów(po kolei wed³ug grup[klas])
     unsigned short numberOfGenes;
     unsigned char numberOfTerms;
