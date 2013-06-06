@@ -8,9 +8,12 @@ using namespace std;
 void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGenotypes, int* distributionOfGenotypes, int numberOfComputers)
 {
     srand(time(NULL));
-    /*
-        Wyslanie rozkazu generowania osobnikow do kazdej stacji
-    */
+
+    //Wyslanie rozkazu generowania osobnikow do kazdej stacji
+    for(int i=0; i<numberOfComputer; i++)
+    {
+        //Rozkaz(orderCreatePopulation(1), data, computerNumber(i), numberOfGenotypes/numberOfComputers);
+    }
     double* tableOfMarks = new double[numberOfGenotypes];
     bool* tableOfPenalty = new bool[numberOfGenotypes];
 
@@ -29,6 +32,37 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
         /*
             Wysylanie rozkazow przesylania oraz krzyzowania do poszczegolnych
             stacji roboczych oraz edycja tablicy distributionOfGenotypes.
+            np:                                   '
+            kazdy komputer 1000 osobnikow
+
+            tablica parents[0] = 8000;
+            8000-> osobnik[0] na komputerze 8(liczenie od 0)
+            wysylanie do komputera 8 komendy: Przeslij(0, 0);
+            Komputer 8 - Wysylanie(Osobnik[0], 0) do komputer 0;
+
+            tablica parents[1245] = 3200;
+            3200-> osobnik[200] na komputerze 3(liczenie od 0)
+            wysylanie do komputera 3 komendy: Przeslij(200, 1245);
+            Komputer 3 - Wysylanie(Osobnik[200], 245) do komputer 1;
+
+            tablica parents[3585] = 2320;
+            2320-> osobnik[320] na komputerze 2(liczenie od 0)
+            wysylanie do komputera 2 komendy: Przeslij(320, 3585);
+            Komputer 2 - Wysylanie(Osobnik[320], 585) do komputer 3;
+        */
+        for(int p=0; p<numberOfGenotypes; p++)
+        {
+            /*
+                Wysylamy komende Przeslij(parents[p]%(numberOfGenotypes/numberOfComputers),
+                p); na int(parents[p]/(numberOfGenotypes/numberOfComputers))
+            */
+        }
+        for(int i=0; i<numberOfComputer; i++)
+        {
+            //Wysylamy komende ZakonczenieWysylania na kazdy komputer;
+        }
+        /*
+            Czekamy na otrzymanie wszystkich ocen
         */
 
         delete parents;
@@ -40,37 +74,34 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
 void workStation(const Data &data, int numberOfGenotypes)
 {
     Genotype** genotypes;
-    int order = 1; //Komenda - generowanie
+    createPopulation(genotypes, data, numberOfGenotypes);
+    int order = 3; //Komenda - nic
     while(order != 0)
     {
-        //Przykladowe komendy
+        //Watek odpowiedzialny za otrzymywanie komend i danych
         switch(order)
         {
             case 1:
-                createPopulation(genotypes, data, numberOfGenotypes);
+                /*
+                    Otrzymalismy a i b.
+                    Przeslij genotypy na inna stacje - Wyslij(genotypes[a], b%numberOfGenotypes)
+                    na komputer int(b/numberOfGenotypes)
+                */
                 break;
             case 2:
-                //przeslij genotypy na inna stacje
-                break;
-            case 3:
-                //otrzymaj genotypy z innej stacji
-                break;
-            case 4:
-                //Wyslij oceny osobnikow
-                break;
-            case 5:
                 /*
-                    Przesylanie zakonczone - krzyzuju swoja populacje wedlug
-                    indeksow w otrzymanej tablicy parents
+                    Przesylanie zakonczone - wczytuje dane z bufora i krzyzuju
+                    swoja populacje po kolei
                 */
                 int* parents = new int[numberOfGenotypes]; //Zamienic na otrzymywanie
                 for(int j=0; j<numberOfGenotypes; j += 2)
                 {
                     //Krzyzowanie
-                    crossover(genotypes[parents[j]], genotypes[parents[j+1]], data.numberOfAllLessons);
+                    crossover(genotypes[j]], genotypes[j+1], data.numberOfAllLessons);
                     genotypes[j]->Evaluation();
                     genotypes[j+1]->Evaluation();
                 }
+                //Wyslanie tablicy z ocenami
                 break;
         }
         //Oczekiwanie na otrzymanie rozkazu

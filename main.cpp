@@ -4,7 +4,6 @@
 #include "data.h"
 #include "genetic.h"
 #include <iostream>
-#include <fstream>
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -33,6 +32,7 @@ int main(int argc, char* argv[])
         /*
             Czekanie na rozkaz generowania osobnikow wraz z Data oraz iloscia
             genotypow do wygenerowania.
+            if(order==1)
         */
         Data d(900, 70, 90);
         int iloscOsobnikow = 2500;
