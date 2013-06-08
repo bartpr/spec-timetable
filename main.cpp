@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Data d(136,100,14*5);
+    Data d(136,14*5,100);
 
     /* //wpisywanie do pliku
     fstream plik("pliczek.txt");
@@ -407,34 +407,37 @@ int main(int argc, char* argv[])
     for(int k = 112 + 6 * j; k < 112 + 6 * (j+1); k++)
         d.k->subgroups[1]->subgroups[0]->subgroups[j]->lessons[k - (112 + 6 * j)] = k;
   }
-
+  fstream f("pliczkek.txt", ios::out | ios::trunc);
+  Genotype g(d);
   //Wypisanie drzewa
   for( int i= 0; i< d.k->numberOfSubgroups; i++ )
   {
-    cout<< "Klasa "<< i<< endl;
+	  f<< "Klasa "<< i<< " o id: " << d.k->subgroups[i]->id << endl;
     for( int j= 0; j< d.k->subgroups[ i ]->numberOfLessons; j++ )
-      cout<< "\tLekcja nr "<< j<< ": "<< d.k->subgroups[ i ]->lessons[ j ]<< endl;
+		f<< (int)g.genes[d.k->subgroups[ i ]->lessons[ j ]]->term<< endl;
     for( int j= 0; j< d.k->subgroups[ i ]->numberOfSubgroups; j++ )
     {
-      cout<< "\tPodgrupa "<< j<< endl;
+      f<< "Podgrupa "<< j<< " o id: " << d.k->subgroups[i]->subgroups[ j ]->id << endl;
       for( int m= 0; m< d.k->subgroups[ i ]->subgroups[ j ]->numberOfLessons; m++ )
-        cout<< "\t\tLekcja nr "<< m<< ": "<< d.k->subgroups[ i ]->subgroups[ j ]->lessons[ m ]<< endl;
+		  f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->lessons[ m ]]->term<< endl;
       for( int k= 0; k< d.k->subgroups[ i ]->subgroups[ j ]->numberOfSubgroups; k++ )
       {
-        cout<< "\t\tSpecjalizacja "<< k<< endl;
+        f<< "Specjalizacja "<< k<< " o id: " << d.k->subgroups[i]->subgroups[ j ]->subgroups[ k ]->id << endl;
         for( int n= 0; n< d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->numberOfLessons; n++ )
-          cout<< "\t\t\tLekcja nr "<< n<< ": "<< d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]<< endl;
+			f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]]->term<< endl;
       }
-
-    }
-
+	}
   }
 
+  double o /* = g.collisionsInClass(d)*/;
+//  cout << "kolizje: " << o << endl;
+  o = g.collisionsInClass(d);
+  cout << "kolizje: " << o << endl;
 
 
 	//for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
   //    cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
-    geneticAlgorithm(d,10,100);
+//    geneticAlgorithm(d,10,100);
     system("pause");
     return 0;
     }
