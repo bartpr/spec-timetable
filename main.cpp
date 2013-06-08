@@ -431,9 +431,9 @@ int main(int argc, char* argv[])
 
   double o /* = g.collisionsInClass(d)*/;
 //  cout << "kolizje: " << o << endl;
-  o = g.collisionsInClass(d);
+  //o = g.collisionsInClass(d);
+  o = g.eval(d);
   cout << "kolizje: " << o << endl;
-
 
 	//for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
   //    cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;

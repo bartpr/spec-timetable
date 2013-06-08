@@ -127,3 +127,37 @@ void Genotype::cleanVectors(Data::Node *p)
 	for(int i = 0; i < p->numberOfSubgroups; i++)
 		cleanVectors(p->subgroups[i]);
 }
+
+double Genotype::eval(Data &d, Data::Node *p, unsigned short *tab, int n)
+{
+	double tmpPenalty = 0;
+	if(p == 0)
+	{
+		unsigned short *plan = new unsigned short[d.numberOfTerms];
+		for(int i = 0; i < d.k->numberOfSubgroups; i++)
+			tmpPenalty += eval(d, d.k->subgroups[i], plan);
+		return tmpPenalty;
+	}
+	else
+	{
+		for(int i = 0; i < p->numberOfLessons; i++)
+			tab[n + i] = p->lessons[i];
+		n += p->numberOfLessons;
+		if(p->numberOfSubgroups != 0)
+		{
+			for(int i = 0; i < p->numberOfSubgroups; i++)
+				tmpPenalty += eval(d, p->subgroups[i], tab, n);
+			return tmpPenalty;
+		}
+		else
+		{
+			//tab zawiera indeksy lekcji, ktore ma ta grupa (lacznie z lekcjami wspolnym z innymi grupami)
+			//n - ilosc wszystkich lekcji w tej grupie
+			/*
+				oceniamy plan...
+			*/
+			return tmpPenalty;
+		}
+	}
+}
+
