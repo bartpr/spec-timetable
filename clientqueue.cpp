@@ -23,6 +23,7 @@ Client::Client(const char *ip, const char *port)
 	sprintf(instance_name, "terve://socket/%x", this->id);
 	this->sock = new tsocket(SOCK_STREAM, instance_name);
 	this->sock->taddress(ip, port);
+	this->connstate = false;
 }
 //-----------------------------------------------------------------------------
 
@@ -63,7 +64,14 @@ int Client::connect(void)
 /* Open connection to client */
 {
 	if(!this->sock->topen()) return -1;
+	this->connstate = true;
 	return this->sock->tgetDescriptor();
+}
+//-----------------------------------------------------------------------------
+
+bool Client::connected(void)
+{
+	return this->connstate;
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

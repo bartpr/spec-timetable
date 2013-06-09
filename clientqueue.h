@@ -14,6 +14,7 @@ class Client
 protected:
 	int id;
 	tsocket *sock;
+	bool connstate;
 
 public:
 	Client(const char *ip, const char *port);
@@ -22,6 +23,7 @@ public:
 	int getID(void);
 	void dump(void);
 	int connect(void);
+	bool connected(void);
 };
 //-----------------------------------------------------------------------------
 

@@ -54,7 +54,7 @@ int Distributor::sendData(int id, void *data)
 {
 	header hdr;
 	memcpy(&hdr, data, sizeof(header));
-	return q->getClient(id)->getSocket()->tsend((char*)data, hdr->len);
+	return q->getClient(id)->getSocket()->tsend((char*)data, hdr.len);
 }
 //-----------------------------------------------------------------------------
 
