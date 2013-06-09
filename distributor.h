@@ -27,6 +27,7 @@ public:
 	int sendTransferPerm(int id);
 	Client *getClient(int id);
 	void dump(void);
+	int initClients(void);
 };
 
 #endif /* __DISTRIBUTOR_H__ */

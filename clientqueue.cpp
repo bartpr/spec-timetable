@@ -29,6 +29,7 @@ Client::Client(const char *ip, const char *port)
 Client::~Client()
 /* Memory cleanup */
 {
+	this->sock->tclose(TS_NO_RW);
 	delete this->sock;
 }
 //-----------------------------------------------------------------------------

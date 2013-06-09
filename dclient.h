@@ -21,8 +21,11 @@ protected:
 	int role;
 
 public:
-	dClient(int role, int maxclients);
+	dClient(int role, char *port, int maxclients);
 	~dClient();
+	Distributor *getDistributor(void);
+	int recieve(void *buffer);
+	int sendTo(int id, void *data, int len);
 };
 //-----------------------------------------------------------------------------
 

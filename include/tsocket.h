@@ -77,6 +77,9 @@ public:
 	int tgetPort(void);
 	char *tgetInstanceName(void);
 	int tgetDescriptor(void);
+	/// ADD TO ORIGINAL TSOCKET AND RECOMPILE
+	us_sockaddr_s *tgetBinIP(void);
+	/////////////////////////////////////////
 };
 //-----------------------------------------------------------------------------
 
