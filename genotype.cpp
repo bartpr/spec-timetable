@@ -68,58 +68,102 @@ bool Genotype::Mark(double &mark)
 double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 {
 	double tmpPenalty = 0;
-	if(p== 0 && q == 0)
+	if(p == 0 && q == 0) //pierwsze wywolanie
 	{
-		for(int i = 0; i < d.k->numberOfSubgroups; i++)
+		for(int i = 0; i < d.k->numberOfSubgroups; i++) //sprawdzamy kolizje korzenia z kazda podgrupa
 			tmpPenalty += collisionsInClass(d, d.k, d.k->subgroups[i]);
+		cleanVectors(d.k);
 		return tmpPenalty;
 	}
-	if(p->numberOfLessons == 0)
+	if(p->numberOfLessons == 0) //p = d.k, (korzen nie ma lekcji)
 	{
 		p->checked.push_back(q->id);
-		q->checked.push_back(p->id);
+		p->checked.push_back(p->id);
 	}
 	else
 	{
-		bool flag = false;
-		for(int i = 0; i < p->checked.size(); i++)
-			if(p->checked[i] == q->id)
-			{
-				flag = true;
-				break;
-			}
-		if(!flag)
+		bool betweenGroups = false, inGroupP = false, inGroupQ = false;
+		for(int i = 0; i < p->checked.size(); i++) 
+		{
+			if(p->checked[i] == q->id) //czy kolizje miêdzy grupami p i q byly sprawdzane
+				betweenGroups = true;
+			if(p->checked[i] == p->id) //czy byly sprawdzane kolizje wewnetrzne w grupie p
+				inGroupP = true;
+		}
+		for(int i = 0; i < q->checked.size(); i++)
+			if(q->checked[i] == q->id) //czy byly sprawdzane kolizje wewnetrzne w grupie q
+				inGroupQ = true;
+		if(!betweenGroups)
 		{
 			bool *tab = new bool[d.numberOfTerms];
 			for(int i = 0; i < d.numberOfTerms; i++)
 				tab[i] = false;
-			for(int i = 0; i < p->numberOfLessons; i++)
-        if(tab[genes[p->lessons[i]]->term])
-          tmpPenalty++;
-        else
-          tab[genes[p->lessons[i]]->term] = true;
-			for(int i = 0; i < q->numberOfLessons; i++)
-				if(tab[genes[q->lessons[i]]->term])
+			for(int i = 0; i < p->numberOfLessons; i++) 
+				if(!tab[genes[p->lessons[i]]->term])
+					tab[genes[p->lessons[i]]->term] = true;
+				else if(!inGroupP) //kolizja w grupie p
 					tmpPenalty++;
+			for(int i = 0; i < q->numberOfLessons; i++)
+				if(tab[genes[q->lessons[i]]->term]) //kolizja miedzy p i q
+					tmpPenalty++;
+				else if(!inGroupQ) //kolizja w q
+					tab[genes[q->lessons[i]]->term] = true;
 			p->checked.push_back(q->id);
-			q->checked.push_back(p->id);
-			delete tab;
+			p->checked.push_back(p->id);
+			q->checked.push_back(q->id);
+			delete[] tab;
 		}
-		for(int i = 0; i < q->numberOfSubgroups; i++)
-		{
+		for(int i = 0; i < q->numberOfSubgroups; i++) //sprawdzamy kolizje p ze wszystkimi podgrupami q
 			tmpPenalty += collisionsInClass(d, p, q->subgroups[i]);
+	}
+	for(int i = 0; i < q->numberOfSubgroups; i++) //sprawdzamy kolizje q ze wszystkimi podgrupami q
+		tmpPenalty += collisionsInClass(d, q, q->subgroups[i]);
+	return tmpPenalty;
+}
+
+void Genotype::cleanVectors(Data::Node *p)
+{
+	p->checked.clear();
+	for(int i = 0; i < p->numberOfSubgroups; i++)
+		cleanVectors(p->subgroups[i]);
+}
+
+double Genotype::eval(Data &d, Data::Node *p, unsigned short *tab, int n)
+{
+	double tmpPenalty = 0;
+	if(p == 0)
+	{
+		unsigned short *plan = new unsigned short[d.numberOfTerms];
+		for(int i = 0; i < d.k->numberOfSubgroups; i++)
+			tmpPenalty += eval(d, d.k->subgroups[i], plan);
+		return tmpPenalty;
+	}
+	else
+	{
+		for(int i = 0; i < p->numberOfLessons; i++)
+			tab[n + i] = p->lessons[i];
+		n += p->numberOfLessons;
+		if(p->numberOfSubgroups != 0)
+		{
+			for(int i = 0; i < p->numberOfSubgroups; i++)
+				tmpPenalty += eval(d, p->subgroups[i], tab, n);
+			return tmpPenalty;
+		}
+		else
+		{
+			//tab zawiera indeksy lekcji, ktore ma ta grupa (lacznie z lekcjami wspolnym z innymi grupami)
+			//n - ilosc wszystkich lekcji w tej grupie
+			/*
+				oceniamy plan...
+			*/
+			return tmpPenalty;
 		}
 	}
-	for(int i = 0; i < q->numberOfSubgroups; i++)
-	{
-		tmpPenalty += collisionsInClass(d, q, q->subgroups[i]);
-	}
-	return tmpPenalty;
 }
 
 double Genotype::teachersEvaluation(const Data &d, int numberOfTeachers)
 {
-  //do poprawki
+	//do poprawki
   //int nauczyciel = 22;//trzeba wyciagnac nauczyciela i zastpic kilka linijek nizej oznacznych ***
   ///////////////////////////////////////////
 
