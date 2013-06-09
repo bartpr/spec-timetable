@@ -76,10 +76,10 @@ double Genotype::evalSubject(Data &d, Data::Node *p)
   {
     tab[ genes[ p->lessons[ i ]]->term ]++;//wpisanie terminu przedmiotu
     if( i+ 1== p->numberOfLessons )//jezeli nie ma juz wiecej
-      evalSubject_( tab );
+      tmpPenalty+= evalSubject_( tab );
     else
       if( d.tab[ p->lessons[ i ]].subject!= d.tab[ p->lessons[ i+ 1 ]].subject )//jezeli kolejny jest inny
-        evalSubject_( tab );
+        tmpPenalty+= evalSubject_( tab );
   }
   delete tab;
   mark+= tmpPenalty;
@@ -162,8 +162,6 @@ double Genotype::evalSubject_( short int *tab )
   cout<< "Kara: "<< tmpPenalty<< endl;
   for( int i= 0; i< numberOfTerms; i++ )//czyszczenie tablicy
     tab[ i ]= 0;
-  delete ideal;
-  //delete days; //do poprawki
   system( "pause" );
   return tmpPenalty;
 }
@@ -240,11 +238,101 @@ void Genotype::cleanVectors(Data::Node *p)
 		cleanVectors(p->subgroups[i]);
 }
 
-double Genotype::evalStudent(unsigned short *tab, int n)
+double Genotype::evalStudent( short int *tTable )
 {
-  for( int i= 0; i< n; i++ )
-    cout<< tab[ i ]<< endl;
-  return 0;
+  for( int i= 0; i< numberOfTerms; i++ )
+    cout<< i<< ": "<< tTable[ i ]<< endl;
+  double tmpPenalty= 0;
+  const int numberOfDays= 5;
+  int days[ numberOfDays ];
+  for( int i= 0; i< numberOfDays; i++ )
+    days[ i ]= 0;
+  for( int i= 0; i< numberOfTerms; i++ )//liczenie ile godzin w dniu
+    days[ i/ ( numberOfTerms/ numberOfDays )]+= tTable[ i ];
+  //kara za liczbe godzin
+  for( int i= 0; i< numberOfDays; i++ )
+  switch( days[ i ] )
+  {
+  case 10:
+    tmpPenalty-= 1;
+    break;
+  case 11:
+    tmpPenalty-= 3;
+    break;
+  case 12:
+    tmpPenalty-= 6;
+    break;
+  case 13:
+    tmpPenalty-= 10;
+    break;
+  case 14:
+    tmpPenalty-= 15;
+    break;
+  }
+  //wczesniejszy koniec
+  const int prizeEnd= 1;
+  for( int i= 0; i< numberOfDays; i++ )
+    for( int j= numberOfTerms/ numberOfDays; j> 0; j-- )
+      if( tTable[ i* numberOfTerms/ numberOfDays+ j- 1 ]== 0 )
+        tmpPenalty+= prizeEnd;
+      else
+        break;
+  //nierownomiernosc
+  int hours= 0;
+  for( int i= 0; i< numberOfDays; i++ )
+    hours+= days[ i ];
+  for( int i= 0; i< numberOfDays; i++ )
+    tmpPenalty-= pow( days[ i ]- hours/ numberOfDays, 2 )/ 2;
+  //odstep poczatke-koniec
+  int end= 0, begin= 0;
+  const int prizeBeginEnd= 1;
+  for( int i= 0; i< numberOfDays- 1; i++ )
+  {
+    for( int j= numberOfTerms/ numberOfDays; j> 0; j-- )
+      if( tTable[ i* numberOfTerms/ numberOfDays+ j- 1 ]== 0 )
+        end++;
+      else
+        break;
+    for( int j= 0; j< numberOfTerms; j++ )
+      if( tTable[( i+ 1 )* ( numberOfTerms/ numberOfDays )+ j ]== 0 )
+        begin++;
+      else
+        break;
+    if( begin+ end> 5 )
+      tmpPenalty+= prizeBeginEnd* 5;
+    else
+      tmpPenalty+= prizeBeginEnd* ( begin+ end );
+    begin= end= 0;
+  }
+  //okienko
+  const int breakCost= 1;
+  bool break_= false;
+  int j= 0;
+  for( int i= 0; i< numberOfTerms; i++ )
+  {
+    if( tTable[ i ]> 0 )
+    {
+      break_= true;
+      j+= tTable[ i ];
+    }
+    else
+      if( break_ )
+        if( j!= days[ i/ ( numberOfTerms/ numberOfDays )])//juz byly wszystkie lekcje
+        {
+          tmpPenalty-= breakCost;
+          penalty= true;
+        }
+    if( i% ( numberOfTerms/ numberOfDays )== ( numberOfTerms/ numberOfDays )- 1 )// koniec dnia
+    {
+      j= 0;
+      break_= false;
+    }
+  }
+  for( int i= 0; i< numberOfDays; i++ )//wypisanie ilosci godzin w dniu
+    cout<< days[ i ]<< endl;
+  cout<< "Kara: "<< tmpPenalty<< endl;
+  system("pause");
+  return tmpPenalty;
 }
 
 double Genotype::eval(Data &d, Data::Node *p, unsigned short *tab, int n)
@@ -274,18 +362,19 @@ double Genotype::eval(Data &d, Data::Node *p, unsigned short *tab, int n)
 			//n - ilosc wszystkich lekcji w tej grupie
 			/*
         Do zrobienia:
-        - kary powyzej 9 h
         - okienko ucznia
-        - wczesniejszy koniec
-        - odstep koniec- poczatek
-        - nierownomiernosc
-
-        - "zblokowanie" tego samego przedmiotu
-        - powtarzanie przedmiotów w tym samym dniu - nie w bloku
       */
-      evalStudent( tab, n );
+      short int *tTable= new short int[ numberOfTerms ];
+      for( int i= 0; i< numberOfTerms; i++ )
+        tTable[ i ]= 0;
 
-			return tmpPenalty;
+      for( int i= 0; i< n; i++ )
+        tTable[ genes[ tab[ i ]]->term ]++;
+
+      mark-= evalStudent( tTable );
+
+      delete tTable;
+      return tmpPenalty;
 		}
 	}
 }
