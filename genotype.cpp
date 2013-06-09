@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
+#include <math.h>
 #include "genotype.h"
 using namespace std;
 
@@ -44,7 +45,7 @@ double Genotype::termsCollision()
 {
 
   double tmpPenalty= 0;
-  
+
   for( int i= 0; i< numberOfGenes; i++ )//sprawdzenia kazdej ts z kazda
     for( int j= i+1; j< numberOfGenes; j++ )
       if( genes[ i ]->term== genes[ j ]->term )
@@ -65,8 +66,111 @@ bool Genotype::Mark(double &mark)
     return penalty;
 }
 
+double Genotype::evalSubject(Data &d, Data::Node *p)
+{
+  double tmpPenalty= 0;
+  short int *tab = new short int[numberOfTerms];
+  for( int i= 0; i< numberOfTerms; i++ )
+    tab[ i ]= 0;
+  for( int i= 0; i< p->numberOfLessons; i++ )
+  {
+    tab[ genes[ p->lessons[ i ]]->term ]++;//wpisanie terminu przedmiotu
+    if( i+ 1== p->numberOfLessons )//jezeli nie ma juz wiecej
+      evalSubject_( tab );
+    else
+      if( d.tab[ p->lessons[ i ]].subject!= d.tab[ p->lessons[ i+ 1 ]].subject )//jezeli kolejny jest inny
+        evalSubject_( tab );
+  }
+  delete tab;
+  mark+= tmpPenalty;
+  return tmpPenalty;
+}
+
+double Genotype::evalSubject_( short int *tab )
+{
+  double tmpPenalty= 0;
+  const int noBlockCost= 1;
+  const int numberOfDays= 5;
+  int days[ numberOfDays ];
+  for( int i= 0; i< numberOfDays; i++ )
+    days[ i ]= 0;
+  /*for( int i= 0; i< numberOfTerms; i++ )//wypisanie poszczegolnych terminow
+    cout<< i<< ": "<< tab[ i ]<< endl;*/
+  for( int i= 0; i< numberOfTerms; i++ )//liczenie ile godzin w dniu
+    days[ i/ ( numberOfTerms/ numberOfDays )]+= tab[ i ];
+  //ocena czy sa w bloku w danym dniu
+  bool break_= false;
+  int j= 0;
+  for( int i= 0; i< numberOfTerms; i++ )
+  {
+    if( tab[ i ]> 0 )
+    {
+      break_= true;
+      j+= tab[ i ];
+    }
+    else
+      if( break_ )
+      {
+        if( j!= days[ i/ ( numberOfTerms/ numberOfDays )])//juz byly wszystkie lekcje
+        {
+          tmpPenalty-= noBlockCost;
+          penalty= true;
+          break_= false;
+        }
+        else
+          break_= false;
+      }
+    if( i% ( numberOfTerms/ numberOfDays )== ( numberOfTerms/ numberOfDays )- 1 )// koniec dnia
+    {
+      j= 0;
+      break_= false;
+    }
+  }
+  //zblokowanie
+  int ideal[]= { 0, 0, 0, 0, 0 };
+  const double no_day_cost = 1.0;
+	const double day_add_cost = 2.0;
+	const double hour_add_cost = 2.5;
+  int hours_total= 0;
+  for( int i= 0; i< numberOfDays; i++ )
+    hours_total+= days[ i ];
+  bubble_sort( days, numberOfDays );
+  ideal[ 2 ]= 0;
+  if( hours_total<= 6 )//stworzenie idealnego
+    for( int i= 0; i< hours_total; i++ )
+      ideal[ i% 3 ]++;
+  else
+    if( hours_total<= 8 )
+      for( int i= 0; i< hours_total; i++ )
+        ideal[ i% 4 ]++;
+    else
+      for( int i= 0; i< hours_total; i++ )
+        ideal[ i% 5 ]++;
+  int k;
+  k= ideal[ 0 ];//zamiana, zeby pozycje ideal i days odpowiadaly sobie
+  ideal[ 0 ]= ideal[ 4 ];
+  ideal[ 4 ]= k;
+  k= ideal[ 1 ];
+  ideal[ 1 ]= ideal[ 3 ];
+  ideal[ 3 ]= k;
+  for(int i = 0; i< numberOfDays; i++)
+		tmpPenalty-= (((ideal[i] == 0 && days[i] != 0) ? day_add_cost : (pow(max<double>(days[i]-ideal[i], 0), 2)
+      *hour_add_cost))*sqrt((ideal[i]-days[i] > 0) ? ((days[i] != 0) ? ideal[i]/days[i] : 1) : 1)
+      +((ideal[i] != 0 && days[i] == 0) ? no_day_cost : 0)+((ideal[i] > days[i]) ? (ideal[i]+1)/(days[i]+1) : 0))/hours_total;//wzor na blokowanie
+  for( int i= 0; i< numberOfDays; i++ )//wypisanie ilosci godzin w dniu
+    cout<< ideal[ i ]<< " - "<< days[ i ]<< endl;
+  cout<< "Kara: "<< tmpPenalty<< endl;
+  for( int i= 0; i< numberOfTerms; i++ )//czyszczenie tablicy
+    tab[ i ]= 0;
+  delete ideal;
+  //delete days; //do poprawki
+  system( "pause" );
+  return tmpPenalty;
+}
+
 double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 {
+  const double collisionPenalty = 1;
 	double tmpPenalty = 0;
 	if(p == 0 && q == 0) //pierwsze wywolanie
 	{
@@ -102,10 +206,10 @@ double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 				if(!tab[genes[p->lessons[i]]->term])
 					tab[genes[p->lessons[i]]->term] = true;
 				else if(!inGroupP) //kolizja w grupie p
-					tmpPenalty++;
+					tmpPenalty += collisionPenalty;
 			for(int i = 0; i < q->numberOfLessons; i++)
 				if(tab[genes[q->lessons[i]]->term]) //kolizja miedzy p i q
-					tmpPenalty++;
+					tmpPenalty += collisionPenalty;
 				else if(!inGroupQ) //kolizja w q
 					tab[genes[q->lessons[i]]->term] = true;
 			p->checked.push_back(q->id);
@@ -113,6 +217,14 @@ double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 			q->checked.push_back(q->id);
 			delete[] tab;
 		}
+    if(!inGroupP)
+    {
+      evalSubject( d, p );
+    }
+    if(!inGroupQ)
+    {
+      evalSubject( d, q );
+    }
 		for(int i = 0; i < q->numberOfSubgroups; i++) //sprawdzamy kolizje p ze wszystkimi podgrupami q
 			tmpPenalty += collisionsInClass(d, p, q->subgroups[i]);
 	}
@@ -126,6 +238,13 @@ void Genotype::cleanVectors(Data::Node *p)
 	p->checked.clear();
 	for(int i = 0; i < p->numberOfSubgroups; i++)
 		cleanVectors(p->subgroups[i]);
+}
+
+double Genotype::evalStudent(unsigned short *tab, int n)
+{
+  for( int i= 0; i< n; i++ )
+    cout<< tab[ i ]<< endl;
+  return 0;
 }
 
 double Genotype::eval(Data &d, Data::Node *p, unsigned short *tab, int n)
@@ -154,8 +273,18 @@ double Genotype::eval(Data &d, Data::Node *p, unsigned short *tab, int n)
 			//tab zawiera indeksy lekcji, ktore ma ta grupa (lacznie z lekcjami wspolnym z innymi grupami)
 			//n - ilosc wszystkich lekcji w tej grupie
 			/*
-				oceniamy plan...
-			*/
+        Do zrobienia:
+        - kary powyzej 9 h
+        - okienko ucznia
+        - wczesniejszy koniec
+        - odstep koniec- poczatek
+        - nierownomiernosc
+
+        - "zblokowanie" tego samego przedmiotu
+        - powtarzanie przedmiotów w tym samym dniu - nie w bloku
+      */
+      evalStudent( tab, n );
+
 			return tmpPenalty;
 		}
 	}
@@ -201,7 +330,6 @@ double Genotype::teachersEvaluation(const Data &d, int numberOfTeachers)
       thisDayTerms = 0;
       for (int k=0;k<numberOfTerms/5;k++)//termin w dzien tygodnia
       {
-        cout<< "i "<< i<< endl<< j*(numberOfTerms/5)+k<< endl;
         if(tab[i][j*(numberOfTerms/5)+k])
         {
           lastTerm = k;
