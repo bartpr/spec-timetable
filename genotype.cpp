@@ -67,6 +67,7 @@ bool Genotype::Mark(double &mark)
 
 double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 {
+	const double collisionPenalty = 1;
 	double tmpPenalty = 0;
 	if(p == 0 && q == 0) //pierwsze wywolanie
 	{
@@ -102,10 +103,10 @@ double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 				if(!tab[genes[p->lessons[i]]->term])
 					tab[genes[p->lessons[i]]->term] = true;
 				else if(!inGroupP) //kolizja w grupie p
-					tmpPenalty++;
+					tmpPenalty += collisionPenalty;
 			for(int i = 0; i < q->numberOfLessons; i++)
 				if(tab[genes[q->lessons[i]]->term]) //kolizja miedzy p i q
-					tmpPenalty++;
+					tmpPenalty += collisionPenalty;
 				else if(!inGroupQ) //kolizja w q
 					tab[genes[q->lessons[i]]->term] = true;
 			p->checked.push_back(q->id);
