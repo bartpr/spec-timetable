@@ -20,11 +20,13 @@ using namespace std;
 #include "Classroom.h"
 #include "Subject.h"
 #include "Teacher.h"
+#include "Classs.h"
 
 TFormGUI *FormGUI;
 vector<Classroom*> vClassrooms;
 vector<Subject*> vSubjects;
 vector<Teacher*> vTeachers;
+vector<Classs*> vClassses;
 
 //---------------------------------------------------------------------------
 __fastcall TFormGUI::TFormGUI(TComponent* Owner)
@@ -466,6 +468,71 @@ void __fastcall TFormGUI::LTeacherSubjectsKeyDown(TObject *Sender,
             case VK_INSERT: BTeacherSubjectAdd->Click(); break;
             case VK_DELETE: BTeacherSubjectRemove->Click(); break;
     }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::BClassRenameClick(TObject *Sender)
+{
+	if (LClasses->ItemIndex == -1) return;
+
+    AnsiString el = LClasses->Items->operator[](LClasses->ItemIndex);
+    for (unsigned int i = 0; i < vClassses.size(); i++) {
+            Classs* c = vClassses[i];
+            if (c->id == el) {
+                    FormGUI->dialogResultHasText = true;
+                    FormGUI->dialogResultText = c->id;
+                    FormDialogText->ShowModal();
+                    if (FormGUI->dialogResultHasText && FormGUI->dialogResultText != "") {
+                            c->id = FormGUI->dialogResultText;
+                            LClasses->DeleteSelected();
+                            LClasses->AddItem(FormGUI->dialogResultText,NULL);
+                    }
+                    return;
+            }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::BClassRemoveClick(TObject *Sender)
+{
+	if (LClasses->ItemIndex == -1) return;
+
+    AnsiString el = LClasses->Items->operator[](LClasses->ItemIndex);
+    for (unsigned int i = 0; i < vClassses.size(); i++) {
+            Classs* c = vClassses[i];
+            if (c->id == el) {
+                    vClassses.erase(vClassses.begin()+i);
+                    LClasses->DeleteSelected();
+                    return;
+            }
+            delete c;
+    }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFormGUI::BClassAddClick(TObject *Sender)
+{
+	FormGUI->dialogResultHasText = false;
+    FormDialogText->ShowModal();
+    if (FormGUI->dialogResultHasText && FormGUI->dialogResultText != "") {
+            Classs* c = new Classs();
+            c->id = FormGUI->dialogResultText;
+            vClassses.push_back(c);
+            LClasses->AddItem(FormGUI->dialogResultText,NULL);
+    }	
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::LClassesKeyDown(TObject *Sender, WORD &Key,
+      TShiftState Shift)
+{
+	if (!LClasses->Focused()) return;
+    switch (Key) {
+            case VK_INSERT: BClassAdd->Click(); break;
+            case VK_DELETE: BClassRemove->Click(); break;
+            case VK_F2: BClassRename->Click(); break;
+    }	
 }
 //---------------------------------------------------------------------------
 

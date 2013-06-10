@@ -67,6 +67,26 @@ __published:	// IDE-managed Components
         TButton *BSubjectFilterRemove;
     TRadioButton *RSubjectFilterWhite;
     TRadioButton *RSubjectFilterBlack;
+	TLabel *Label7;
+	TListBox *LClasses;
+	TButton *BClassRename;
+	TButton *BClassRemove;
+	TLabel *Label8;
+	TListBox *LClassGroups;
+	TButton *BClassGroupAdd;
+	TButton *BClassGroupRename;
+	TButton *BClassGroupRemove;
+	TLabel *Label9;
+	TListBox *LClassSubgroups;
+	TButton *BClassSubgroupAdd;
+	TButton *BClassSubgroupRename;
+	TButton *BClassSubgroupRemove;
+	TLabel *Label10;
+	TButton *BClassSubjectAdd;
+	TButton *BClassSubjectRemove;
+	TComboBox *CmbClassSubjects;
+	TComboBox *CmbClassTeachers;
+	TButton *BClassAdd;
         void __fastcall BClassroomAddClick(TObject *Sender);
         void __fastcall BClassroomRemoveClick(TObject *Sender);
         void __fastcall BClassroomRenameClick(TObject *Sender);
@@ -93,6 +113,11 @@ __published:	// IDE-managed Components
 	void __fastcall LTeachersKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift);
 	void __fastcall LTeacherSubjectsKeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift);
+	void __fastcall BClassRenameClick(TObject *Sender);
+	void __fastcall BClassRemoveClick(TObject *Sender);
+	void __fastcall BClassAddClick(TObject *Sender);
+	void __fastcall LClassesKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift);
 private:	// User declarations
 public:		// User declarations

@@ -21,8 +21,8 @@ object FormGUI: TFormGUI
     Top = 0
     Width = 480
     Height = 360
-    ActivePage = TabSheet1
-    TabIndex = 0
+    ActivePage = TabSheet5
+    TabIndex = 4
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Main'
@@ -291,6 +291,181 @@ object FormGUI: TFormGUI
     object TabSheet5: TTabSheet
       Caption = 'Classes'
       ImageIndex = 4
+      object Label7: TLabel
+        Left = 8
+        Top = 4
+        Width = 36
+        Height = 13
+        Caption = 'Classes'
+      end
+      object Label8: TLabel
+        Left = 8
+        Top = 170
+        Width = 34
+        Height = 13
+        Caption = 'Groups'
+      end
+      object Label9: TLabel
+        Left = 248
+        Top = 2
+        Width = 51
+        Height = 13
+        Caption = 'Subgroups'
+      end
+      object Label10: TLabel
+        Left = 248
+        Top = 170
+        Width = 41
+        Height = 13
+        Caption = 'Subjects'
+      end
+      object LClasses: TListBox
+        Left = 0
+        Top = 24
+        Width = 236
+        Height = 110
+        ItemHeight = 13
+        Sorted = True
+        TabOrder = 0
+        OnClick = LTeachersClick
+        OnKeyDown = LClassesKeyDown
+      end
+      object BClassRename: TButton
+        Left = 72
+        Top = 139
+        Width = 65
+        Height = 25
+        Caption = 'Rename'
+        TabOrder = 1
+        OnClick = BClassRenameClick
+      end
+      object BClassRemove: TButton
+        Left = 144
+        Top = 139
+        Width = 65
+        Height = 25
+        Caption = 'Remove'
+        TabOrder = 2
+        OnClick = BClassRemoveClick
+      end
+      object LClassGroups: TListBox
+        Left = 0
+        Top = 190
+        Width = 236
+        Height = 110
+        ItemHeight = 13
+        Sorted = True
+        TabOrder = 3
+        OnClick = LTeachersClick
+        OnKeyDown = LTeachersKeyDown
+      end
+      object BClassGroupAdd: TButton
+        Left = 0
+        Top = 305
+        Width = 65
+        Height = 25
+        Caption = 'Add'
+        TabOrder = 4
+      end
+      object BClassGroupRename: TButton
+        Left = 72
+        Top = 305
+        Width = 65
+        Height = 25
+        Caption = 'Rename'
+        TabOrder = 5
+        OnClick = BTeacherRenameClick
+      end
+      object BClassGroupRemove: TButton
+        Left = 144
+        Top = 305
+        Width = 65
+        Height = 25
+        Caption = 'Remove'
+        TabOrder = 6
+        OnClick = BTeacherRemoveClick
+      end
+      object LClassSubgroups: TListBox
+        Left = 240
+        Top = 22
+        Width = 236
+        Height = 110
+        ItemHeight = 13
+        Sorted = True
+        TabOrder = 7
+        OnClick = LTeachersClick
+        OnKeyDown = LTeachersKeyDown
+      end
+      object BClassSubgroupAdd: TButton
+        Left = 240
+        Top = 138
+        Width = 65
+        Height = 25
+        Caption = 'Add'
+        TabOrder = 8
+        OnClick = BTeacherAddClick
+      end
+      object BClassSubgroupRename: TButton
+        Left = 312
+        Top = 138
+        Width = 65
+        Height = 25
+        Caption = 'Rename'
+        TabOrder = 9
+        OnClick = BTeacherRenameClick
+      end
+      object BClassSubgroupRemove: TButton
+        Left = 384
+        Top = 138
+        Width = 65
+        Height = 25
+        Caption = 'Remove'
+        TabOrder = 10
+        OnClick = BTeacherRemoveClick
+      end
+      object BClassSubjectAdd: TButton
+        Left = 240
+        Top = 304
+        Width = 65
+        Height = 25
+        Caption = 'Add'
+        TabOrder = 11
+        OnClick = BTeacherAddClick
+      end
+      object BClassSubjectRemove: TButton
+        Left = 312
+        Top = 304
+        Width = 65
+        Height = 25
+        Caption = 'Remove'
+        TabOrder = 12
+        OnClick = BTeacherRenameClick
+      end
+      object CmbClassSubjects: TComboBox
+        Left = 248
+        Top = 208
+        Width = 225
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 13
+      end
+      object CmbClassTeachers: TComboBox
+        Left = 247
+        Top = 240
+        Width = 225
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 14
+      end
+      object BClassAdd: TButton
+        Left = 0
+        Top = 139
+        Width = 65
+        Height = 25
+        Caption = 'Add'
+        TabOrder = 15
+        OnClick = BClassAddClick
+      end
     end
   end
   object MainMenu1: TMainMenu
