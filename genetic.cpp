@@ -9,7 +9,7 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     for(int i=0; i<numberOfGenotypes; i++)
     {
         genotypes[i] = new Genotype(data);
-        genotypes[i]->Evaluation();
+        genotypes[i]->Evaluation(data);
     }
     //Pokolenia (petla glowna algorytmu genetycznego)
     for(int i=0; i<numberOfGenerations; i++)

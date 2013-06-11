@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Data d(136,14*5, 100);
+    Data d(136,14*5, 100, 24);
 
     /* //wpisywanie do pliku
     fstream plik("pliczek.txt");
@@ -409,7 +409,9 @@ int main(int argc, char* argv[])
   }
 
   Genotype g( d );
-  double o = g.teachersEvaluation(d, 24);
+  g.Evaluation(d);
+  double o = 0;
+  g.Mark(o);
   //Wypisanie drzewa
     fstream f("pliczek.txt", ios::in | ios::out | ios::trunc);
  /* for( int i= 0; i< d.k->numberOfSubgroups; i++ )
@@ -428,23 +430,22 @@ int main(int argc, char* argv[])
         for( int n= 0; n< d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->numberOfLessons; n++ )
           f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]]->term<< endl;
       }
-
     }
 
   }*/
-  for(int i = 0; i < d.numberOfLessons; i++)
+/*  for(int i = 0; i < d.numberOfLessons; i++)
   {
     f << (int)d.tab[i].teacher << "\t" << (int)g.genes[i]->term << endl;
   }
   f.close();
-
+*/
   cout << o << endl;
 
 
 
 	//for( int i=0; i< d.numberOfLessons; i++)//wypisanie struktury data
   //    cout<< i<< ": "<< (int)d.tab[i].group<< ", "<< (int)d.tab[i].subject<< ", "<< (int)d.tab[i].teacher<< endl;
-    geneticAlgorithm(d,10,100);
+//    geneticAlgorithm(d,10,100);
     system("pause");
     return 0;
     }

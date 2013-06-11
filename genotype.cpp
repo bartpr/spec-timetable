@@ -30,7 +30,7 @@ Genotype::~Genotype()
     delete genes;
 }
 
-void Genotype::Evaluation()
+void Genotype::Evaluation(const Data &d)
 {
   //zalozenia przed ocena
   penalty = false;
@@ -44,17 +44,38 @@ void Genotype::Evaluation()
 
 double Genotype::termsCollision()
 {
+  const int CollisionPenalty = 1;
+  bool **tab = new bool*[numberOfRooms];
+  for (int i=0;i<numberOfRooms;i++)
+    tab[i] = new bool[numberOfTerms];
 
+  for( int i= 0; i< numberOfRooms; i++)
+    for( int j= 0; j< numberOfTerms; j++)
+      tab[i][j] = false;
+  //tablica booli przechowujaca wolne terminosale
   double tmpPenalty= 0;
 
-  for( int i= 0; i< numberOfGenes; i++ )//sprawdzenia kazdej ts z kazda
+  for( int i= 0; i< numberOfGenes; i++ )
+      if ( !tab[genes[ i ]->room][genes[ i ]->term] )
+        tab[genes[ i ]->room][genes[ i ]->term] = true;
+      else
+      {
+        tmpPenalty -= CollisionPenalty;
+        if (!penalty)
+          penalty = true;
+      }
+
+  /*for( int i= 0; i< numberOfGenes; i++ )//sprawdzenia kazdej ts z kazda
     for( int j= i+1; j< numberOfGenes; j++ )
       if( genes[ i ]->term== genes[ j ]->term )
         if( genes[ i ]->room== genes[ j ]->room )
         {
           penalty= true;
           tmpPenalty--;
-        }
+        }*/
+  for (int i=0;i<numberOfRooms;i++)
+    delete[] tab[i];
+  delete[] tab;
 
   return tmpPenalty;
 
@@ -81,8 +102,7 @@ double Genotype::evalSubject(const Data &d, Data::Node *p)
       if( d.tab[ p->lessons[ i ]].subject!= d.tab[ p->lessons[ i+ 1 ]].subject )//jezeli kolejny jest inny
         tmpPenalty+= evalSubject_( tab );
   }
-  delete tab;
-  mark+= tmpPenalty;
+  delete[] tab;
   return tmpPenalty;
 }
 
@@ -157,12 +177,12 @@ double Genotype::evalSubject_( short int *tab )
 		tmpPenalty-= (((ideal[i] == 0 && days[i] != 0) ? day_add_cost : (pow(max<double>(days[i]-ideal[i], 0), 2)
       *hour_add_cost))*sqrt((ideal[i]-days[i] > 0) ? ((days[i] != 0) ? ideal[i]/days[i] : 1) : 1)
       +((ideal[i] != 0 && days[i] == 0) ? no_day_cost : 0)+((ideal[i] > days[i]) ? (ideal[i]+1)/(days[i]+1) : 0))/hours_total;//wzor na blokowanie
-  for( int i= 0; i< numberOfDays; i++ )//wypisanie ilosci godzin w dniu
-    cout<< ideal[ i ]<< " - "<< days[ i ]<< endl;
-  cout<< "Kara: "<< tmpPenalty<< endl;
+  //for( int i= 0; i< numberOfDays; i++ )//wypisanie ilosci godzin w dniu
+    //cout<< ideal[ i ]<< " - "<< days[ i ]<< endl;
+  //cout<< "Kara: "<< tmpPenalty<< endl;
   for( int i= 0; i< numberOfTerms; i++ )//czyszczenie tablicy
     tab[ i ]= 0;
-  system( "pause" );
+  //system( "pause" );
   return tmpPenalty;
 }
 
@@ -249,8 +269,8 @@ void Genotype::cleanVectors(Data::Node *p)
 double Genotype::evalStudent( short int *tTable )
 {
   const int hoursLimit = 8;
-  for( int i= 0; i< numberOfTerms; i++ )
-    cout<< i<< ": "<< tTable[ i ]<< endl;
+  //for( int i= 0; i< numberOfTerms; i++ )
+  //  cout<< i<< ": "<< tTable[ i ]<< endl;
   double tmpPenalty= 0;
   const int numberOfDays= 5;
   int days[ numberOfDays ];
@@ -327,31 +347,32 @@ double Genotype::evalStudent( short int *tTable )
       break_= false;
     }
   }
-  for( int i= 0; i< numberOfDays; i++ )//wypisanie ilosci godzin w dniu
-    cout<< days[ i ]<< endl;
-  cout<< "Kara: "<< tmpPenalty<< endl;
-  system("pause");
+  //for( int i= 0; i< numberOfDays; i++ )//wypisanie ilosci godzin w dniu
+  //  cout<< days[ i ]<< endl;
+  //cout<< "Kara: "<< tmpPenalty<< endl;
+  //system("pause");
   return tmpPenalty;
 }
 
 double Genotype::eval(const Data &d, Data::Node *p, unsigned short *tab, int n)
 {
 	double tmpPenalty = 0;
-	if(p == 0)
+	if(p == 0) //pierwsze wywolanie funkcji
 	{
 		unsigned short *plan = new unsigned short[d.numberOfTerms];
-		for(int i = 0; i < d.k->numberOfSubgroups; i++)
-			tmpPenalty += eval(d, d.k->subgroups[i], plan);
+		for(int i = 0; i < d.k->numberOfSubgroups; i++) //przechodzimy po wszystkich klasach
+			tmpPenalty += eval(d, d.k->subgroups[i], plan); //ustalamy plan dla kazdej grupy
+    delete[] plan;
 		return tmpPenalty;
 	}
 	else
 	{
-		for(int i = 0; i < p->numberOfLessons; i++)
+		for(int i = 0; i < p->numberOfLessons; i++) //dodajemy do tab wszystkie lekcje danej podgrupy
 			tab[n + i] = p->lessons[i];
 		n += p->numberOfLessons;
 		if(p->numberOfSubgroups != 0)
 		{
-			for(int i = 0; i < p->numberOfSubgroups; i++)
+			for(int i = 0; i < p->numberOfSubgroups; i++) //przechodzimy po wszystkich podgrupach danej grupy
 				tmpPenalty += eval(d, p->subgroups[i], tab, n);
 			return tmpPenalty;
 		}
@@ -359,10 +380,6 @@ double Genotype::eval(const Data &d, Data::Node *p, unsigned short *tab, int n)
 		{
 			//tab zawiera indeksy lekcji, ktore ma ta grupa (lacznie z lekcjami wspolnym z innymi grupami)
 			//n - ilosc wszystkich lekcji w tej grupie
-			/*
-        Do zrobienia:
-        - okienko ucznia
-      */
       short int *tTable= new short int[ numberOfTerms ];
       for( int i= 0; i< numberOfTerms; i++ )
         tTable[ i ]= 0;
@@ -370,19 +387,17 @@ double Genotype::eval(const Data &d, Data::Node *p, unsigned short *tab, int n)
       for( int i= 0; i< n; i++ )
         tTable[ genes[ tab[ i ]]->term ]++;
 
-      mark-= evalStudent( tTable );
+      tmpPenalty += evalStudent( tTable );
 
-      delete tTable;
+      delete[] tTable;
       return tmpPenalty;
 		}
 	}
 }
 
-double Genotype::teachersEvaluation(const Data &d, int numberOfTeachers)
+double Genotype::teachersEvaluation(const Data &d)
 {
-	//do poprawki
-  //int nauczyciel = 22;//trzeba wyciagnac nauczyciela i zastpic kilka linijek nizej oznacznych ***
-  ///////////////////////////////////////////
+  int numberOfTeachers = d.numberOfTeachers;
 
   const int numberOfDays = 5; //piec dni tygodnia
   const double breaks = 1; //wspolczynnik kary za okno
@@ -404,7 +419,8 @@ double Genotype::teachersEvaluation(const Data &d, int numberOfTeachers)
     if( tab[d.tab[i].teacher][genes[ i ]->term] )
     {
       tmpPenalty -= collision; //kolizja nauczyciela
-      penalty= true;
+      if (!penalty)
+        penalty= true;
     }
     else
       tab[d.tab[i].teacher][genes[ i ]->term]=true;
@@ -437,6 +453,5 @@ double Genotype::teachersEvaluation(const Data &d, int numberOfTeachers)
   delete [] tab;
   //zwolnienie pamieci
 
-  mark+= tmpPenalty;
   return tmpPenalty;
 }

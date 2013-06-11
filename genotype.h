@@ -11,10 +11,10 @@ class Genotype
 public:
   Genotype(const Data &data);
   ~Genotype();
-  void Evaluation(); //Funkcja oceniaj¹ca
+  void Evaluation(const Data &d); //Funkcja oceniaj¹ca
   bool Mark(double &mark);
   double termsCollision();//kolizja terminosal
-  double teachersEvaluation(const Data &d, int numberOfTeachers);
+  double teachersEvaluation(const Data &d);
 	double collisionsInClass(const Data &d, Data::Node *p = 0, Data::Node *q = 0);
   void cleanVectors(Data::Node *p);
 	double eval(const Data &d, Data::Node *p = 0, unsigned short *tab = 0, int n = 0);

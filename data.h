@@ -17,7 +17,7 @@ class Data
 {
 public:
 
-    Data(unsigned char NumberOfLessons, unsigned char NumberOfTerms,  unsigned char NumberOfRooms);
+    Data(unsigned char NumberOfLessons, unsigned char NumberOfTerms,  unsigned char NumberOfRooms, unsigned char NumberOfTeachers);
 //    ~Data();
 
 //protected:
@@ -25,7 +25,7 @@ public:
     unsigned short numberOfLessons; //Ilosc genow
     unsigned char numberOfTerms; //Ilosc terminow w szkole np: 14*5 dni
     unsigned char numberOfRooms; //Ilosc sal
-
+    unsigned char numberOfTeachers;
     struct Lesson
     {
         unsigned char group, teacher, subject; //unikalne identyfikatory grupy, nauczyciela, przedmiotu
