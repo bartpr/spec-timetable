@@ -35,34 +35,39 @@ void Genotype::Evaluation(const Data &d)
   //zalozenia przed ocena
   penalty = false;
   mark = 0;
-  mark += termsCollision();
+  mark += termsCollision(); //kolizja jednej sali w danym terminie
   mark += collisionsInClass(d);
-  mark += teachersEvaluation(d);
+  mark += teachersEvaluation(d); //okienka i kolizje nauczycieli, mo¿liwe szybkie dopisanie preferencji godzinnych
   mark += eval(d);
 
 }//funkcja oceniaj¹ca
 
 double Genotype::termsCollision()
 {
-  const int CollisionPenalty = 1;
+  const double CollisionPenalty = 1;//wspolczynnik odpowiedzialny za kolizje sali w danym terminie
+
   bool **tab = new bool*[numberOfRooms];
   for (int i=0;i<numberOfRooms;i++)
     tab[i] = new bool[numberOfTerms];
+  //dynamiczna tablica dwuwymiarowa sala x termin, ktora bedzie przechowywac czy dana czy
+  //dana terminosala jest juz zajeta czy tez nie , true dla zajetego terminu
 
   for( int i= 0; i< numberOfRooms; i++)
     for( int j= 0; j< numberOfTerms; j++)
       tab[i][j] = false;
-  //tablica booli przechowujaca wolne terminosale
-  double tmpPenalty= 0;
+  //przygotowanie tablicy, przyjecie, ¿e ka¿dy termin dla ka¿dej sali jest wolny
 
-  for( int i= 0; i< numberOfGenes; i++ )
-      if ( !tab[genes[ i ]->room][genes[ i ]->term] )
-        tab[genes[ i ]->room][genes[ i ]->term] = true;
+  double tmpPenalty= 0; //zmienna do zliczania kary z tej funkcji
+
+  for( int i= 0; i< numberOfGenes; i++ ) //przechodzimy przez wszystkie geny, czyli wszystkie wystepuj¹ce kombinacje terminow u sali
+      if ( !tab[genes[ i ]->room][genes[ i ]->term] )//sprawdzany czy dana sala jest ju¿ zajeta w tym terminie
+        tab[genes[ i ]->room][genes[ i ]->term] = true; //jesli nie zaznaczamy iz tak jest w tablicy booli
       else
       {
         tmpPenalty -= CollisionPenalty;
         if (!penalty)
           penalty = true;
+        //jesli nie zliczamy kare oraz zaznaczamy iz taka sytuacja nie moze wystapic
       }
 
   /*for( int i= 0; i< numberOfGenes; i++ )//sprawdzenia kazdej ts z kazda
@@ -72,14 +77,18 @@ double Genotype::termsCollision()
         {
           penalty= true;
           tmpPenalty--;
-        }*/
+        }*/  //druga wersja algorytmu prawdopodobnie mniej optymalna
+
+
   for (int i=0;i<numberOfRooms;i++)
     delete[] tab[i];
   delete[] tab;
+  //czystki etniczne pamieci
 
   return tmpPenalty;
+  //funkcja zwraca nasza tymczasowo liczona kare
 
-}
+}//termsCollision()
 
 bool Genotype::Mark(double &mark)
 {
@@ -397,61 +406,78 @@ double Genotype::eval(const Data &d, Data::Node *p, unsigned short *tab, int n)
 
 double Genotype::teachersEvaluation(const Data &d)
 {
-  int numberOfTeachers = d.numberOfTeachers;
-
-  const int numberOfDays = 5; //piec dni tygodnia
+  const int numberOfDays = 5; //piec dni tygodnia, mozna przyszlosciowo ustawic w interfejsie
   const double breaks = 1; //wspolczynnik kary za okno
   const double collision = 2; //wspolczynnik kary za kolizje
 
-  double tmpPenalty= 0;
+  double tmpPenalty= 0;//zmienna do zliczania kary z tej funkcji
 
-  bool **tab = new bool*[numberOfTeachers];
-  for (int i=0;i<numberOfTeachers;i++)
+  bool **tab = new bool*[d.numberOfTeachers];
+  for (int i=0;i<d.numberOfTeachers;i++)
     tab[i] = new bool[numberOfTerms];
+  //tworzenie dynamicznej ablicy dwuwymiarowej nauczycel x termin, przechowywujacej
+  //informacje o zajetosci danego nauczyciela w danym terminie, true dla zajetego terminu
 
-  for (int i=0;i<numberOfTeachers;i++)
+  for (int i=0;i<d.numberOfTeachers;i++)
     for (int j=0;j<numberOfTerms;j++)
       tab[i][j]=false;
-  //zerowanie tablicy, tam gdzie lekcja bedzie true
+  //przygotowanie tablicy, wstepne zlozenie ze wszystkie terminy sa wolne
 
+  /********************Kolizja Nauczyciela**********************************/
   for( int i= 0; i< numberOfGenes; i++ )
   {
-    if( tab[d.tab[i].teacher][genes[ i ]->term] )
+    if( tab[d.tab[i].teacher][genes[ i ]->term] ) //sprawdzamy czy nauczyciel jest juz zajety w tym terminie
     {
-      tmpPenalty -= collision; //kolizja nauczyciela
+      tmpPenalty -= collision;
       if (!penalty)
         penalty= true;
+      //jesli tak dodlicz do kary i zaznacz fakt iz taki plan nie moze istniec
     }
     else
       tab[d.tab[i].teacher][genes[ i ]->term]=true;
+    //jesli nie, zaktualizuj tablice stwierdzajac iz juz jest zajety
   }
 
+  /*************Okienka + rozwojowo preferencje nauczycieli*****************/
   int firstTerm, lastTerm, thisDayTerms;
-  //pierwszy i ostatni termin, rozwojowo preferencje co do godzin nauczycieli (rano/wieczor)
-  for (int i=0;i<numberOfTeachers;i++)
-    for (int j=0;j<5;j++)//dzien tygodnia
+  //pierwszy i ostatni termin oraz liczba wszystkich zajêtych terminów w tym¿e dniu
+  for (int i=0;i<d.numberOfTeachers;i++) //dla ka¿dego nauczyciela
+    for (int j=0;j<numberOfDays;j++)//w ka¿dym dniu tygodnia
     {
       firstTerm = lastTerm = -1;
       thisDayTerms = 0;
-      for (int k=0;k<numberOfTerms/numberOfDays;k++)//termin w dzien tygodnia
+      //wstêpne zalozenie - sytuacja w ktorej nauczyciel ma wolny dzien
+
+      for (int k=0;k<numberOfTerms/numberOfDays;k++)//przejscie przez kolejne terminy w dniu
       {
-        if(tab[i][j*(numberOfTerms/numberOfDays)+k])
+        if(tab[i][j*(numberOfTerms/numberOfDays)+k])//jesli w tym terminie odbywaja sie zajecia
         {
-          lastTerm = k;
-          thisDayTerms++;
+          lastTerm = k; //zakladamy ze jest to ostatnia lekcja
+          thisDayTerms++; //doliczamy ta lekcje do licznika
           if(firstTerm == -1)
             firstTerm = k;
-        }
-      } //znajdowanie dla danego dnia ilosci przedmiotow, pierwszej oraz ostatniej lekcji
+          //jesli do tej pory nie znalazlismy zadnej lekcji, wiemy ze wlasnie natrafilismy na pierwsza lekcje
 
+          // dzieki tym danym mozna bardzo latwo sprawdzac preferencje nauczycieli, nalezalo by to jednak rowniez zaimplementowac
+          // w interfejsie wejsciowym  - do przedyskutowania
+        }
+      }
       if (thisDayTerms>1)//jesli nie ma nawet 2 lekcji nie moze byc okienek
-       tmpPenalty -= breaks * (lastTerm - thisDayTerms - firstTerm + 1); //okno nauczyciela
+       tmpPenalty -= breaks * (lastTerm - thisDayTerms - firstTerm + 1);
+       //dodanie kary jednakze taki plan moze istniec ( w nawiasie wzor na ilosc okienek)
+
+       //SUGESTIA do przemyslenia
+       //wydaje mi sie ze kara ta nie powinna rosnac liniowo, gdyz przeciez 6 lekcyjne okienko jest tragiczne
+       //proponuje liczyc je jako  (1.9^ilosc okienek)/2
+       //kolejne kary bylyby nastepujeace (od 1 do 7)
+       // 0,95; 1,805; 3,43; 6,51; 12,38; 23,52; 44,69
     }
 
-  for (int i=0;i<numberOfTeachers;i++)
+  for (int i=0;i<d.numberOfTeachers;i++)
     delete [] tab[i];
   delete [] tab;
   //zwolnienie pamieci
 
   return tmpPenalty;
+  // zworot wartosci kary
 }
