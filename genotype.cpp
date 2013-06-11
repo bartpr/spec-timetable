@@ -204,10 +204,18 @@ double Genotype::collisionsInClass(const Data &d, Data::Node *p, Data::Node *q)
 				if(!tab[genes[p->lessons[i]]->term])
 					tab[genes[p->lessons[i]]->term] = true;
 				else if(!inGroupP) //kolizja w grupie p
+        {
 					tmpPenalty -= collisionPenalty;
+          if(!penalty)
+            penalty = true;
+        }
 			for(int i = 0; i < q->numberOfLessons; i++)
 				if(tab[genes[q->lessons[i]]->term]) //kolizja miedzy p i q
-					tmpPenalty -= collisionPenalty;
+				{
+        	tmpPenalty -= collisionPenalty;
+          if(!penalty)
+            penalty = true;
+        }
 				else if(!inGroupQ) //kolizja w q
 					tab[genes[q->lessons[i]]->term] = true;
 			p->checked.push_back(q->id);
@@ -256,7 +264,8 @@ double Genotype::evalStudent( short int *tTable )
     {
       tmpPenalty -= (days[i]-hoursLimit)*(1+days[i]-hoursLimit)/2;//magiczne liczby
       if(days[i] > hoursLimit+1)
-        penalty = true;
+        if(!penalty)
+          penalty = true;
     }
   //wczesniejszy koniec
   const int prizeEnd= 1;
@@ -309,7 +318,8 @@ double Genotype::evalStudent( short int *tTable )
         if( j!= days[ i/ ( numberOfTerms/ numberOfDays )])//juz byly wszystkie lekcje
         {
           tmpPenalty-= breakCost;
-          penalty= true;
+          if(!penalty)
+            penalty = true;
         }
     if( i% ( numberOfTerms/ numberOfDays )== ( numberOfTerms/ numberOfDays )- 1 )// koniec dnia
     {
