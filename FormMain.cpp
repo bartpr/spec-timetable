@@ -536,3 +536,43 @@ void __fastcall TFormGUI::LClassesKeyDown(TObject *Sender, WORD &Key,
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TFormGUI::LClassesClick(TObject *Sender)
+{
+	LClassGroups->Clear();
+    if (LClasses->ItemIndex == -1) return;
+
+    for (unsigned int i = 0; i < vClassses.size(); i++) {
+            Classs* c = vClassses[i];
+            if (c->id == LClassses->Items->operator[](LClassses->ItemIndex)) {
+                    for (unsigned int j = 0; j < c->groups.size(); j++) {
+                            LClassGroups->AddItem(c->groups[j]->id,NULL);
+                    }
+                    return;
+            }
+    }	
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormGUI::LClassGroupsClick(TObject *Sender)
+{
+	LClassSubgroups->Clear();
+    if (LClasses->ItemIndex == -1 || LClassGroups->ItemIndex == -1) return;
+
+    for (unsigned int i = 0; i < vClassses.size(); i++) {
+        Classs* c = vClassses[i];
+    	if (c->id == LClassses->Items->operator[](LClassses->ItemIndex)) {
+        	for (unsigned int j = 0; j < c->groups.size(); j++) {
+                Group* g = c->groups[j];
+                if (g->id == LClassGroups->Items->operator[](LClassGroups->ItemIndex)) {
+                	for (unsigned int k = 0; k < g->subgroups.size(); k++) {
+                            LClassSubgroups->AddItem(g->subgroups[k]->id,NULL);
+                    }
+                    return;
+                }
+            }
+		}
+    }
+}
+//---------------------------------------------------------------------------
+

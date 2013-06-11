@@ -4,7 +4,8 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="TimetableGUI.exe"/>
-    <OBJFILES value="TimetableGUI.obj FormMain.obj FrmDialogText.obj FrmDialogCombo.obj"/>
+    <OBJFILES value="TimetableGUI.obj FormMain.obj FrmDialogText.obj FrmDialogCombo.obj 
+      Classroom.obj Classs.obj Group.obj Subgroup.obj Subject.obj Teacher.obj"/>
     <RESFILES value="TimetableGUI.res"/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
@@ -48,10 +49,22 @@
       <FILE FILENAME="TimetableGUI.res" FORMNAME="" UNITNAME="TimetableGUI.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TimetableGUI.cpp" FORMNAME="" UNITNAME="TimetableGUI" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FormMain.cpp" FORMNAME="FormGUI" UNITNAME="FormMain" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Classroom.h" FORMNAME="" UNITNAME="Classroom.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FrmDialogText.cpp" FORMNAME="FormDialogText" UNITNAME="FrmDialogText" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Subject.h" FORMNAME="" UNITNAME="Subject.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FrmDialogCombo.cpp" FORMNAME="FormDialogCombo" UNITNAME="FrmDialogCombo" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FormMain.h" FORMNAME="" UNITNAME="FormMain.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FrmDialogCombo.h" FORMNAME="" UNITNAME="FrmDialogCombo.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FrmDialogText.h" FORMNAME="" UNITNAME="FrmDialogText.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Classroom.cpp" FORMNAME="" UNITNAME="Classroom.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Classs.cpp" FORMNAME="" UNITNAME="Classs.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Group.cpp" FORMNAME="" UNITNAME="Group.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Subgroup.cpp" FORMNAME="" UNITNAME="Subgroup.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Subject.cpp" FORMNAME="" UNITNAME="Subject.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Teacher.cpp" FORMNAME="" UNITNAME="Teacher.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Classroom.h" FORMNAME="" UNITNAME="Classroom.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Classs.h" FORMNAME="" UNITNAME="Classs.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Group.h" FORMNAME="" UNITNAME="Group.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Subgroup.h" FORMNAME="" UNITNAME="Subgroup.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Subject.h" FORMNAME="" UNITNAME="Subject.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Teacher.h" FORMNAME="" UNITNAME="Teacher.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>

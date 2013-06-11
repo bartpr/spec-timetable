@@ -1,6 +1,6 @@
 object FormGUI: TFormGUI
-  Left = 322
-  Top = 333
+  Left = 211
+  Top = 153
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Timetable'
@@ -327,7 +327,7 @@ object FormGUI: TFormGUI
         ItemHeight = 13
         Sorted = True
         TabOrder = 0
-        OnClick = LTeachersClick
+        OnClick = LClassesClick
         OnKeyDown = LClassesKeyDown
       end
       object BClassRename: TButton
@@ -356,7 +356,7 @@ object FormGUI: TFormGUI
         ItemHeight = 13
         Sorted = True
         TabOrder = 3
-        OnClick = LTeachersClick
+        OnClick = LClassGroupsClick
         OnKeyDown = LTeachersKeyDown
       end
       object BClassGroupAdd: TButton

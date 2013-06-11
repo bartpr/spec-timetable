@@ -119,6 +119,8 @@ __published:	// IDE-managed Components
 	void __fastcall BClassAddClick(TObject *Sender);
 	void __fastcall LClassesKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift);
+	void __fastcall LClassesClick(TObject *Sender);
+	void __fastcall LClassGroupsClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TFormGUI(TComponent* Owner);
