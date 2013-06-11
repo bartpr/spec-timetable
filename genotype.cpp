@@ -35,9 +35,10 @@ void Genotype::Evaluation()
   //zalozenia przed ocena
   penalty = false;
   mark = 0;
-
-  termsCollision();
-
+  mark += termsCollision();
+  mark += collisionsInClass(d);
+  mark += teachersEvaluation(d);
+  mark += eval(d);
 
 }//funkcja oceniaj¹ca
 
@@ -55,7 +56,6 @@ double Genotype::termsCollision()
           tmpPenalty--;
         }
 
-  mark+= tmpPenalty;
   return tmpPenalty;
 
 }
@@ -66,7 +66,7 @@ bool Genotype::Mark(double &mark)
     return penalty;
 }
 
-double Genotype::evalSubject(Data &d, Data::Node *p)
+double Genotype::evalSubject(const Data &d, Data::Node *p)
 {
   double tmpPenalty= 0;
   short int *tab = new short int[numberOfTerms];
@@ -166,14 +166,14 @@ double Genotype::evalSubject_( short int *tab )
   return tmpPenalty;
 }
 
-double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
+double Genotype::collisionsInClass(const Data &d, Data::Node *p, Data::Node *q)
 {
   const double collisionPenalty = 1;
 	double tmpPenalty = 0;
 	if(p == 0 && q == 0) //pierwsze wywolanie
 	{
 		for(int i = 0; i < d.k->numberOfSubgroups; i++) //sprawdzamy kolizje korzenia z kazda podgrupa
-			tmpPenalty += collisionsInClass(d, d.k, d.k->subgroups[i]);
+			tmpPenalty -= collisionsInClass(d, d.k, d.k->subgroups[i]);
 		cleanVectors(d.k);
 		return tmpPenalty;
 	}
@@ -204,10 +204,10 @@ double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 				if(!tab[genes[p->lessons[i]]->term])
 					tab[genes[p->lessons[i]]->term] = true;
 				else if(!inGroupP) //kolizja w grupie p
-					tmpPenalty += collisionPenalty;
+					tmpPenalty -= collisionPenalty;
 			for(int i = 0; i < q->numberOfLessons; i++)
 				if(tab[genes[q->lessons[i]]->term]) //kolizja miedzy p i q
-					tmpPenalty += collisionPenalty;
+					tmpPenalty -= collisionPenalty;
 				else if(!inGroupQ) //kolizja w q
 					tab[genes[q->lessons[i]]->term] = true;
 			p->checked.push_back(q->id);
@@ -224,10 +224,10 @@ double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
       evalSubject( d, q );
     }
 		for(int i = 0; i < q->numberOfSubgroups; i++) //sprawdzamy kolizje p ze wszystkimi podgrupami q
-			tmpPenalty += collisionsInClass(d, p, q->subgroups[i]);
+			tmpPenalty -= collisionsInClass(d, p, q->subgroups[i]);
 	}
 	for(int i = 0; i < q->numberOfSubgroups; i++) //sprawdzamy kolizje q ze wszystkimi podgrupami q
-		tmpPenalty += collisionsInClass(d, q, q->subgroups[i]);
+		tmpPenalty -= collisionsInClass(d, q, q->subgroups[i]);
 	return tmpPenalty;
 }
 
@@ -240,6 +240,7 @@ void Genotype::cleanVectors(Data::Node *p)
 
 double Genotype::evalStudent( short int *tTable )
 {
+  const int hoursLimit = 8;
   for( int i= 0; i< numberOfTerms; i++ )
     cout<< i<< ": "<< tTable[ i ]<< endl;
   double tmpPenalty= 0;
@@ -251,24 +252,12 @@ double Genotype::evalStudent( short int *tTable )
     days[ i/ ( numberOfTerms/ numberOfDays )]+= tTable[ i ];
   //kara za liczbe godzin
   for( int i= 0; i< numberOfDays; i++ )
-  switch( days[ i ] )
-  {
-  case 10:
-    tmpPenalty-= 1;
-    break;
-  case 11:
-    tmpPenalty-= 3;
-    break;
-  case 12:
-    tmpPenalty-= 6;
-    break;
-  case 13:
-    tmpPenalty-= 10;
-    break;
-  case 14:
-    tmpPenalty-= 15;
-    break;
-  }
+    if(days[i] > hoursLimit)
+    {
+      tmpPenalty -= (days[i]-hoursLimit)*(1+days[i]-hoursLimit)/2;//magiczne liczby
+      if(days[i] > hoursLimit+1)
+        penalty = true;
+    }
   //wczesniejszy koniec
   const int prizeEnd= 1;
   for( int i= 0; i< numberOfDays; i++ )
@@ -335,7 +324,7 @@ double Genotype::evalStudent( short int *tTable )
   return tmpPenalty;
 }
 
-double Genotype::eval(Data &d, Data::Node *p, unsigned short *tab, int n)
+double Genotype::eval(const Data &d, Data::Node *p, unsigned short *tab, int n)
 {
 	double tmpPenalty = 0;
 	if(p == 0)
@@ -385,8 +374,9 @@ double Genotype::teachersEvaluation(const Data &d, int numberOfTeachers)
   //int nauczyciel = 22;//trzeba wyciagnac nauczyciela i zastpic kilka linijek nizej oznacznych ***
   ///////////////////////////////////////////
 
-  double const breaks = 1; //wspolczynnik kary za okno
-  double const collision = 2; //wspolczynnik kary za kolizje
+  const int numberOfDays = 5; //piec dni tygodnia
+  const double breaks = 1; //wspolczynnik kary za okno
+  const double collision = 2; //wspolczynnik kary za kolizje
 
   double tmpPenalty= 0;
 
@@ -417,9 +407,9 @@ double Genotype::teachersEvaluation(const Data &d, int numberOfTeachers)
     {
       firstTerm = lastTerm = -1;
       thisDayTerms = 0;
-      for (int k=0;k<numberOfTerms/5;k++)//termin w dzien tygodnia
+      for (int k=0;k<numberOfTerms/numberOfDays;k++)//termin w dzien tygodnia
       {
-        if(tab[i][j*(numberOfTerms/5)+k])
+        if(tab[i][j*(numberOfTerms/numberOfDays)+k])
         {
           lastTerm = k;
           thisDayTerms++;
