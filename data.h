@@ -5,8 +5,8 @@
 using namespace std;
 /*
     Wszystkie informacje odnosnie calego planu lekcji(genotype).
-    Zawieraj¹ 3 identyfikatory dla ka¿dego genu - nauczyciel, grupa, przedmiot.
-    Na ka¿dym komputerze jest 1 obiekt tej klasy.
+    Zawieraja 3 identyfikatory dla kazdego genu - nauczyciel, grupa, przedmiot.
+    Na kazdym komputerze jest 1 obiekt tej klasy.
 */
 using namespace std;
 

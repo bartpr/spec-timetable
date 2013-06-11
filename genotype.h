@@ -6,7 +6,7 @@
 #include "data.h"
 /*
     Jest to jeden osobnik - caly plan lekcji.
-    Zawiera ocenê, karê, ilosc genów(grup) oraz tablicê wskaŸników na wszystkie geny.
+    Zawiera ocene, kare, ilosc genow(grup) oraz tablice wskaznikow na wszystkie geny.
 */
 class Genotype
 {
