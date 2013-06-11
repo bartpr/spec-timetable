@@ -10,7 +10,7 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     srand(time(NULL));
 
     //Wyslanie rozkazu generowania osobnikow do kazdej stacji
-    for(int i=0; i<numberOfComputer; i++)
+    for(int i=0; i<numberOfComputers; i++)
     {
         //Rozkaz(orderCreatePopulation(1), data, computerNumber(i), numberOfGenotypes/numberOfComputers);
     }
@@ -57,7 +57,7 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
                 p); na int(parents[p]/(numberOfGenotypes/numberOfComputers))
             */
         }
-        for(int i=0; i<numberOfComputer; i++)
+        for(int i=0; i<numberOfComputers; i++)
         {
             //Wysylamy komende ZakonczenieWysylania na kazdy komputer;
         }
@@ -83,7 +83,7 @@ void workStation(const Data &data, int numberOfGenotypes)
         {
             case 1:
                 /*
-                    Otrzymalismy a i b.
+                    Otrzymalismy komende Przeslij - (1, int a, int b)
                     Przeslij genotypy na inna stacje - Wyslij(genotypes[a], b%numberOfGenotypes)
                     na komputer int(b/numberOfGenotypes)
                 */
@@ -91,13 +91,18 @@ void workStation(const Data &data, int numberOfGenotypes)
             case 2:
                 /*
                     Przesylanie zakonczone - wczytuje dane z bufora i krzyzuju
-                    swoja populacje po kolei
+                    swoja populacje po kolei. 1 info z bufora: (Genotype genotype, int a)
+                    for(int i=0; j<numberOfGenotypes; i ++)
+                    {
+                        //Odebranie z bufora danych
+                        delete genotypes[a];
+                        genotypes[a] = genotype;
+                    }
                 */
-                int* parents = new int[numberOfGenotypes]; //Zamienic na otrzymywanie
                 for(int j=0; j<numberOfGenotypes; j += 2)
                 {
                     //Krzyzowanie
-                    crossover(genotypes[j]], genotypes[j+1], data.numberOfAllLessons);
+                    crossover(genotypes[j], genotypes[j+1], data.numberOfAllLessons);
                     genotypes[j]->Evaluation();
                     genotypes[j+1]->Evaluation();
                 }
@@ -107,10 +112,6 @@ void workStation(const Data &data, int numberOfGenotypes)
         //Oczekiwanie na otrzymanie rozkazu
     }
 }
-
-/*
-
-*/
 
 void createPopulation(Genotype** genotypes, Data data, int numberOfGenotypes)
 {
@@ -136,7 +137,6 @@ void generateParents(double* tableOfMarks, bool* tableOfPenalty, int numberOfGen
         }
     }
     min--;
-
     for(int i=0;i<numberOfGenotypes;i++)
     {
         tableOfMarks[i]-=min;
