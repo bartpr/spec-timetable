@@ -3,16 +3,17 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\bin\Scalanie.exe"/>
-    <OBJFILES value="Scalanie.obj ..\GenPacket.obj"/>
+    <PROJECT value="Scalanie.exe"/>
+    <OBJFILES value="main.obj ..\include\gene.obj ..\include\tgene.obj 
+      ..\include\tinformation.obj"/>
     <RESFILES value="Scalanie.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="lib\tsocket.lib"/>
+    <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <SPARELIBS value=""/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dclocx.bpi"/>
-    <PATHCPP value=".;.."/>
+    <PATHCPP value=".;..\include;..\include;..\include"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -22,8 +23,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Scalanie.bpf"/>
-    <INCLUDEPATH value="..\..\nowy\include;..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\include;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="..\..\nowy\include;..\;C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\include;C:\Users\damgla\Desktop\scalanie;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include"/>
+    <LIBPATH value="..\include;L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib;L:\scalanie\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -45,9 +46,10 @@
   <FILELIST>
       <FILE FILENAME="Scalanie.res" FORMNAME="" UNITNAME="Scalanie.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Scalanie.bpf" FORMNAME="" UNITNAME="Scalanie" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Scalanie.cpp" FORMNAME="" UNITNAME="Scalanie" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="lib\tsocket.lib" FORMNAME="" UNITNAME="tsocket.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\GenPacket.cpp" FORMNAME="" UNITNAME="GenPacket" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="main.cpp" FORMNAME="" UNITNAME="main" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\include\gene.cpp" FORMNAME="" UNITNAME="gene" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\include\tgene.cpp" FORMNAME="" UNITNAME="tgene" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\include\tinformation.cpp" FORMNAME="" UNITNAME="tinformation" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -81,16 +83,17 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\include;$(BCB)\include;$(BCB)\include\vcl
-Item1=C:\Users\damgla\Desktop\ProjektGIT\nowy\include;$(BCB)\include;$(BCB)\include\vcl
-Item2=C:\Users\damgla\Desktop\ProjektGIT\nowy;$(BCB)\include;$(BCB)\include\vcl
+Count=4
+Item0=..\include;C:\Users\damgla\Desktop\scalanie;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include
+Item1=..\include;L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include
+Item2=L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include
+Item3=L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=3
-Item0=C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\lib;$(BCB)\lib\obj;$(BCB)\lib
-Item1=C:\Users\damgla\Desktop\ProjektGIT\nowy\lib;$(BCB)\lib\obj;$(BCB)\lib
-Item2=C:\Users\damgla\Desktop\ProjektGIT\nowy;$(BCB)\lib\obj;$(BCB)\lib
+Item0=..\include;L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib;L:\scalanie\lib
+Item1=L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib;L:\scalanie\lib
+Item2=L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -99,12 +102,6 @@ Item0=$(BCB)\source\vcl
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
-
-[HistoryLists\hlFinalOutputDir]
-Count=3
-Item0=C:\Users\damgla\Desktop\ProjektGIT\spec-timetable\bin
-Item1=C:\Users\damgla\Desktop\ProjektGIT\nowy\bin\
-Item2=C:\Users\damgla\Desktop\ProjektGIT\nowy\bin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl

@@ -1,0 +1,105 @@
+//---------------------------------------------------------------------------
+
+#pragma hdrstop
+
+//Basic headers
+#include <iostream>
+#include <stdio.h>
+#include <winsock2.h>
+
+//Daneos headers
+#include <ttproto.h>
+#include <distributor.h>
+#include <clientqueue.h>
+#include <tsocket.h>
+
+//RdStein headers
+#include <GenPacket.h>
+#include "../include/tgenotype.h"
+#include "../include/tgene.h"
+#include "../include/tinformation.h"
+
+
+//Raf0 headers
+#include <genotype.h>
+#include "../include/gene.h"
+#include <information.h>
+#include <genetic.h>
+#include "../include/data.h"
+#include "../include/genotype.h"
+
+
+using namespace std;
+
+//---------------------------------------------------------------------------
+//Damian G³adys - RdStein
+//Scalanie
+//Czêsc odpowiedzialna za komunikacje miêdzy komputerami
+//Wysy³anie pakietów na bazie protoko³u
+
+
+//Inicjalizacja winsock'a
+bool WinsockInit();
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma argsused
+int main(int argc, char* argv[])
+{
+        WinsockInit();
+
+        Gene *g;
+        g = new Gene();
+
+        unsigned int s = 0;
+        void *pGene = prepareGene(g,&s);
+        cout << "Packet size: "<< s;
+
+
+        char **str = new char* [5];
+        for(unsigned int i = 0; i < 5; i++ )
+        {
+         str[i] = new char[10];
+         memset(str[i],'\0',10);
+         str[i] = "lol";
+        }
+
+        char *b = (char*)prepareStrings(str,4);
+        cout << strlen(b);
+
+        delete b;
+        delete []str;
+
+
+        getchar();
+        return 0;
+}
+//---------------------------------------------------------------------------
+
+
+
+
+
+
+bool WinsockInit()
+{
+  WSADATA WSAData;
+  if (WSAStartup(MAKEWORD(2,2),&WSAData) != 0)
+  {
+      return FALSE;
+  }
+  else
+  {
+      return TRUE;
+  }
+}
