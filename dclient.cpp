@@ -19,6 +19,7 @@ dClient::dClient(int role, char *port, int maxclients)
 		listener->tlisten(1);
 	}
 	s->taddSocket(listener, TS_MODE_R);
+	s->tsetTimeout(10000); // only for testing
 	this->role = role;
 }
 //-----------------------------------------------------------------------------
@@ -41,6 +42,8 @@ Distributor *dClient::getDistributor(void)
 int dClient::receive(void *buffer)
 {
 	memset(buffer, 0, sizeof(buffer));
+	tsocket *S = s->twait();
+	if(S == NULL) return NULL;
 	void *rec_buf = malloc(sizeof(buffer));
 	header hdr;
 	int hdrlen = sizeof(header);
@@ -50,7 +53,7 @@ int dClient::receive(void *buffer)
 	do // be sure to receive all data sent
 	{
 		int n = 0;
-		if((n = listener->treceive((char*)rec_buf)) == -1) perror("tRECEIVE");
+		if((n = S->treceive((char*)rec_buf)) == -1) perror("tRECEIVE");
 		if(n == 0) return -1; // connection reset by peer
 		if(rec_count == 0) // copy header only at first loop pass
 		{

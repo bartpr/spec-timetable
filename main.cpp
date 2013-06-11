@@ -31,7 +31,12 @@ void runClient(void)
 {
 	printf("CLIENT\n");
 	dClient *client = new dClient(ROLE_CLIENT, "1996", 200);
+	char buffer[100];
+	memset(buffer, 0 ,100);
+	client->receive(buffer);
+	printf("Received %s\n", buffer);
 
+	delete client;
 }
 
 void runServer(void)
