@@ -1,31 +1,59 @@
 /* Completely dummy main file, only for testing */
 
 #include <stdio.h>
-#include "distributor.h"
+#include "dclient.h"
+
+void runClient(void);
+void runServer(void);
 
 int main(void)
 {
-	Distributor *D = new Distributor(200);
-	printf("D ok\n");
-	int id = D->addClient("127.0.0.1", "5555");
-	printf("add ok\n");
-	printf("Added client "); D->getClient(id)->dump();
-	printf("get ok\n");
-	id = D->addClient("127.0.0.1", "5555");
-	printf("add ok\n");
-	printf("Added client "); D->getClient(id)->dump();
-	printf("get ok\n");
-	id = D->addClient("127.0.0.1", "5555");
-	printf("add ok\n");
-	printf("Added client "); D->getClient(id)->dump();
-	printf("get ok\n");
-	D->dump();
-	//printf("Initialized %d clients\n", D->initClients());perror("main");
-	delete D;
-	printf("delete ok\n");
-	printf("%p\n", D);
-	// tsocket *s = new tsocket(SOCK_STREAM, "testing");
-	// s->taddress(NULL, "9989");
-	// printf("%d", s->tgetPort());
+	printf("(c)lient or (s)erver: ");
+	char choice = getchar();
+	switch(choice)
+	{
+		case 'C':
+		case 'c':
+			runClient();
+			break;
+		case 'S':
+		case 's':
+			runServer();
+			break;
+		default:
+			printf("Error.\n");
+			break;
+	}
 	return 0;
+}
+
+void runClient(void)
+{
+	printf("CLIENT\n");
+	dClient *client = new dClient(ROLE_CLIENT, "1996", 200);
+
+}
+
+void runServer(void)
+{
+	printf("SERVER\n");
+	dClient *server = new dClient(ROLE_SERVER, NULL, 200);
+	printf("dclient ok\n");
+	int cid = server->getDistributor()->addClient("127.0.0.1", "1996");
+	printf("add ok\n");
+	printf("Waiting for client <%d> to connect", cid);
+	while(!server->getDistributor()->getClient(cid)->connected())
+	{
+		printf(".");
+		server->getDistributor()->getClient(cid)->connect();
+	}
+	server->sendTo(cid, (void*)"teeeeest");
+	printf("\nMessage sent to client <%d>.\n", cid);
+	char tmp[100];
+	memset(tmp, 0, 100);
+	int got_id = 0;
+	int n = server->getDistributor()->recvData(&got_id, (void*)tmp);
+	printf("Received %s (%d bytes) from <%d>\n", tmp, n, got_id);
+
+	delete server;
 }

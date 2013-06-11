@@ -11,10 +11,13 @@ dClient::dClient(int role, char *port, int maxclients)
 	D = new Distributor(maxclients);
 	s = new tselector(1);
 	listener = new tsocket(SOCK_STREAM, "terve://socket/listen0");
-	listener->taddress(NULL, port);
-	listener->topen();
-	listener->tbind();
-	listener->tlisten(1);
+	if(role == ROLE_CLIENT)
+	{
+		listener->taddress(NULL, port);
+		listener->topen();
+		listener->tbind();
+		listener->tlisten(1);
+	}
 	s->taddSocket(listener, TS_MODE_R);
 	this->role = role;
 }
@@ -39,7 +42,7 @@ int dClient::receive(void *buffer)
 {
 	memset(buffer, 0, sizeof(buffer));
 	void *rec_buf = malloc(sizeof(buffer));
-	header *hdr;
+	header hdr;
 	int hdrlen = sizeof(header);
 	int len = 0;
 
@@ -51,13 +54,14 @@ int dClient::receive(void *buffer)
 		if(n == 0) return -1; // connection reset by peer
 		if(rec_count == 0) // copy header only at first loop pass
 		{
-			memcpy(hdr, rec_buf, hdrlen);
-			len = hdr->len - hdrlen;
+			memcpy(&hdr, rec_buf, hdrlen);
+			len = hdr.len - hdrlen;
 		}
 		memcpy(buffer+(rec_count-hdrlen), rec_buf, n);
 		rec_count += n;
 	}
-	while(rec_count < hdr->len);
+	while(rec_count < hdr.len);
+	free(rec_buf);
 
 	return rec_count;
 }

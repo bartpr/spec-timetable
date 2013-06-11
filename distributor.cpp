@@ -66,7 +66,7 @@ int Distributor::recvData(int *id, void *buffer)
 	tsocket *S = s->twait();
 	if(S == NULL) return NULL;
 	void *rec_buf = malloc(sizeof(buffer));
-	header *hdr;
+	header hdr;
 	int hdrlen = sizeof(header);
 	int len = 0;
 
@@ -78,13 +78,14 @@ int Distributor::recvData(int *id, void *buffer)
 		if(n == 0) return -1; // connection reset by peer
 		if(rec_count == 0) // copy header only at first loop pass
 		{
-			memcpy(hdr, rec_buf, hdrlen);
-			len = hdr->len - hdrlen;
+			memcpy(&hdr, rec_buf, hdrlen);
+			len = hdr.len - hdrlen;
 		}
 		memcpy(buffer+(rec_count-hdrlen), rec_buf, n);
 		rec_count += n;
 	}
-	while(rec_count < hdr->len);
+	while(rec_count < hdr.len);
+	free(rec_buf);
 
 	*id = q->getClientBySocket(S)->getID();
 	return rec_count;
@@ -114,5 +115,11 @@ void Distributor::dump(void)
 /* Print all clients in distributor */
 {
 	this->q->dump();
+}
+//-----------------------------------------------------------------------------
+
+int initClients(void)
+{
+
 }
 //-----------------------------------------------------------------------------
