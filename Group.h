@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Classs.h"
+class Classs;
 #include "Subgroup.h"
 
 class Group {

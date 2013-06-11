@@ -544,7 +544,7 @@ void __fastcall TFormGUI::LClassesClick(TObject *Sender)
 
     for (unsigned int i = 0; i < vClassses.size(); i++) {
             Classs* c = vClassses[i];
-            if (c->id == LClassses->Items->operator[](LClassses->ItemIndex)) {
+            if (c->id == LClasses->Items->operator[](LClasses->ItemIndex)) {
                     for (unsigned int j = 0; j < c->groups.size(); j++) {
                             LClassGroups->AddItem(c->groups[j]->id,NULL);
                     }
@@ -561,7 +561,7 @@ void __fastcall TFormGUI::LClassGroupsClick(TObject *Sender)
 
     for (unsigned int i = 0; i < vClassses.size(); i++) {
         Classs* c = vClassses[i];
-    	if (c->id == LClassses->Items->operator[](LClassses->ItemIndex)) {
+    	if (c->id == LClasses->Items->operator[](LClasses->ItemIndex)) {
         	for (unsigned int j = 0; j < c->groups.size(); j++) {
                 Group* g = c->groups[j];
                 if (g->id == LClassGroups->Items->operator[](LClassGroups->ItemIndex)) {

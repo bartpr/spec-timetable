@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Group.h"
+class Group;
 
 class Subgroup {
 	public:
