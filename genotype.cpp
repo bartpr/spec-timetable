@@ -458,17 +458,14 @@ double Genotype::eval(const Data &d, Data::Node *p, unsigned short *tab, int n)
 		{
 			//tab zawiera indeksy lekcji, ktore ma ta grupa (lacznie z lekcjami wspolnym z innymi grupami)
 			//n - ilosc wszystkich lekcji w tej grupie
-      short int *tTable= new short int[ numberOfTerms ];
-      for( int i= 0; i< numberOfTerms; i++ )
+      short int *tTable= new short int[ numberOfTerms ];//utworzenie tablicy z lekcjami w danym terminie, dla danej grupy
+      for( int i= 0; i< numberOfTerms; i++ )//zerowanie tablicy
         tTable[ i ]= 0;
-
-      for( int i= 0; i< n; i++ )
+      for( int i= 0; i< n; i++ )//zlicznie ilosci godzin w terminie
         tTable[ genes[ tab[ i ]]->term ]++;
-
-      tmpPenalty += evalStudent( tTable );
-
-      delete[] tTable;
-      return tmpPenalty;
+      tmpPenalty += evalStudent( tTable );//ocena dla uczniow
+      delete[] tTable;//usuniecie tablicy
+      return tmpPenalty;//zwrocenie oceny
 		}
 	}
 }
