@@ -414,25 +414,25 @@ int main(int argc, char* argv[])
   g.Mark(o);
   //Wypisanie drzewa
     fstream f("pliczek.txt", ios::in | ios::out | ios::trunc);
- /* for( int i= 0; i< d.k->numberOfSubgroups; i++ )
+  for( int i= 0; i< d.k->numberOfSubgroups; i++ )
   {
     f<< "Klasa "<< i<< endl;
     for( int j= 0; j< d.k->subgroups[ i ]->numberOfLessons; j++ )
-      f<< "" << (int)g.genes[d.k->subgroups[ i ]->lessons[ j ]]->term<< endl;
+      f<< "" << (int)g.genes[d.k->subgroups[ i ]->lessons[ j ]]->term<< (int)g.genes[d.k->subgroups[ i ]->lessons[ j ]]->room << endl;
     for( int j= 0; j< d.k->subgroups[ i ]->numberOfSubgroups; j++ )
     {
       f<< "Podgrupa "<< j<< endl;
       for( int m= 0; m< d.k->subgroups[ i ]->subgroups[ j ]->numberOfLessons; m++ )
-        f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->lessons[ m ]]->term<< endl;
+        f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->lessons[ m ]]->term<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->lessons[ m ]]->room << endl;
       for( int k= 0; k< d.k->subgroups[ i ]->subgroups[ j ]->numberOfSubgroups; k++ )
       {
         f<< "Specjalizacja "<< k<< endl;
         for( int n= 0; n< d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->numberOfLessons; n++ )
-          f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]]->term<< endl;
+          f<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]]->term<< (int)g.genes[d.k->subgroups[ i ]->subgroups[ j ]->subgroups[ k ]->lessons[ n ]]->room <<endl;
       }
     }
 
-  }*/
+  }
 /*  for(int i = 0; i < d.numberOfLessons; i++)
   {
     f << (int)d.tab[i].teacher << "\t" << (int)g.genes[i]->term << endl;

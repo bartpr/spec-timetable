@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math.h>
 #include "genotype.h"
+#include <windows.h>
 using namespace std;
 
 
@@ -35,16 +36,53 @@ void Genotype::Evaluation(const Data &d)
   //zalozenia przed ocena
   penalty = false;
   mark = 0;
-  mark += termsCollision(); //kolizja jednej sali w danym terminie
-  mark += collisionsInClass(d);
-  mark += teachersEvaluation(d); //okienka i kolizje nauczycieli, mo¿liwe szybkie dopisanie preferencji godzinnych
-  mark += eval(d);
+  LARGE_INTEGER lpFrequency;
+  LARGE_INTEGER lpPerformanceCountStart, lpPerformanceCountEnd;
+
+  if (QueryPerformanceFrequency(&lpFrequency) != 0)
+  {
+    QueryPerformanceCounter(&lpPerformanceCountStart);
+    for(int i = 0; i < 1000000; i++)
+    {
+      mark += termsCollision(); //kolizja jednej sali w danym terminie
+      mark += collisionsInClass(d);
+      mark += teachersEvaluation(d); //okienka i kolizje nauczycieli, mo¿liwe szybkie dopisanie preferencji godzinnych
+      mark += eval(d);
+    }
+    QueryPerformanceCounter(&lpPerformanceCountEnd);
+    double Frequency = lpFrequency.LowPart;
+    double End = lpPerformanceCountEnd.LowPart;
+    double Start = lpPerformanceCountStart.LowPart;
+    cout << (End - Start) / Frequency << " s." << endl;
+    /*QueryPerformanceCounter(&lpPerformanceCountStart);
+    mark += termsCollision1(); //kolizja jednej sali w danym terminie
+    QueryPerformanceCounter(&lpPerformanceCountEnd);
+    Frequency = lpFrequency.LowPart;
+    End = lpPerformanceCountEnd.LowPart;
+    Start = lpPerformanceCountStart.LowPart;
+    cout << (End - Start) / Frequency << " s." << endl; */
+  }
 
 }//funkcja oceniaj¹ca
+/*double Genotype::termsCollision1()
+{
+  const double CollisionPenalty = 1;//wspolczynnik odpowiedzialny za kolizje sali w danym terminie
+  double tmpPenalty= 0; //zmienna do zliczania kary z tej funkcji
+  for( int i= 0; i< numberOfGenes; i++ )//sprawdzenia kazdej ts z kazda
+    for( int j= i+1; j< numberOfGenes; j++ )
+      if( genes[ i ]->term== genes[ j ]->term )
+        if( genes[ i ]->room== genes[ j ]->room )
+        {
+          penalty= true;
+          tmpPenalty--;
+        }  //druga wersja algorytmu prawdopodobnie mniej optymalna
+  return tmpPenalty;
+} */
 
 double Genotype::termsCollision()
 {
   const double CollisionPenalty = 1;//wspolczynnik odpowiedzialny za kolizje sali w danym terminie
+  double tmpPenalty= 0; //zmienna do zliczania kary z tej funkcji
 
   bool **tab = new bool*[numberOfRooms];
   for (int i=0;i<numberOfRooms;i++)
@@ -57,7 +95,6 @@ double Genotype::termsCollision()
       tab[i][j] = false;
   //przygotowanie tablicy, przyjecie, ¿e ka¿dy termin dla ka¿dej sali jest wolny
 
-  double tmpPenalty= 0; //zmienna do zliczania kary z tej funkcji
 
   for( int i= 0; i< numberOfGenes; i++ ) //przechodzimy przez wszystkie geny, czyli wszystkie wystepuj¹ce kombinacje terminow u sali
       if ( !tab[genes[ i ]->room][genes[ i ]->term] )//sprawdzany czy dana sala jest ju¿ zajeta w tym terminie
@@ -77,7 +114,7 @@ double Genotype::termsCollision()
         {
           penalty= true;
           tmpPenalty--;
-        }*/  //druga wersja algorytmu prawdopodobnie mniej optymalna
+        }  //druga wersja algorytmu prawdopodobnie mniej optymalna */
 
 
   for (int i=0;i<numberOfRooms;i++)
@@ -195,14 +232,14 @@ double Genotype::evalSubject_( short int *tab )
   return tmpPenalty;
 }
 
-double Genotype::collisionsInClass(const Data &d, Data::Node *p, Data::Node *q)
+double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
 {
   const double collisionPenalty = 1;
 	double tmpPenalty = 0;
 	if(p == 0 && q == 0) //pierwsze wywolanie
 	{
 		for(int i = 0; i < d.k->numberOfSubgroups; i++) //sprawdzamy kolizje korzenia z kazda podgrupa
-			tmpPenalty -= collisionsInClass(d, d.k, d.k->subgroups[i]);
+			tmpPenalty += collisionsInClass(d, d.k, d.k->subgroups[i]);
 		cleanVectors(d.k);
 		return tmpPenalty;
 	}
@@ -254,17 +291,17 @@ double Genotype::collisionsInClass(const Data &d, Data::Node *p, Data::Node *q)
 		}
     if(!inGroupP)
     {
-      evalSubject( d, p );
+      tmpPenalty += evalSubject( d, p );
     }
     if(!inGroupQ)
     {
-      evalSubject( d, q );
+      tmpPenalty += evalSubject( d, q );
     }
 		for(int i = 0; i < q->numberOfSubgroups; i++) //sprawdzamy kolizje p ze wszystkimi podgrupami q
-			tmpPenalty -= collisionsInClass(d, p, q->subgroups[i]);
+			tmpPenalty += collisionsInClass(d, p, q->subgroups[i]);
 	}
 	for(int i = 0; i < q->numberOfSubgroups; i++) //sprawdzamy kolizje q ze wszystkimi podgrupami q
-		tmpPenalty -= collisionsInClass(d, q, q->subgroups[i]);
+		tmpPenalty += collisionsInClass(d, q, q->subgroups[i]);
 	return tmpPenalty;
 }
 
