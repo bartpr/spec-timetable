@@ -31,24 +31,5 @@ public:
   unsigned char numberOfRooms;
   double mark;
   bool penalty;
-  template <class T>
-  void bubble_sort(T* tab, int n)
-  {
-    bool swapped;
-    do {
-      swapped = false;
-      for (int i = 0; i < n - 1; ++i) {
-        if (tab[i] > tab[i + 1]) {
-          swap(tab[i], tab[i + 1]);
-          swapped = true;
-        }
-      }
-    } while (swapped);
-  }
-  template<class T>
-  T max(T a, T b)
-  {
-    return (a > b) ? a : b;
-  }
 };
 #endif

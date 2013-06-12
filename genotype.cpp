@@ -133,103 +133,135 @@ bool Genotype::Mark(double &mark)
     return penalty;
 }
 
-double Genotype::evalSubject(const Data &d, Data::Node *p)
+//funkcja evalSubject odpowiada za ocene konkretnych przedmiotow w grupie (blokowanie)
+double Genotype::evalSubject(const Data &d, Data::Node *p)//p to dana grupa
 {
-  double tmpPenalty= 0;
-  short int *tab = new short int[numberOfTerms];
-  for( int i= 0; i< numberOfTerms; i++ )
+  double tmpPenalty= 0;//ustawienie oceny na 0
+  short int *tab = new short int[ numberOfTerms ];//tablica ktora zawiera wszystkie terminy, w niej wpisywana ilosc lekcji w danym terminie
+  for( int i= 0; i< numberOfTerms; i++ )//zerowanie tablicy terminow
     tab[ i ]= 0;
+  //wydzielenie danego przedmiotu sposrod wszystkich
   for( int i= 0; i< p->numberOfLessons; i++ )
   {
-    tab[ genes[ p->lessons[ i ]]->term ]++;//wpisanie terminu przedmiotu
-    if( i+ 1== p->numberOfLessons )//jezeli nie ma juz wiecej
-      tmpPenalty+= evalSubject_( tab );
+    tab[ genes[ p->lessons[ i ]]->term ]++;//wpisanie terminu danego przedmiotu
+    if( i+ 1== p->numberOfLessons )//jezeli byla to ostatnia lekcja grupy
+      tmpPenalty+= evalSubject_( tab );//ocena f. pomocnicza
     else
-      if( d.tab[ p->lessons[ i ]].subject!= d.tab[ p->lessons[ i+ 1 ]].subject )//jezeli kolejny jest inny
-        tmpPenalty+= evalSubject_( tab );
+      if( d.tab[ p->lessons[ i ]].subject!= d.tab[ p->lessons[ i+ 1 ]].subject )//jezeli nastepny przedmiot w tablicy jest inny od obecnego
+        tmpPenalty+= evalSubject_( tab );//ocena f. pomocnicza
   }
-  delete[] tab;
-  return tmpPenalty;
+  delete[] tab;//usuniecie tablicy
+  return tmpPenalty;//zwrocenie oceny
 }
 
-double Genotype::evalSubject_( short int *tab )
+//Pomocnicze funkcje
+//  sortowanie tablicy(mozna zmienic na lepsze)
+template <class T>
+void bubble_sort(T* tab, int n)
 {
-  double tmpPenalty= 0;
-  const int noBlockCost= 1;
-  const int numberOfDays= 5;
-  int days[ numberOfDays ];
-  for( int i= 0; i< numberOfDays; i++ )
+  bool swapped;
+  do {
+    swapped = false;
+    for (int i = 0; i < n - 1; ++i) {
+      if (tab[i] > tab[i + 1]) {
+        swap(tab[i], tab[i + 1]);
+        swapped = true;
+      }
+    }
+  } while (swapped);
+}
+//  zwrocenie wiekszej liczby
+template<class T>
+T max(T a, T b)
+{
+  return (a > b) ? a : b;
+}
+
+double Genotype::evalSubject_( short int *tab )//f. pomocnicza do evalSubject, odnosi sie juz do konkretnego przedmiotu
+{
+  double tmpPenalty= 0;//ustawienia oceny na 0
+  const int noBlockCost= 1;//kara, gdy dany przedmiot powtarza sie w danym dniu, nie w bloku
+  const int numberOfDays= 5;//liczba dni, w ktorych sa zajecia
+  int days[ numberOfDays ];//tablica z iloscia godzin w danym dniu
+  for( int i= 0; i< numberOfDays; i++ )//zerowanie godzin w danym dniu
     days[ i ]= 0;
   /*for( int i= 0; i< numberOfTerms; i++ )//wypisanie poszczegolnych terminow
     cout<< i<< ": "<< tab[ i ]<< endl;*/
-  for( int i= 0; i< numberOfTerms; i++ )//liczenie ile godzin w dniu
+  for( int i= 0; i< numberOfTerms; i++ )//liczenie ile godzin w danym dniu
     days[ i/ ( numberOfTerms/ numberOfDays )]+= tab[ i ];
-  //ocena czy sa w bloku w danym dniu
-  bool break_= false;
-  int j= 0;
-  for( int i= 0; i< numberOfTerms; i++ )
+  //***ocena czy powtarzaja sie w danym dniu - nie w bloku
+  bool lesson= false;//bedzie pokazywal czy byla juz lekcja
+  int j= 0;//zmienna przechowuje ilosc godzin w danym dniu
+  for( int i= 0; i< numberOfTerms; i++ )//przechodzimy przez cala tablice z terminami
   {
-    if( tab[ i ]> 0 )
+    if( tab[ i ]> 0 )//jezeli wystepuje w tym terminie co najmniej 1 lekcja
     {
-      break_= true;
-      j+= tab[ i ];
+      lesson= true;//ustawienie ze wystapila lekcja
+      j+= tab[ i ];//zwiekszenie liczby lekcji w danym dniu
     }
-    else
-      if( break_ )
+    else//jezeli nie ma w tym terminie lekcji
+      if( lesson )//a wystapila wczesniej
       {
-        if( j!= days[ i/ ( numberOfTerms/ numberOfDays )])//juz byly wszystkie lekcje
-        {
-          tmpPenalty-= noBlockCost;
-          penalty= true;
-          break_= false;
+        if( j!= days[ i/ ( numberOfTerms/ numberOfDays )])//sprawdzenie czy nie byla to ostatnia lekcja tego przedmiotu dla danego dnia
+        {//jezeli nie byla
+          tmpPenalty-= noBlockCost;//karzemy za powtorzenie nieblokowe
+          penalty= true;//ustawiamy, ze wystapila kara
+          lesson= false;//ustawiamy false, oznacza to, ze znowu czekamy na wystapienie lekcji
         }
-        else
-          break_= false;
       }
-    if( i% ( numberOfTerms/ numberOfDays )== ( numberOfTerms/ numberOfDays )- 1 )// koniec dnia
+    if( i% ( numberOfTerms/ numberOfDays )== ( numberOfTerms/ numberOfDays )- 1 )//Koniec dnia, zerowanie danych przed kolejnym dniem
     {
       j= 0;
-      break_= false;
+      lesson= false;
     }
   }
-  //zblokowanie
-  int ideal[]= { 0, 0, 0, 0, 0 };
-  const double no_day_cost = 1.0;
-	const double day_add_cost = 2.0;
-	const double hour_add_cost = 2.5;
-  int hours_total= 0;
-  for( int i= 0; i< numberOfDays; i++ )
+  //***Blokowanie przedmiotu w ciagu tygodnia
+  int ideal[]= { 0, 0, 0, 0, 0 };//utworzenie tablicy dla ktorych bedziemy tworzyc idealnego osobnika
+  const double no_day_cost = 1.0;//kara za brak dnia
+	const double day_add_cost = 2.0;//kara za dodatkowy dzien
+	const double hour_add_cost = 2.5;//kara za dodatkowe godziny
+  int hours_total= 0;//ilosc godzin przedmiotu w tygodniu
+  for( int i= 0; i< numberOfDays; i++ )//liczenie ilosci godzin
     hours_total+= days[ i ];
-  bubble_sort( days, numberOfDays );
-  ideal[ 2 ]= 0;
-  if( hours_total<= 6 )//stworzenie idealnego
+  bubble_sort( days, numberOfDays );//posortowanie tablicy z liczbami godzin w danym dniu
+  //Tworzenie idealnego osobnika
+  if( hours_total<= 6 )//Dla liczby godzin <= 6 ( 1, 11, 111, 211, 221, 222 )
     for( int i= 0; i< hours_total; i++ )
       ideal[ i% 3 ]++;
   else
-    if( hours_total<= 8 )
+    if( hours_total<= 8 )//Liczba godzin 7 lub 8( 2221, 2222 )
       for( int i= 0; i< hours_total; i++ )
         ideal[ i% 4 ]++;
     else
-      for( int i= 0; i< hours_total; i++ )
+      for( int i= 0; i< hours_total; i++ )//Liczba godzin >8( 22221, 22222, 32222, 33222... )
         ideal[ i% 5 ]++;
+  //zamiana, zeby pozycje ideal i days odpowiadaly sobie (do zmiany, zuniwersalnienia)
   int k;
-  k= ideal[ 0 ];//zamiana, zeby pozycje ideal i days odpowiadaly sobie
+  k= ideal[ 0 ];
   ideal[ 0 ]= ideal[ 4 ];
   ideal[ 4 ]= k;
   k= ideal[ 1 ];
   ideal[ 1 ]= ideal[ 3 ];
   ideal[ 3 ]= k;
+  double tmp = 0;
   for(int i = 0; i< numberOfDays; i++)
-		tmpPenalty-= (((ideal[i] == 0 && days[i] != 0) ? day_add_cost : (pow(max<double>(days[i]-ideal[i], 0), 2)
-      *hour_add_cost))*sqrt((ideal[i]-days[i] > 0) ? ((days[i] != 0) ? ideal[i]/days[i] : 1) : 1)
-      +((ideal[i] != 0 && days[i] == 0) ? no_day_cost : 0)+((ideal[i] > days[i]) ? (ideal[i]+1)/(days[i]+1) : 0))/hours_total;//wzor na blokowanie
+    if(days[i] == 0 && ideal[i] != 0) //brak dnia
+      tmp += no_day_cost;
+    else if(ideal[i] == 0 && days[i] != 0) //dolozenie dnia
+        tmp += day_add_cost;
+      else if(days[i] > ideal[i]) //dolozenie godzin
+          tmp += pow(static_cast<double>(days[i]-ideal[i]), 2) * 2.5 * sqrt(static_cast<double>(ideal[i]/days[i]));
+        else if(days[i] < ideal[i]) //niedobor godzin
+            tmp += (days[i] + 1) / (ideal[i] + 1);
+    tmpPenalty -= tmp / hours_total;
+
   //for( int i= 0; i< numberOfDays; i++ )//wypisanie ilosci godzin w dniu
     //cout<< ideal[ i ]<< " - "<< days[ i ]<< endl;
   //cout<< "Kara: "<< tmpPenalty<< endl;
   for( int i= 0; i< numberOfTerms; i++ )//czyszczenie tablicy
     tab[ i ]= 0;
   //system( "pause" );
-  return tmpPenalty;
+  return tmpPenalty;//zwrocenie oceny
 }
 
 double Genotype::collisionsInClass(Data &d, Data::Node *p, Data::Node *q)
@@ -314,90 +346,90 @@ void Genotype::cleanVectors(Data::Node *p)
 
 double Genotype::evalStudent( short int *tTable )
 {
-  const int hoursLimit = 8;
+  const int hoursLimit = 8;//limit godzin jakie klasa mo¿e mieæ jednego dnia
   //for( int i= 0; i< numberOfTerms; i++ )
   //  cout<< i<< ": "<< tTable[ i ]<< endl;
-  double tmpPenalty= 0;
-  const int numberOfDays= 5;
-  int days[ numberOfDays ];
-  for( int i= 0; i< numberOfDays; i++ )
+  double tmpPenalty= 0;//ustawienia oceny na 0
+  const int numberOfDays= 5;//ustawienie liczby dni w ktorych sa zajciea
+  int days[ numberOfDays ];//stworzenie tablic z liczba godzin w dniu
+  for( int i= 0; i< numberOfDays; i++ )//zerowanie tablicy
     days[ i ]= 0;
   for( int i= 0; i< numberOfTerms; i++ )//liczenie ile godzin w dniu
     days[ i/ ( numberOfTerms/ numberOfDays )]+= tTable[ i ];
-  //kara za liczbe godzin
+  //***kara za liczbe godzin
   for( int i= 0; i< numberOfDays; i++ )
     if(days[i] > hoursLimit)
     {
-      tmpPenalty -= (days[i]-hoursLimit)*(1+days[i]-hoursLimit)/2;//magiczne liczby
+      tmpPenalty -= (days[i]-hoursLimit)*(1+days[i]-hoursLimit)/2;//wzór na kare za zbyt du¿¹ iloœæ godzin
       if(days[i] > hoursLimit+1)
         if(!penalty)
           penalty = true;
     }
-  //wczesniejszy koniec
-  const int prizeEnd= 1;
-  for( int i= 0; i< numberOfDays; i++ )
-    for( int j= numberOfTerms/ numberOfDays; j> 0; j-- )
-      if( tTable[ i* numberOfTerms/ numberOfDays+ j- 1 ]== 0 )
+  //***wczesniejszy koniec
+  const int prizeEnd= 1;//nagroda za wczesniejszy koniec
+  for( int i= 0; i< numberOfDays; i++ )//przechodzimy przez tablice dni
+    for( int j= numberOfTerms/ numberOfDays; j> 0; j-- )//przechodzimy przez poszegolne godziny( od konca )
+      if( tTable[ i* numberOfTerms/ numberOfDays+ j- 1 ]== 0 )//jezeli nie ma lekcji to nagradzamy
         tmpPenalty+= prizeEnd;
-      else
+      else//jezeli jest lekcja to wychodzimy z petli dla tego dnia
         break;
-  //nierownomiernosc
-  int hours= 0;
-  for( int i= 0; i< numberOfDays; i++ )
+  //***nierownomiernosc
+  int hours= 0;//liczba godzin ogolem
+  for( int i= 0; i< numberOfDays; i++ )//licznie wszystkich godzin
     hours+= days[ i ];
-  for( int i= 0; i< numberOfDays; i++ )
-    tmpPenalty-= pow( days[ i ]- hours/ numberOfDays, 2 )/ 2;
-  //odstep poczatke-koniec
-  int end= 0, begin= 0;
-  const int prizeBeginEnd= 1;
-  for( int i= 0; i< numberOfDays- 1; i++ )
+  for( int i= 0; i< numberOfDays; i++ )//przechodzenie przez tablice dni
+    tmpPenalty-= pow( days[ i ]- hours/ numberOfDays, 2 )/ 2;//wzor na kare za nierownomiernosc
+  //***odstep poczatke-koniec(optymalizacja: mozna polaczyc z wczesniejszym koncem)
+  int end= 0, begin= 0;//kiedy sie lekcje zaczynaja, a ile lekcji przed ostatnim terminem dla dnia sie koncza
+  const int prizeBeginEnd= 1;//nagroda za odsetp p-k
+  for( int i= 0; i< numberOfDays- 1; i++ )//przechodzimy przez poszczegolne dni(nie uwzgledniam piatek-poniedzialek)
   {
-    for( int j= numberOfTerms/ numberOfDays; j> 0; j-- )
-      if( tTable[ i* numberOfTerms/ numberOfDays+ j- 1 ]== 0 )
+    for( int j= numberOfTerms/ numberOfDays; j> 0; j-- )//przechodzimy przez poszegolne godziny( od konca )
+      if( tTable[ i* numberOfTerms/ numberOfDays+ j- 1 ]== 0 )//jezeli nie ma lekcji to zliczamy
         end++;
       else
-        break;
-    for( int j= 0; j< numberOfTerms; j++ )
-      if( tTable[( i+ 1 )* ( numberOfTerms/ numberOfDays )+ j ]== 0 )
+        break;//wyjscie z petli
+    for( int j= 0; j< numberOfTerms; j++ )//przechodzimy przez poszegolne godziny od poczatku dnia
+      if( tTable[( i+ 1 )* ( numberOfTerms/ numberOfDays )+ j ]== 0 )//jezeli nie ma lekcji to zliczamy
         begin++;
       else
-        break;
+        break;//wyjscie z petli
     if( begin+ end> 5 )
-      tmpPenalty+= prizeBeginEnd* 5;
+      tmpPenalty+= prizeBeginEnd* 5;//jezeli odstep > 5 to zawsze dajemy ta sama nagrode
     else
-      tmpPenalty+= prizeBeginEnd* ( begin+ end );
-    begin= end= 0;
+      tmpPenalty+= prizeBeginEnd* ( begin+ end );//wzor dla nagrody dla lekcji <= 5
+    begin= end= 0;//zerowanie licznika poczatka i konca
   }
-  //okienko
-  const int breakCost= 1;
-  bool break_= false;
-  int j= 0;
-  for( int i= 0; i< numberOfTerms; i++ )
+  //***okienko
+  const int breakCost= 1;//kara za okienko
+  bool lesson= false;//informacja czy byla juz lekcja
+  int j= 0;//licznik godzin w danym dniu
+  for( int i= 0; i< numberOfTerms; i++ )//przejescie przez wszystkie terminy
   {
-    if( tTable[ i ]> 0 )
+    if( tTable[ i ]> 0 )//jezeli w tym terminie sa lekcje
     {
-      break_= true;
-      j+= tTable[ i ];
+      lesson= true;//ustawiamy, ze wystapila lekcja
+      j+= tTable[ i ];//dodajemy ilosc lekcji z terminu
     }
-    else
-      if( break_ )
-        if( j!= days[ i/ ( numberOfTerms/ numberOfDays )])//juz byly wszystkie lekcje
+    else//jezeli nie ma lekcji
+      if( lesson )//a byly wczesniej
+        if( j!= days[ i/ ( numberOfTerms/ numberOfDays )])//jezeli nie sa to wszystkie lekcji
         {
-          tmpPenalty-= breakCost;
+          tmpPenalty-= breakCost;//kara za okienko
           if(!penalty)
-            penalty = true;
+            penalty = true;//ustawiamy, ze wystapila kara
         }
-    if( i% ( numberOfTerms/ numberOfDays )== ( numberOfTerms/ numberOfDays )- 1 )// koniec dnia
+    if( i% ( numberOfTerms/ numberOfDays )== ( numberOfTerms/ numberOfDays )- 1 )//Koniec dnia, zerowanie danych przed kolejnym dniem
     {
       j= 0;
-      break_= false;
+      lesson= false;
     }
   }
   //for( int i= 0; i< numberOfDays; i++ )//wypisanie ilosci godzin w dniu
   //  cout<< days[ i ]<< endl;
   //cout<< "Kara: "<< tmpPenalty<< endl;
   //system("pause");
-  return tmpPenalty;
+  return tmpPenalty;//zwrocenie oceny
 }
 
 double Genotype::eval(const Data &d, Data::Node *p, unsigned short *tab, int n)

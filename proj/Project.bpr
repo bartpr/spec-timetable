@@ -11,7 +11,7 @@
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
-    <SPARELIBS value=""/>
+    <SPARELIBS value="rtl.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dclocx.bpi"/>
     <PATHCPP value=".;..;..;..;..;..;.."/>
     <PATHPAS value=".;"/>
