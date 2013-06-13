@@ -1,7 +1,5 @@
 #ifndef genotypeH
 #define genotypeH
-#include <stdlib.h>
-#include <time.h>
 #include "gene.h"
 #include "data.h"
 /*
@@ -21,7 +19,7 @@ public:
     void Evaluation(); //Funkcja oceniaj¹ca
     bool Mark(double &mark);
 protected:
-    Gene **genes; //Tablica wszystkich przedmiotów(po kolei wed³ug grup[klas])
+    Gene *genes; //Tablica wszystkich przedmiotów(po kolei wed³ug grup[klas])
     unsigned short numberOfGenes;
     unsigned char numberOfTerms;
     unsigned char numberOfRooms;

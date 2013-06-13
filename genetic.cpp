@@ -1,7 +1,6 @@
 #include "genetic.h"
 #include "genotype.h"
 #include "data.h"
-#include <iostream>
 
 using namespace std;
 
@@ -21,7 +20,6 @@ void geneticAlgorithm(const Data &data, int numberOfGenerations, int numberOfGen
     //Pokolenia (petla glowna algorytmu genetycznego)
     for(int i=0; i<numberOfGenerations; i++)
     {
-        cout<<"Pokolenie "<<i<<endl;
         /*
             Wypelnienie tablic tableOfMarks i tableOfPenalty danymi otrzymanymi
             ze stacji roboczych.
@@ -158,7 +156,7 @@ void generateParents(double* tableOfMarks, bool* tableOfPenalty, int numberOfGen
 
 void crossover(Genotype* genotype1, Genotype* genotype2, int numberOfGenes)
 {
-    Gene* temp;
+    Gene temp;
     int f=rand()%numberOfGenes; //Poczatek krzyzowania
     int l=rand()%(numberOfGenes-f)+f; //Koniec krzyzowania
     while(f<l)
@@ -177,8 +175,8 @@ void mutation(Genotype* genotype, int numberOfGenes)
     if(rand()%1000<1)//szansa 0,1%
     {
         int k = rand()%numberOfGenes;
-        delete genotype->genes[k];
-        genotype->genes[k] = new Gene(rand()%genotype->numberOfTerms, rand()%genotype->numberOfRooms);
+        genotype->genes[k].term = rand()%genotype->numberOfTerms;
+        genotype->genes[k].room = rand()%genotype->numberOfRooms;
     }
 }
 

@@ -3,7 +3,6 @@
 #include "information.h"
 #include "data.h"
 #include "genetic.h"
-#include <iostream>
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -16,7 +15,6 @@ int main(int argc, char* argv[])
         /*
             Wczytywanie danych, tworzenie obiektow itd. -> Shockah
         */
-        cout << sizeof(Genotype*) << endl;
         int iloscOsobnikow = 50000;
         int* distributionOfGenotypes = new int[iloscOsobnikow];
         int iloscKomputerow = 20;
