@@ -1,11 +1,13 @@
 #ifndef genpacket
 #define genpacket
 
+#include <ttproto.h>
+#include <iostream>
 
 class GenPacket
 {
   private:
-  header *head;
+  header head;
   char *value;
   unsigned int valueLen;
 

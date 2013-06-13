@@ -4,7 +4,8 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="Scalanie.exe"/>
-    <OBJFILES value="main.obj ..\include\gene.obj"/>
+    <OBJFILES value="main.obj ..\include\gene.obj ..\include\tgene.obj 
+      ..\include\tinformation.obj"/>
     <RESFILES value="Scalanie.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -12,7 +13,7 @@
     <LIBRARIES value=""/>
     <SPARELIBS value=""/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dclocx.bpi"/>
-    <PATHCPP value=".;..\include"/>
+    <PATHCPP value=".;..\include;..\include;..\include"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -22,7 +23,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Scalanie.bpf"/>
-    <INCLUDEPATH value="L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include"/>
+    <INCLUDEPATH value="..\include;C:\Users\damgla\Desktop\scalanie;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include"/>
     <LIBPATH value="..\include;L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib;L:\scalanie\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -47,6 +48,8 @@
       <FILE FILENAME="Scalanie.bpf" FORMNAME="" UNITNAME="Scalanie" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="main.cpp" FORMNAME="" UNITNAME="main" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\include\gene.cpp" FORMNAME="" UNITNAME="gene" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\include\tgene.cpp" FORMNAME="" UNITNAME="tgene" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\include\tinformation.cpp" FORMNAME="" UNITNAME="tinformation" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -80,14 +83,17 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=2
-Item0=L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include
-Item1=L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl
+Count=4
+Item0=..\include;C:\Users\damgla\Desktop\scalanie;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include
+Item1=..\include;L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include
+Item2=L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl;L:\scalanie\include
+Item3=L:\scalanie\prj;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=2
-Item0=L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib;L:\scalanie\lib
-Item1=L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=..\include;L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib;L:\scalanie\lib
+Item1=L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib;L:\scalanie\lib
+Item2=L:\scalanie\prj;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1

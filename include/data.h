@@ -12,6 +12,13 @@ using namespace std;
 #include <vector>
 using namespace std;
 
+struct Lesson
+    {
+        unsigned char group, teacher, subject; //unikalne identyfikatory grupy, nauczyciela, przedmiotu
+    };
+
+
+
 class Data
 {
 public:
@@ -25,10 +32,7 @@ public:
     unsigned char numberOfTerms; //Ilosc terminow w szkole np: 14*5 dni
     unsigned char numberOfRooms; //Ilosc sal
 
-    struct Lesson
-    {
-        unsigned char group, teacher, subject; //unikalne identyfikatory grupy, nauczyciela, przedmiotu
-    } *tab; //wszystkie informacje o konkretnym genie
+    Lesson *tab; //wszystkie informacje o konkretnym genie
     struct knot
     {
       static unsigned short knots;//liczba utworzonych wezlow

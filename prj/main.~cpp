@@ -36,7 +36,21 @@ using namespace std;
 //Scalanie
 //Czêsc odpowiedzialna za komunikacje miêdzy komputerami
 //Wysy³anie pakietów na bazie protoko³u
+/*
+  11 czerwca 2013, 12:39:
+  Zrealizowano biblioteki
+  * GenPacket.h
+        s³uzaca do zarzadzania pakietem, tworzenia i odczytywania go
+  * tgenotype.h
+        funkcje do serializacji calego genotypu do formy, w ktorej moze zostac wyslany
+  * tgene.h
+        funkcje do serializacji genu do formy bajtowej
+  * tinformation.h
+        funkcje do serializacji obiektu information do formy bajtowej umozliwiajacej transmisje
 
+
+
+*/
 
 //Inicjalizacja winsock'a
 bool WinsockInit();

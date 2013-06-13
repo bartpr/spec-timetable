@@ -18,6 +18,7 @@
 #include "../include/tgenotype.h"
 #include "../include/tgene.h"
 #include "../include/tinformation.h"
+#include "../include/tdata.h"
 
 
 //Raf0 headers
@@ -26,7 +27,7 @@
 #include <information.h>
 #include <genetic.h>
 #include "../include/data.h"
-#include "../include/genotype.h"
+
 
 
 using namespace std;
@@ -72,6 +73,11 @@ int main(int argc, char* argv[])
 {
         WinsockInit();
 
+
+        GenPacket *gg = new GenPacket;
+        header *h = new header;
+
+
         Gene *g;
         g = new Gene();
 
@@ -88,12 +94,19 @@ int main(int argc, char* argv[])
          str[i] = "lol";
         }
 
-        char *b = (char*)prepareStrings(str,4);
-        cout << strlen(b);
 
-        delete b;
         delete []str;
 
+
+        header hd;
+        hd.len = 3;
+        hd.code = 13;
+
+
+        header *hg = new header;
+        GenPacket *ggs = new GenPacket;
+
+        printf("GenPacket size: %d\n", sizeof(GenPacket));
 
         getchar();
         return 0;

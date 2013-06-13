@@ -5,7 +5,7 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="Scalanie.exe"/>
     <OBJFILES value="main.obj ..\include\gene.obj ..\include\tgene.obj 
-      ..\include\tinformation.obj"/>
+      ..\include\tinformation.obj ..\include\GenPacket.obj ..\include\tdata.obj"/>
     <RESFILES value="Scalanie.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -13,7 +13,7 @@
     <LIBRARIES value=""/>
     <SPARELIBS value=""/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dclocx.bpi"/>
-    <PATHCPP value=".;..\include;..\include;..\include"/>
+    <PATHCPP value=".;..\include;..\include;..\include;..\include;..\include"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -50,6 +50,8 @@
       <FILE FILENAME="..\include\gene.cpp" FORMNAME="" UNITNAME="gene" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\include\tgene.cpp" FORMNAME="" UNITNAME="tgene" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\include\tinformation.cpp" FORMNAME="" UNITNAME="tinformation" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\include\GenPacket.cpp" FORMNAME="" UNITNAME="GenPacket" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\include\tdata.cpp" FORMNAME="" UNITNAME="tdata" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
