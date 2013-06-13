@@ -1,0 +1,64 @@
+#include "InterfejsWyjsc.h"
+
+Inter_W::Inter_W() : d_count(5), l_per_day(11)
+{
+		s_days.push_back("Poniedzialek");
+		s_days.push_back("Wtorek");
+		s_days.push_back("Sroda");
+		s_days.push_back("Czwartek");
+		s_days.push_back("Piatek");
+
+		s_terms.push_back("0"); //kiedys beda moze lepsze nazwy, np: "07:30 - 8:15" tak wiem to rani oczy
+		s_terms.push_back("1");
+		s_terms.push_back("2");
+		s_terms.push_back("3");
+		s_terms.push_back("4");
+		s_terms.push_back("5");
+		s_terms.push_back("6");
+		s_terms.push_back("7");
+		s_terms.push_back("8");
+		s_terms.push_back("9");
+		s_terms.push_back("10");
+
+}
+
+void create_grid(const char * gridName, Tgrid & grid, Genotype * g_type) //nazwa pliku)
+{
+    Inter_W * InterW = new Inter_W();
+
+    //-----dla celow testowych
+    InterW->date = new Data(30,30,30);
+    InterW->test_gtype = new Genotype(*InterW->date);
+    if(!g_type) g_type = InterW->test_gtype;
+    //-----dla celow testowych
+
+    grid.Caption = gridName;
+          //wypisanie nazw dni i terminow
+          for(int j = 0; j < InterW->d_count; j++)
+          {
+                 grid.StringGrid->Cells[j + 1][f_row] = InterW->s_days[j];
+          }
+
+          for(int i = 0; i < InterW->l_per_day; i++)
+          {
+                 grid.StringGrid->Cells[f_kol][i + 1] = InterW->s_terms[i];
+          }
+
+          int kol = 1;
+          for(int i = 0; i < g_type->numberOfGenes; i++)
+          {
+                 int pre_row = static_cast<int>(g_type->genes[i]->Term()); //wedlug struktury terminy beda szly 0,1,2...10 poniedzialek 11-21 wtorek ITD. uzyskam numer wiersza od 0 do 10
+                 int row = pre_row - (pre_row/10)*10; //dzielenie calkowite ,  otrzymam pelna liczne np.: zamiast 23 to 20
+                 int kol = (pre_row/10)*10 + 1;
+                 char s_id = InterW->date->tab[i].subject;// + " " + g_type->genes[i]->Room();
+                 grid.StringGrid->Cells[kol][row + 1] = s_id;
+          }
+        delete InterW;
+}
+
+
+Inter_W::~Inter_W()
+{
+
+}
+
